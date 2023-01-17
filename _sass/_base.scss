@@ -71,7 +71,8 @@ aside {
 
 .navbar-default {
     background-color: white;
-    border-color: rgba($theme-dark, .5);
+    //border-color: rgba($theme-dark, .5);
+    border-color: rgba($theme-primary, .9);
     @include sans-serif-font;
     @include transition-all;
     .navbar-header .navbar-brand {
@@ -139,7 +140,8 @@ aside {
     }
     @media (min-width: 768px) {
         background-color: transparent;
-        border-color: rgba(white, .3);
+        //border-color: rgba(white, .3);
+        border-color: rgba($theme-primary, .6);
         .navbar-header .navbar-brand {
             color: rgba(white, .7);
             &:hover,
@@ -388,7 +390,7 @@ body {
 /* Carousel base class */
 .carousel {
   height: 500px;
-  //margin-bottom: 60px;
+  margin-bottom: 60px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -419,3 +421,10 @@ body {
     height: 100px;
     width: 100px;
 }
+
+.thumbnail{
+    border: 1px solid #d4af37;
+}
+
+
+/** programme header / sub pages */
