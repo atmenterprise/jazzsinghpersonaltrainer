@@ -1,9 +1,9 @@
 # Site settings
-title: Jaz Singh Coaching
+title: Jaz BooM Personal Training
 email: jaz_personaltraining@yahoo.co.uk
 description: > # this means to ignore newlines until "baseurl:"
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "" # the base hostname & protocol for your site
+baseurl: "/jazzsinghpersonaltrainer" # the subpath of your site, e.g. /blog/
+url: "https://atmenterprise.github.io" # the base hostname & protocol for your site
 include: ["_pages"]
 
 twitter_username:

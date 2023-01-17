@@ -23,3 +23,7 @@
 - [Optional] For installing Jekyll (remember using this step will mess up the existing code. DO NOT apply this)
 
       jekyll new --skip-bundle . --force
+
+- Killing Opened Ports
+
+      kill -9 $(lsof -ti:3000)
