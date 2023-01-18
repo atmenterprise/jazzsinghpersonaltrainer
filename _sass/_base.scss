@@ -419,8 +419,8 @@ body {
 }
 
 .iconstyle{
-    height: 100px;
-    width: 100px;
+    height: 6.250em;
+    width: 6.250em;
 }
 
 .thumbnail{
@@ -428,15 +428,20 @@ body {
 }
 
 /** logo **/
-.logo{
-    height: 200px;
-    width: 200px;
-    margin: 35px;
+.logowatermark{
+    height: 12.5em;
+    width: 12.5em;
+    margin: 2.188em;
     position: absolute;
     transform: rotate(-35deg);
     //background-color: transparent;
     //filter: grayscale(50%);
     //-webkit-filter: grayscale(50%);
+}
+
+.logo{
+    height: 15.625em;
+    width: 15.625em;
 }
 
 /** programme header / sub pages */
@@ -493,4 +498,8 @@ body {
                 }
             }
         }
+}
+
+ul > li {
+    list-style-type: none;
 }

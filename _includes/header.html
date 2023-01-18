@@ -1,46 +1,54 @@
 <header>
     <div class="header-content">
         <div class="header-content-inner">
-            <img src="img/logo/jazboom.png" style="height:250px; width: 250px;">
-            <!--<h1>IT'S TIME TO PRIORITIZE YOU</h1>
-            <hr>-->
-            <h3 class="lead">Welcome to the <span class="highlight">Jaz Boom Personal Training</span>.
-                Your own Personal Training & Nutritionist in
-                <a href="https://goo.gl/maps/LWHsbBC1DGUCpS7x6" target="_blank"><span class="highlight">Ilford, Essex</span></a>.
-            </h3>
-            <h3 class="lead">It is time to give your <span class="highlight">health</span> a <a href=""><span class="highlight">Jaz Boom</span></a> push.</h3>
-            <p></p>
-            <a href="https://koalendar.com/e/atm-enterprise" class="btn btn-primary btn-xl page-scroll lead" target="_blank">Book Your free consultation today</a>
-            <hr>
-            <p></p>
-            <div class="social">
-                <a href="https://www.facebook.com/JazBooMPT" class="btn" target="_blank">
-                    <i class="bi bi-facebook" style="font-size: 3rem;"></i>
-                </a>
 
-                <a href="https://www.instagram.com/jaz_boom_pt/" class="btn" target="_blank">
-                    <i class="bi bi-instagram" style="font-size: 3rem;"></i>
-                </a>
-
-                <!-- <a href="#" class="btn" target="_blank">
-                    <i class="bi bi-tiktok" style="font-size: 3rem;"></i>
-                </a> -->
-
-                <a href="https://wa.me/447415547566?text=Hello%20Jaz%2C%20I%20am%20struggling%20with%20my%20health%20and%20looking%20to%20improve.%20Could%20you%20please%20help%20me%3F" class="btn" target="_blank">
-                    <i class="bi bi-whatsapp" style="font-size: 3rem;"></i>
-                </a>
-
-                <a href="mailTo:jaz_personaltraining@yahoo.co.uk" class="btn" target="_blank">
-                    <i class="bi bi-envelope" style="font-size: 3rem;"></i>
-                </a>
-
-                <a href="https://goo.gl/maps/LWHsbBC1DGUCpS7x6" class="btn" target="_blank">
-                    <i class="bi bi-geo-fill" style="font-size: 3rem;"></i>
-                </a>
+            <!-- logo place -->
+            <div class="row flex-lg-row-reverse">
+                <img src="img/logo/jazboom.png" class="logo wow bounceIn">
             </div>
 
+            <!-- welcome message -->
+            <div class="row flex-lg-row-reverse">
+                <!--<h1>IT'S TIME TO PRIORITIZE YOU</h1>
+                <hr>-->
+                <h3 class="lead">Welcome to the <span class="highlight">Jaz Boom Personal Training</span>.
+                    Your own Personal Training & Nutritionist in
+                    <a href="{{ site.address_url }}" target="_blank"><span class="highlight">East London</span></a>.
+                </h3>
+                <h3 class="lead">It is time to give your <span class="highlight">health</span> a <a href=""><span class="highlight">Jaz Boom</span></a> push.</h3>
+                <p></p>
+                <a href="{{ site.appointment_booking_url }}" class="btn btn-primary btn-xl page-scroll lead" target="_blank">Book Your free consultation today</a>
+                <hr>
+            </div>
 
+            <!-- social icons here -->
+            <div class="row flex-lg-row-reverse">
+                <div class="social">
+                    <a href="{{ site.facebook_url }}" class="btn" target="_blank">
+                        <i class="bi bi-facebook" style="font-size: 3rem;"></i>
+                    </a>
 
+                    <a href="{{ site.instagram_url }}" class="btn" target="_blank">
+                        <i class="bi bi-instagram" style="font-size: 3rem;"></i>
+                    </a>
+
+                    <!-- <a href="#" class="btn" target="_blank">
+                        <i class="bi bi-tiktok" style="font-size: 3rem;"></i>
+                    </a> -->
+
+                    <a href="{{ site.whatsapp_url }}" class="btn" target="_blank">
+                        <i class="bi bi-whatsapp" style="font-size: 3rem;"></i>
+                    </a>
+
+                    <a href="mailTo:{{ site.email }}" class="btn" target="_blank">
+                        <i class="bi bi-envelope" style="font-size: 3rem;"></i>
+                    </a>
+
+                    <a href="{{ site.address_url }}" class="btn" target="_blank">
+                        <i class="bi bi-geo-fill" style="font-size: 3rem;"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
