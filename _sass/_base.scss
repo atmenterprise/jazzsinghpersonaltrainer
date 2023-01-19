@@ -502,5 +502,20 @@ body {
 
 ul > li {
     list-style-type: none;
-    padding-left: 1.5em;
+    /* padding-left: 1.5em; */
+}
+
+.socialicon{
+    font-size: 3rem;
+}
+.socialicon-sm{
+    font-size: 2rem;
+}
+
+.aboutmeprofile{
+    border: 0.2em solid white;
+}
+
+.fontblack{
+    color: black;
 }
