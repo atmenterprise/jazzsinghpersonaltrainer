@@ -2,39 +2,115 @@
 layout: programlayout
 permalink: /booking
 ---
-
 <header>
     <div class="header-content">
         <div class="header-content-inner">
             <div class="row flex-lg-row-reverse">
                 <div class="col-md-3 text-center">
-                    <img src="img/logo/jazboom.png" style="height: 250px; width: 250px;">
+                    <img src="img/logo/jazboom.png" class="logo wow bounceIn" alt="jazboom logo">
                 </div>
                 <div class="col-md-8 text-center">
                     <h1>Booking</h1>
                     <hr>
                     <h3 class="lead highlight">
-                        Book your free consultation with me in a simple two step process.
+                        A Simple Two Step Process to enable you to book a consultation with me.
                     </h3>
-                    <h3 class="lead">
-
-                    </h3>
+                    <a href="#book" class="page-scroll btn btn-primary">Start Today</a>
                     <hr>
                 </div>
             </div>
         </div>
     </div>
-    <!-- </div> -->
 </header>
 
 <div class="container">
-    <div class="row flex-lg-row-reverse">
-        <div class="col-md-8">
+    <div class="row flex-lg-row-reverse text-center">
+        <br>
+        <h2 class="section-heading text-center highlight" id="book">Booking Process</h2>
+        <hr>
+        <p class="lead">
+            A Simple Two Step process to get started on your health goals. Fill in few basic health questions about you
+            or your partner and schedule a 30 mins. session with me.
+        </p>
+        <p class="text-muted">
+            <i>
+                Please remember to use the same email address and first name/last name when submitting both the forms
+                and appointment.
+            </i>
+        </p>
+        <br>
+        <div class="col-sm-12">
+            <div class="col-sm-6 panel">
+                <div class="thumbnail">
+                    <a href="#book" class="page-scroll">
+                        <i class="bi bi-ui-checks-grid socialicon"></i>
+                    </a>
+                    <h3 class="panel-header highlight">
+                        Step 1: Health Questionaire Form
+                    </h3>
+                    <hr/>
+                    <div class="panel-body">
+                        <p class="lead text-justify">
+                            Fill in the Form with your health details.
+                            Questions include basic questions about your health, your current diet, your problems
+                            and the goal you are trying to achieve with me.
+                        </p>
+                        <p class="text-center">
+                            <a class="btn btn-primary"
+                               href="https://docs.google.com/forms/d/1ytBEc-LurZGO_vNCqz9k6yHh1NQXmHzpGmw-G0G6Hxk/prefill"
+                               role="button" target="_blank"
+                               rel="noopener noreferrer">
+                                Submit your Health Details &raquo;
+                            </a>
+                        </p>
+                        <p class="text-justify text-muted">
+                            <i>
+                                The data collected in the form is ONLY meant for me i.e. Jaz Singh to review
+                                and understand your health problems and targets.
+                                Any data submitted in the form NOT will be shared to any other
+                                third party applications, adv., health professional or companies.
+                                Read more about <a href="{{site.baseurl}}/privacy">our Privacy and GDPR policy</a>.
+                            </i>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-        </div>
-
-        <div class="col-md-3">
-
+            <div class="col-sm-6 panel">
+                <div class="thumbnail">
+                    <a href="#book" class="page-scroll">
+                        <i class="bi bi-calendar3 socialicon"></i>
+                    </a>
+                    <h3 class="panel-header highlight text-center">
+                        Step 2: Schedule an Appointment
+                    </h3>
+                    <hr/>
+                    <div class="panel-body">
+                        <p class="lead text-justify">
+                            Schedule a complimentary 30 minute appointment with me.
+                            This session will include a discussion on your health goals and suggested plan to help you
+                            achieve your goal.
+                        </p>
+                        <p class="text-center">
+                            <a class="btn btn-primary" href="{{site.appointment_booking_url}}" role="button"
+                               target="_blank" rel="noopener noreferrer">
+                                Book an Appointment &raquo;
+                            </a>
+                        </p>
+                        <p class="text-justify text-muted">
+                            <i>
+                                Please allow at least 3 - 4 days of time after submitting the form.
+                                This will allow me to review your case and come up with best health plan.
+                            </i>
+                        </p>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <hr>
+</div>
 </div>
