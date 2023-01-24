@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading highlight">Success Stories</h2>
+                <h2 class="section-heading highlight">The Result you can expect</h2>
                 <hr class="light">
             </div>
         </div>
@@ -10,24 +10,35 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
-                <p>
-
-                </p>
-                <p class="text-align">
-                    Gopi is a working mum who has done great to achieve our realistic goal set of weightloss, and improved health through online coaching.
-                    We kept her favourite foods in the nutrition plan, she completed a minimum of 2 resistance training workouts a week and hit her weekly steps target.
-                    Gopi checked in with me once a week and messaged me when she needed to in order to stay on track and #BooM👊💥 we hit her goals.
-                </p>
+            {% for t in site.data.testimonials %}
+            {% if t.featured == true %}
+            <div class="col-md-6 bg-primary">
+                <div class="col-md-12 panel bg-primary">
+                    <div class="thumbnail">
+                        <img src="{{t.testimonial.image}}" class="panel-body text-center">
+                        <h3 class="panel-header highlight text-center fontblack">{{t.testimonial.title}}</h3>
+                        <hr/>
+                        <h4 class="lead fontblack text-center">Author:
+                            <span class="highlight">{{t.testimonial.author}}</span>
+                        </h4>
+                        <div class="panel-body text-justify">
+                            <p class="fontblack"><i class="bi bi-quote"></i> {{t.testimonial.description}}</p>
+                            <p class="text-right">
+                                <a href="{{ t.testimonial.link }}" class="btn" target="_blank"
+                                   rel="noopener noreferrer">
+                                    <i class="bi bi-instagram socialicon"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-5">
-
-            </div>
+            {% endif %}
+            {% endfor %}
         </div>
         <div class="row text-center">
-            <a href="{{site.baseurl}}/testimonials" class="btn btn-default btn-md page-scroll">
-                Read More Success Stories &raquo;
+            <a href="{{site.baseurl}}/testimonials" class="btn btn-default btn-md">
+                Read more Client Success Stories &raquo;
             </a>
         </div>
     </div>

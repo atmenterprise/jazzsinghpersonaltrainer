@@ -1,7 +1,7 @@
 # Site settings
 title: Jaz BooM Personal Training
 email: jaz_personaltraining@yahoo.co.uk
-description: ""
+description: "Jaz BooM Personal Training Official Webpage"
 baseurl: "/jazzsinghpersonaltrainer"
 url: "https://atmenterprise.github.io"
 include: ["_pages"]
