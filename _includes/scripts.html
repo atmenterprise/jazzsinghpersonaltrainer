@@ -14,11 +14,37 @@
 
 <!-- Google Analytics JavaScript -->
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RVS79BPFKD"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{site.google_analytics_id}}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-RVS79BPFKD');
+  gtag('config', '{{site.google_analytics_id}}');
 </script>
+
+
+<!-- cookie consent -->
+<!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+<script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js"
+        charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+    "notice_banner_type":"simple",
+    "consent_type":"express",
+    "palette":"dark",
+    "language":"en",
+    "page_load_consent_levels":["strictly-necessary","tracking"],
+    "notice_banner_reject_button_hide":false,
+    "preferences_center_close_button_hide":false,
+    "page_refresh_confirmation_buttons":false,
+    "website_name":"Jaz Boom Personal Training",
+    "website_privacy_policy_url":"https://atmenterprise.github.io/jazzsinghpersonaltrainer/privacy"
+    });
+});
+</script>
+
+<noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/" rel="noopener">Free Privacy Policy
+    Generator</a></noscript>
+<!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
