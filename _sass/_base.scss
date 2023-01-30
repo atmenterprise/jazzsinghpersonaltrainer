@@ -408,9 +408,9 @@ body {
     margin: 2.188em;
     position: absolute;
     transform: rotate(-35deg);
-    //background-color: transparent;
-    //filter: grayscale(50%);
-    //-webkit-filter: grayscale(50%);
+    background-color: transparent;
+    filter: opacity(40%);
+    -webkit-filter: opacity(40%);
 }
 
 .logo{
@@ -440,4 +440,21 @@ ul > li {
 
 .thumbnail-noborder{
  border: 0px solid !important;
+}
+
+.wrap{
+    white-space: pre-wrap;
+}
+
+
+.has-dropcap:first-letter {
+  font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+  float: left;
+  font-size: 4rem;
+  background: $theme-primary; //#303030;
+  color: #FDF9F2;
+  line-height: 0.85;
+  margin: 0.1em 0.1em 0.2em 0;
+  padding: 0.1em;
+  font-weight: bold;
 }

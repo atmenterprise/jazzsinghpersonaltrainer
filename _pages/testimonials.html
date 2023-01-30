@@ -14,7 +14,7 @@ permalink: /testimonials
                     <h1>Client Success Stories</h1>
                     <hr>
                     <h3 class="lead">
-                        Hear from my client their own success stories and how I have helped them achieve their goals.
+                        Hear from my clients their own success stories over the years and how I have helped them achieve their goals.
                     </h3>
                     <p class="lead text-center">
                         Book Your Complimentary Consultation Today with me.
@@ -32,24 +32,32 @@ permalink: /testimonials
     <div class="row">
         <br><br>
         {% for t in site.data.testimonials %}
-        <div class="row text-justify thumbnail">
-            <div class="col-md-3">
-                <div class="thumbnail thumbnail-noborder">
-                    <img src="{{t.testimonial.image}}" class="text-center">
-                    <h5 class="text-center">
-                        <a href="{{t.testimonial.link}}" target="_blank" class="btn" target="_blank"
-                           rel="noopener noreferrer">{{t.testimonial.author}}</a>
-                    </h5>
+            <div class="row text-justify thumbnail">
+                <div class="col-md-3">
+                    <div class="thumbnail thumbnail-noborder">
+                        <img src="{{t.testimonial.image}}" class="text-center">
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <h5 class="panel-header lead highlight text-center">{{t.testimonial.title}}</h5>
+                    <hr>
+                    <div class="panel-body">
+                        <p class="fontblack text-center">
+                            Testimonial By: <span class="highlight">{{t.testimonial.author}}</span>
+                            <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                            <a href="{{ t.testimonial.link }}" target="_blank" rel="noopener noreferrer">
+                                    <i class="bi bi-instagram fa-x"></i>
+                            </a>
+                        </p>
+                        <p class="wrap has-dropcap lead text-muted text-justify">{{t.testimonial.description}}</p>
+                        <p class="text-right small">
+                            <a href="{{site.baseurl}}/booking#book">
+                            Book Today
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-9">
-                <h3 class="panel-header highlight text-center">{{t.testimonial.title}}</h3>
-                <hr>
-                    <div class="panel-body">
-                        <p><i class="bi bi-quote"></i> {{t.testimonial.description}} </p>
-                    </div>
-            </div>
-        </div>
         {% endfor %}
     </div>
 </div>

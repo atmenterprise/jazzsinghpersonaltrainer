@@ -5,31 +5,25 @@
     author: "Gopi"
     image: 'img/testimonials/default.jpg'
     link: 'https://www.instagram.com/p/CTz0kmVNQBE/?utm_source=ig_web_copy_link'
-    description: "
-      Gopi is a working mum who has done great to achieve our realistic goal set of weight loss, and improved health 
-      through online coaching. We kept her favourite foods in the nutrition plan, she completed a minimum of 2 resistance 
-      training workouts a week and hit her weekly steps target. Gopi checked in with me once a week and messaged me 
-      when she needed to in order to stay on track and #BooM👊💥 we hit her goals.
+    description: "Gopi is a working mum who has done great to achieve our realistic goal set of weight loss, and improved health through online coaching. We kept her favourite foods in the nutrition plan, she completed a minimum of 2 resistance training workouts a week and hit her weekly steps target. 
+      
+      Gopi checked in with me once a week and messaged me when she needed to in order to stay on track and #BooM👊💥 we hit her goals.
       "
 - id: 2
   featured: true
   testimonial:
-    title: "Couple Goal"
+    title: "Couple Goals"
     author: "Illusion Photo Video"
     image: 'img/testimonials/default.jpg'
     link: 'https://www.instagram.com/p/ClLbISpsSCN/?utm_source=ig_web_copy_link'
-    description:
-      "
-      We chose Jaz based on his experiences, and when we met up, he explained why he was in the PT business. 
-      listening to his story and struggles it made us realise that this was the PT for us. Someone who would encourage 
-      us to motivate us and be with us every step of the way on our journey. Myself and Sam are not the normal gym goers. 
-      In fact, we have a hard time motivating ourselves. However, the sessions with Jaz motivated us to come. 
-      He made each session fun and challenging, and considering me and Sam are competitive, they made it a competition 
-      against the both of us, giving us even more of a reason to push out limits. Overall, we have started to see a difference 
-      in our health and our bodies, although still a long way to go. we thank Jaz for always pushing us, 
-      and showing us slow and steady is the way to go.
-
+    description: "We chose Jaz based on his experiences, and when we met up, he explained why he was in the PT business. Listening to his story and struggles it made us realise that this was the PT for us. Someone who would encourage us to motivate us and be with us every step of the way on our journey. Myself and Sam are not the normal gym goers. In fact, we have a hard time motivating ourselves.
+      
+      However, the sessions with Jaz motivated us to come. He made each session fun and challenging, and considering me and Sam are competitive, they made it a competition against the both of us, giving us even more of a reason to push out limits. 
+      
+      Overall, we have started to see a difference in our health and our bodies, although still a long way to go. we thank Jaz for always pushing us, and showing us slow and steady is the way to go.
+      
       Thank you, Jaz. We have started our #boomjourney , and we have you to thank.
+      
       Anyone looking for a PT trainer we do not hesitate in recommending Jaz 👊🏽👊🏽
       "
 - id: 3
