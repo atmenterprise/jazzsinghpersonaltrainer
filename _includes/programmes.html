@@ -11,91 +11,27 @@
     <p></p>
     <div class="container bg-dark">
         <div class="row text-justify">
-            <div class="col-md-6" id="11pt">
+
+            {% for program in site.data.programs %}
+            <div class="col-md-6" id="{{program.program_id}}">
                 <div class="col-md-12 panel bg-dark">
                     <div class="thumbnail bg-dark">
-                        <img src="img/programs/1.jpg" class="panel-body text-center">
-                        <h3 class="panel-header highlight text-center">1:1 Personal Training</h3>
+                        <img src="{{program.image_url}}" class="panel-body text-center">
+                        <h3 class="panel-header highlight text-center">{{program.name}}</h3>
                         <hr/>
-                        <!--<h1 class="card-title pricing-card-title">£50<small class="text-muted fw-light">/mo per user</small></h1> -->
                         <div class="panel-body">
                             <p>
-                                Custom Personal Training tailored just for you.
-                                The ultimate training course to achieve your personal health goals.
-                                One To One Personal Training helps busy men and women to build lean, athletic, healthy physiques
-                                without the frustrations, rigidity & bounce-back.
+                                {{program.short_description}}
                             </p>
-                            <p class="text-center"><a class="btn btn-default" href="{{site.baseurl}}/onetoonept" role="button">View details &raquo;</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6" id="couplept">
-                <div class="col-md-12 panel bg-dark">
-                    <div class="thumbnail bg-dark">
-                        <img src="img/programs/2.jpg" class="panel-body text-center">
-                        <h3 class="panel-header highlight text-center">Couple Personal Training</h3>
-                        <hr/>
-                        <!--<h1 class="card-title pricing-card-title">£50<small class="text-muted fw-light">/mo per user</small></h1> -->
-                        <div class="panel-body">
-                            <p>
-                                Couples Personal Training tailored just for you and your partner.
-                                The ultimate training course to achieve your personal health goals.
-                                Couples Personal Training helps busy couples to build lean, athletic, healthy physiques
-                                without the frustrations, rigidity & bounce-back.
+                            <p class="text-center">
+                                <a class="btn btn-default" href="{{site.baseurl}}/{{program.page_url}}" role="button">View details &raquo;</a>
                             </p>
-                            <p class="text-center"><a class="btn btn-default" href="{{site.baseurl}}/couplept" role="button">View details &raquo;</a></p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-6" id="adv11pt">
-                <div class="col-md-12 panel bg-dark">
-                    <div class="thumbnail bg-dark">
-                        <img src="img/programs/3.jpg" class="panel-body text-center">
-                        <h3 class="panel-header highlight text-center">Advanced 1:1 Personal Training</h3>
-                        <hr/>
-                        <!--<h1 class="card-title pricing-card-title">£50<small class="text-muted fw-light">/mo per user</small></h1> -->
-                        <div class="panel-body lead">
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p class="text-center lead"><a class="btn btn-default" href="{{site.baseurl}}/advancept" role="button">View details &raquo;</a></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6"  id="nutritionpt">
-                <div class="col-md-12 panel bg-dark">
-                    <div class="thumbnail bg-dark">
-                        <img src="img/programs/4.jpg" class="panel-body text-center">
-                        <h3 class="panel-header highlight text-center">Nutrition Coaching</h3>
-                        <hr/>
-                        <!--<h1 class="card-title pricing-card-title">£50<small class="text-muted fw-light">/mo per user</small></h1> -->
-                        <div class="panel-body lead">
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p class="text-center lead"><a class="btn btn-default" href="{{site.baseurl}}/nutritionpt" role="button">View details &raquo;</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6" id="onlinept">
-                <div class="col-md-12 panel bg-dark">
-                    <div class="thumbnail bg-dark">
-                        <img src="img/programs/5.jpg" class="panel-body text-center">
-                        <h3 class="panel-header highlight text-center">Online Training</h3>
-                        <hr/>
-                        <!--<h1 class="card-title pricing-card-title">£50<small class="text-muted fw-light">/mo per user</small></h1> -->
-                        <div class="panel-body lead">
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p class="text-center lead"><a class="btn btn-default" href="{{site.baseurl}}/onlinept" role="button">View details &raquo;</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 

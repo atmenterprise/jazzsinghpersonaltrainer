@@ -40,11 +40,9 @@
                         Programmes <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#11pt" class="page-scroll">1:1 Personal Training</a></li>
-                        <li><a href="#couplept" class="page-scroll">Couple Personal Training</a></li>
-                        <li><a href="#adv11pt" class="page-scroll">Advanced 1:1 Personal Training</a></li>
-                        <li><a href="#nutritionpt" class="page-scroll">Nutrition Coaching</a></li>
-                        <li><a href="#onlinept" class="page-scroll">Online Training</a></li>
+                        {% for program in site.data.programs %}
+                        <li><a href="#{{program.program_id}}" class="page-scroll">{{program.name}}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li>
@@ -77,12 +75,9 @@
                         Programmes <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{site.baseurl}}/onetoonept" class="page-scroll">1:1 Personal Training</a></li>
-                        <li><a href="{{site.baseurl}}/couplept" class="page-scroll">Couple Personal Training</a></li>
-                        <li><a href="{{site.baseurl}}/advancept" class="page-scroll">Advanced 1:1 Personal Training</a>
-                        </li>
-                        <li><a href="{{site.baseurl}}/nutritionpt" class="page-scroll">Nutrition Coaching</a></li>
-                        <li><a href="{{site.baseurl}}/onlinept" class="page-scroll">Online Training</a></li>
+                        {% for program in site.data.programs %}
+                        <li><a href="{{site.baseurl}}/{{program.program_id}}" class="page-scroll">{{program.name}}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li>
