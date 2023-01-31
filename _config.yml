@@ -5,6 +5,7 @@ description: "Jaz BooM Personal Training Official Webpage"
 baseurl: "/jazzsinghpersonaltrainer"
 url: "https://atmenterprise.github.io"
 include: ["_pages"]
+logo: 'img/logo/jazboom.png'
 
 facebook_url: https://www.facebook.com/JazBooMPT
 instagram_url: https://www.instagram.com/jaz_boom_pt/
