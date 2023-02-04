@@ -20,9 +20,7 @@
                         <h3 class="panel-header highlight text-center">{{program.name}}</h3>
                         <hr/>
                         <div class="panel-body">
-                            <p>
-                                {{program.short_description}}
-                            </p>
+                            <p class="wrap">{{program.short_description | truncatewords: 40}}</p>
                             <p class="text-center">
                                 <a class="btn btn-default" href="{{site.baseurl}}/{{program.page_url}}" role="button">View details &raquo;</a>
                             </p>

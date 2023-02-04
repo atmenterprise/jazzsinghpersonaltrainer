@@ -1,21 +1,20 @@
 - id: 1
   program_id: "onetoonept"
   name: "1:1 Personal Training"
-  short_description: "
-  Custom Personal Training tailored just for you.
-  The ultimate training course to achieve your personal health goals.
-  Let me mentor you through your personalised programme designed around you and your lifestyle.
+  short_description: "Forget Everything You Thought You Knew About Personal Training.
+  Working with a personal trainer helps you reach your goal faster while teaching you how to independently sustain your 
+  results after the process is complete.
   "
   image_url: 'img/programs/1.jpg'
   page_url: 'onetoonept'
 - id: 2
   program_id: "couplept"
-  name: "Couple Personal Training"
-  short_description: "
-  Couples Personal Training tailored just for you and your partner.
-  The ultimate training course to achieve your personal health goals.
-  Couples Personal Training helps busy couples to build lean, athletic, healthy physiques
-  without the frustrations, rigidity & bounce-back.
+  name: "Couples Personal Training"
+  short_description: "Have all the benefits of one to one personal training at a lower cost.
+  
+  
+  Fun fact, studies have shown that exercising with a friend or family member
+  can increase calories burned by up to 25%.
   "
   image_url: 'img/programs/2.jpg'
   page_url: 'couplept'
