@@ -1,17 +1,16 @@
 - id: 1
   program_id: "onetoonept"
   name: "1:1 Personal Training"
-  short_description: "Forget Everything You Thought You Knew About Personal Training.
-  Working with a personal trainer helps you reach your goal faster while teaching you how to independently sustain your 
-  results after the process is complete.
+  short_description: "Working with a personal trainer helps you reach your goal faster while
+teaching you how to independently sustain your results after the process is
+complete.
   "
   image_url: 'img/programs/1.jpg'
   page_url: 'onetoonept'
 - id: 2
   program_id: "couplept"
   name: "Couples Personal Training"
-  short_description: "Have all the benefits of one to one personal training at a lower cost.
-  
+  short_description: "Share all the benefits of one to one personal training.
   
   Fun fact, studies have shown that exercising with a friend or family member
   can increase calories burned by up to 25%.
