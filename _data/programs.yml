@@ -9,7 +9,7 @@ complete.
   page_url: 'onetoonept'
 - id: 2
   program_id: "couplept"
-  name: "Couples Personal Training"
+  name: "Semi-Private Personal Training"
   short_description: "Share all the benefits of one to one personal training.
   
   Fun fact, studies have shown that exercising with a friend or family member
@@ -18,18 +18,24 @@ complete.
   image_url: 'img/programs/2.jpg'
   page_url: 'couplept'
 - id: 3
-  program_id: "nutritionpt"
-  name: "Health Check"
-  short_description: "
-  Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
-  "
-  image_url: 'img/programs/4.jpg'
-  page_url: 'nutritionpt'
-- id: 4
   program_id: "onlinept"
   name: "Online Training"
-  short_description: "
-  Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
+  short_description: "Custom Online Training tailored just for you.
+  
+  Online training allows you to work through a programme with a personal trainer remotely from wherever you are.
+  
+  
   "
   image_url: 'img/programs/5.jpg'
   page_url: 'onlinept'
+- id: 4
+  program_id: "nutritionpt"
+  name: "Health Check"
+  short_description: "Health Check tailored just for you.
+  
+  A health check gives you an opportunity to find out about your symptoms and what will help you positively manage your health.
+  
+  
+  "
+  image_url: 'img/programs/4.jpg'
+  page_url: 'nutritionpt'
