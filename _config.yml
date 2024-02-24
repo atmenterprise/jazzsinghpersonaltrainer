@@ -4,6 +4,8 @@ email: jaz_personaltraining@yahoo.co.uk
 description: "Jaz BooM Personal Training Official Webpage"
 baseurl: "/"
 url: "https://www.jazboompersonaltraining.co.uk"
+#baseurl: "/jazzsinghpersonaltrainer"
+#url: "https://atmenterprise.github.io"
 include: ["_pages"]
 logo: 'img/logo/jazboom.png'
 
