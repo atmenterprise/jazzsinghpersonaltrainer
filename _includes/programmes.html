@@ -13,10 +13,12 @@
         <div class="row text-justify">
 
             {% for program in site.data.programs %}
-            <div class="col-md-6" id="{{program.program_id}}">
+            <div class="col-md-6" id="{{program.program_id}}" >
                 <div class="col-md-12 panel bg-dark">
                     <div class="thumbnail bg-dark">
-                        <img src="{{program.image_url}}" class="panel-body text-center">
+                        <div class="panel-body text-center">
+                            <img src="{{program.image_url}}" class="cropped-image">
+                        </div>
                         <h3 class="panel-header highlight text-center">{{program.name}}</h3>
                         <hr/>
                         <div class="panel-body">
