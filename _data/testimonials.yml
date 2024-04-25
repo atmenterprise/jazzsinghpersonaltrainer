@@ -27,9 +27,9 @@
       Anyone looking for a PT trainer we do not hesitate in recommending Jaz 👊🏽👊🏽
       "
 - id: 3
-  featured: false
+  featured: true
   testimonial:
-    title: "Life-Changing Fitness Journey With Jaz BooM PT"
+    title: "Life-Changing Fitness Journey With Jaz"
     author: "Aamir Shams"
     image: 'img/testimonials/default.jpg'
     link: ""
@@ -52,7 +52,7 @@
       Thank you, Jaz for being a beacon of inspiration and for guiding me towards a healthier, happier version of myself.
       "
 - id: 4
-  featured: false
+  featured: true
   testimonial:
     title: "Natasha's Testimonial"
     author: "Natasha"

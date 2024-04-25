@@ -15,29 +15,29 @@
             <div class="col-md-6 bg-primary">
                 <div class="col-md-12 panel bg-primary">
                     <div class="thumbnail">
-                        <!--<img src="{{t.testimonial.image}}" class="panel-body text-center"> -->
                         <h3 class="panel-header highlight text-center fontblack">{{t.testimonial.title}}</h3>
                         <hr/>
                         <p class="fontblack text-center">
                             Testimonial By:&nbsp;&nbsp;<span class="highlight">{{t.testimonial.author}}</span>
                             <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                            <a href="{{ t.testimonial.link }}" target="_blank"
-                               rel="noopener noreferrer">
-                                <i class="bi bi-instagram fa-x"></i>
-                            </a>
+                            {% if t.testimonial.link == "" %}
+                                <a href="{{ site.instagram_url }}" target="_blank"
+                                   rel="noopener noreferrer">
+                                    <i class="bi bi-instagram fa-x"></i>
+                                </a>
+                            {% else %}
+                                <a href="{{ t.testimonial.link }}" target="_blank"
+                                   rel="noopener noreferrer">
+                                    <i class="bi bi-instagram fa-x"></i>
+                                </a>
+                            {% endif %}
                         </p>
                         <div class="panel-body text-justify">
                             <p class="fontblack">
                                 <i class="bi bi-quote fa-lg fontblack"></i>
                                 <span class="wrap">{{t.testimonial.description | truncatewords: 90}}</span>
-                                <a href="{{ t.testimonial.link }}" target="_blank" rel="noopener noreferrer">read more</a>
+                                <a href="/testimonials" target="_blank" rel="noopener noreferrer">read more</a>
                             </p>
-                            <!--<p class="text-right">
-                                <a href="{{ t.testimonial.link }}" target="_blank"
-                                   rel="noopener noreferrer">
-                                    <i class="bi bi-instagram socialicon"></i>
-                                </a>
-                            </p>-->
                         </div>
                     </div>
                 </div>
