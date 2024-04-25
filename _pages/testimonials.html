@@ -34,11 +34,6 @@ permalink: /testimonials
             <br><br>
             {% for t in site.data.testimonials %}
                 <div class="row text-justify thumbnail">
-                    <!--<div class="col-md-3">
-                        <div class="thumbnail thumbnail-noborder">
-                            <img src="{{t.testimonial.image}}" class="text-center">
-                        </div>
-                    </div>-->
                     <div class="col">
                         <h5 class="panel-header lead highlight text-center">{{t.testimonial.title}}</h5>
                         <hr>
@@ -46,17 +41,18 @@ permalink: /testimonials
                             <p class="fontblack text-center">
                                 Testimonial By: <span class="highlight">{{t.testimonial.author}}</span>
                                 <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                                <a href="{{ t.testimonial.link }}" target="_blank" rel="noopener noreferrer">
+                                {% if t.testimonial.link == "" %}
+                                    <a href="{{ site.instagram_url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-instagram fa-x"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ t.testimonial.link }}" target="_blank" rel="noopener noreferrer">
                                         <i class="bi bi-instagram fa-x"></i>
-                                </a>
+                                    </a>
+                                {% endif %}
                             </p>
-                            <!--<p class="wrap has-dropcap lead text-muted text-justify">{{t.testimonial.description}}</p>-->
+
                             <p class="wrap has-dropcap text-muted text-justify">{{t.testimonial.description}}</p>
-                            <!--<p class="text-right small">
-                                <a href="{{site.baseurl}}/booking#book">
-                                Book Today
-                                </a>
-                            </p>-->
                         </div>
                     </div>
                 </div>
