@@ -431,9 +431,14 @@ ul > li {
 }
 
 .aboutmeprofile{
-    padding-top: 2em;
+    //padding-top: 2em;
     //padding-right: 1em;
-    //border: 0.2em solid white;
+    max-width: 100%;
+    border: 0.1em solid white;
+    @media (max-width: 480px) {
+        max-width: 85%;
+    }
+
 }
 
 .fontblack{
@@ -475,4 +480,8 @@ ul > li {
   height: 360px;
   max-height: auto;
   border: 0px solid #D6AD60;
+  @media (max-width: 480px) {
+    max-width: 100%;
+    max-height: auto;
+  }
 }
