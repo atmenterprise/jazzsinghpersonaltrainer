@@ -481,7 +481,7 @@ ul > li {
   max-height: auto;
   border: 0px solid #D6AD60;
   @media (max-width: 480px) {
+    max-height: 250px;
     max-width: 100%;
-    max-height: auto;
   }
 }
