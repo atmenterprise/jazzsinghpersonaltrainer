@@ -1,6 +1,24 @@
 - id: 1
   featured: true
   testimonial:
+    title: "It’s not about the WEIGHT YOU LOSE, it’s about the LIFE YOU GAIN!"
+    author: "Amarjit"
+    image: 'img/testimonials/default.jpg'
+    link: 'https://www.instagram.com/p/C_XRsEHuwXl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+    description: "The first time Jaz and I met was at my daughter’s house when it was my grandson’s birthday, and Jaz had come to pick up his son. My daughter called to come to the hallway so that she could introduce me to you and tell me that you’re a Personal Trainer and she pushed me to speak to you about my weight, I was acting like a child, yeh, yeh, yeh, heard this all before and all you were trying to do was explain about how you could help me.
+I was an overweight Punjabi woman, been told by my husband and kids to lose weight and my attitude was listening from one ear out of the other, I was nearly hitting size 18 because of sitting at my desk at work eating crisps and biscuits.
+I was asked by my doctor to call in for an appointment where I was told I must have tablets for Diabetes, and I told my doctor to give me 3 months to change my diet.
+That hit me hard and then I called Jaz and booked a consultation with him first week of March.
+I had never been in a gym in my whole life, this was the first time, and I walked in and wished the floor would swallow me up. I felt so ashamed of my body. Jaz would always say you’re doing great no one is looking at you. His words his caring support meant so much to me.
+
+He put 100% of dedication into helping me and I didn’t want to let him and my family down.  It was hard work, but your life changes, my mental health my confidence was full on… 
+I had my blood test in June, my sugar levels went from 5 to 4.2 and I been told by the doctor I don’t need tablets.
+I have come down from size 16 to size 12!!!!! I don’t eat at my desk no more I don’t feel hungry or have cravings, and now I got a new wardrobe of size 12 clothes and no more 3 tyre rolls on my tummy!!!
+Thank you so much Jaz GOD BLESS YOU XX
+"
+- id: 2
+  featured: false
+  testimonial:
     title: "Working Mum Success Story"
     author: "Gopi"
     image: 'img/testimonials/default.jpg'
@@ -9,7 +27,7 @@
       
       Gopi checked in with me once a week and messaged me when she needed to in order to stay on track and #BooM👊💥 we hit her goals.
       "
-- id: 2
+- id: 3
   featured: true
   testimonial:
     title: "Couple Goals"
@@ -26,7 +44,7 @@
       
       Anyone looking for a PT trainer we do not hesitate in recommending Jaz 👊🏽👊🏽
       "
-- id: 3
+- id: 4
   featured: true
   testimonial:
     title: "Life-Changing Fitness Journey With Jaz"
@@ -51,7 +69,7 @@
 
       Thank you, Jaz for being a beacon of inspiration and for guiding me towards a healthier, happier version of myself.
       "
-- id: 4
+- id: 5
   featured: true
   testimonial:
     title: "Natasha's Testimonial"
@@ -69,7 +87,7 @@
       All in all, I’m really pleased with your targeted approach to me as an individual, and not just generic help with working out. I feel like you took time out to understand my weaknesses so that you could provide useful feedback to help me progress. I also think our sessions have provided a strong foundation for me to sustainably continue my fitness journey (and hopefully bulletproof my 80-year-old knee), and I hope to work with you again in the future to see how I can progress further.
     
       "
-- id: 5
+- id: 6
   featured: false
   testimonial:
     title: "Rishu's Testimonial"
@@ -81,7 +99,7 @@
       I have been struggling with a weight issue, confidence level and blood sugar level since 2019. I was struggling to keep myself fit and active and it was impacting my day-to-day activity. I reached out to Jaz Boom PT in May 2022 for a free consultation. Right on day 1, Jaz had food & nutrition suggestions and a training plan ready for my case. I found Jaz to be professional in the way he conducts his session (which you won't find easily in personal trainers) through a series of structured training plans, food and nutrition daily tracker, weight monitoring, daily motivation and suggesting the right ways to keep myself active and fit (outside gym sessions). Training sessions with Jaz have been focused, fun, challenging and informative. As a result of my initiative to take Jaz's help, I have now lost more than 15 kgs, reduced my blood sugar level to a normal range and managed to raise my confidence in day-to-day activity. I have also taken up a sports activity which was unthinkable a few months back. There is no shortcut to achieving a healthy body and mind. I am thankful that I met Jaz to help me with my case.
       I would suggest anyone struggling with health issues reach out to Jaz as he is the best in Ilford. Thank you, Jaz.
       "
-- id: 6
+- id: 7
   featured: false
   testimonial:
     title: "Asif's Testimonial"
@@ -100,7 +118,7 @@
 
       I would strongly recommend anyone struggling with health issues to reach out to Jaz.
       "
-- id: 7
+- id: 8
   featured: false
   testimonial:
     title: "Zainab's Testimonial"
@@ -113,7 +131,7 @@
 
       He was always a message away if I ever needed any help and the weekly check in was great as it kept me accountable and that is one aspect I have struggled with. I feel lighter and more fit and have not felt like this in a long time. I would definitely recommend Jaz for PT sessions and online coaching as i still included my curries in my diet which most PT’s recommend to cut out and I could never see results as it is not convenient for me. 
       "
-- id: 8
+- id: 9
   featured: false
   testimonial:
     title: "Alina's Feedback"
@@ -126,7 +144,7 @@
 
       I would definitely recommend having sessions with Jaz as it was a blast and the results were amazing!! What set Jaz apart from the rest of the trainers was that he was very easy to talk to and made us feel very comfortable. We got a diet plan from Jaz, a training plan and a lot of support. Overall it was a great experience and I would recommend him.
       "
-- id: 9
+- id: 10
   featured: false
   testimonial:
     title: "Vineet's Testimonial"
@@ -144,7 +162,7 @@
       
       I don't know if my above words will do justice to what you have done for us. You are the Best! A big Thank you from both of us!
       "
-- id: 10
+- id: 11
   featured: false
   testimonial:
     title: "Jackie's Testimonial"
@@ -161,7 +179,7 @@
 
       His approach to overcoming his own personal health issues is so inspiring and makes me think that if he can do it, I can too.  He pushed me to my limit and I’m glad he did.  I would recommend Jaz as the best Personal Trainer to anyone. 
       "
-- id: 10
+- id: 12
   featured: false
   testimonial:
     title: "Mandy's Testimonial"
@@ -172,7 +190,7 @@
       "
       Working towards my fitness goals with Jaz has been great for so many reasons. He has been encouraging and supportive of all aspects of my wellbeing and quickly tailored each session/exercise to me. Our sessions have always been a challenge and never dull! During lockdown, I can honestly say I got stuck in a rut, but our zoom workouts have brought back some well needed balance and discipline. Even via an online platform, our workouts were fun, varied and suited my goals. As a final note I wish Jaz the very best for the future and thank him for not only the encouragement but supportive, kind and knowledgeable person he is.
       "
-- id: 11
+- id: 13
   featured: false
   testimonial:
     title: "Parmjit's Testimonial"
@@ -190,7 +208,7 @@
       
       Meeting Jaz has changed my life for the better and I would recommend his services to everyone.
       "
-- id: 12
+- id: 14
   featured: false
   testimonial:
     title: "Preethi's Testimonial"
@@ -207,7 +225,7 @@
       
       Unfortunately I was not able get back to training with you post-delivery. I’m badly waiting for the chance to start all over again to make myself fit. Hope to start training with you very soon. 
       "
-- id: 13
+- id: 15
   featured: false
   testimonial:
     title: "Sehar's Testimonial"
@@ -230,7 +248,7 @@
 
       Jaz was much more approachable and friendly compared to the other PTs. Jaz gave us a diet plan, a workout plan and he made sure to support us when we needed it.
       "
-- id: 14
+- id: 16
   featured: false
   testimonial:
     title: "Urvi's Testimonial"
@@ -250,7 +268,7 @@
       I would have no hesitation in recommending Jaz to start your fitness journey.
 
       Thanks for your help. Urvi 🙂"
-- id: 15
+- id: 17
   featured: false
   testimonial:
     title: "My Testimonial"
@@ -265,7 +283,7 @@
       My sessions with Jaz have helped as I can already see and feel the difference within myself.  When my PT sessions are complete Jaz has offered to keep in touch to monitor my progress.
       Thank you, Jaz, for teaching me about my personal needs!
       "
-- id: 16
+- id: 18
   featured: false
   testimonial:
     title: "Mickey's Testimonial"
@@ -282,7 +300,7 @@
       
       I would always recommend Jaz to anyone looking to get fit! Thanks for all your help Mr BooM 💥😊💪🏻
       "
-- id: 16
+- id: 19
   featured: false
   testimonial:
     title: "Randeep's Testimonial"
@@ -300,7 +318,7 @@
       As a bonus, I personally had confidence issues, the sessions helped me deal with this, as Jaz's methods was helping me lose weight and tone up my confidence built up, everything from physically to mentally I went through a positive change. 
       
       "
-- id: 17
+- id: 20
   featured: false
   testimonial:
     title: "Gurpreet's Testimonial"
