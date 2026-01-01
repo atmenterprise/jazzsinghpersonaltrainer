@@ -17,7 +17,7 @@ I have come down from size 16 to size 12!!!!! I don’t eat at my desk no more I
 Thank you so much Jaz GOD BLESS YOU XX
 "
 - id: 2
-  featured: false
+  featured: true
   testimonial:
     title: "Working Mum Success Story"
     author: "Gopi"
@@ -356,7 +356,7 @@ Thank you so much Jaz GOD BLESS YOU XX
       Thanks Jaz, you’re the absolute best! 😊
       "
 - id: 22
-  featured: false
+  featured: true
   testimonial:
     title: "Recovering from a 15 year shoulder injury."
     author: "Pam Saleem"
