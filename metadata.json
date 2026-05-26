@@ -1,0 +1,6 @@
+{
+  "name": "Jaz BooM Personal Training",
+  "description": "The premium, results-driven coaching website for Jazz Singh, personal trainer and nutritionist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

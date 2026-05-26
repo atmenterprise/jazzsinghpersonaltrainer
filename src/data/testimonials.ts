@@ -1,0 +1,278 @@
+export interface TestimonialItem {
+  id: number;
+  featured: boolean;
+  testimonial: {
+    title: string;
+    author: string;
+    image: string;
+    link: string;
+    description: string;
+  };
+}
+
+export const testimonials: TestimonialItem[] = [
+  {
+    "id": 1,
+    "featured": true,
+    "testimonial": {
+      "title": "It’s not about the WEIGHT YOU LOSE, it’s about the LIFE YOU GAIN!",
+      "author": "Amarjit",
+      "image": "img/testimonials/default.jpg",
+      "link": "https://www.instagram.com/p/C_XRsEHuwXl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+      "description": "The first time Jaz and I met was at my daughter’s house when it was my grandson’s birthday, and Jaz had come to pick up his son. My daughter called to come to the hallway so that she could introduce me to you and tell me that you’re a Personal Trainer and she pushed me to speak to you about my weight, I was acting like a child, yeh, yeh, yeh, heard this all before and all you were trying to do was explain about how you could help me.\nI was an overweight Punjabi woman, been told by my husband and kids to lose weight and my attitude was listening from one ear out of the other, I was nearly hitting size 18 because of sitting at my desk at work eating crisps and biscuits.\nI was asked by my doctor to call in for an appointment where I was told I must have tablets for Diabetes, and I told my doctor to give me 3 months to change my diet.\nThat hit me hard and then I called Jaz and booked a consultation with him first week of March.\nI had never been in a gym in my whole life, this was the first time, and I walked in and wished the floor would swallow me up. I felt so ashamed of my body. Jaz would always say you’re doing great no one is looking at you. His words his caring support meant so much to me.\n\nHe put 100% of dedication into helping me and I didn’t want to let him and my family down.  It was hard work, but your life changes, my mental health my confidence was full on… \nI had my blood test in June, my sugar levels went from 5 to 4.2 and I been told by the doctor I don’t need tablets.\nI have come down from size 16 to size 12!!!!! I don’t eat at my desk no more I don’t feel hungry or have cravings, and now I got a new wardrobe of size 12 clothes and no more 3 tyre rolls on my tummy!!!\nThank you so much Jaz GOD BLESS YOU XX"
+    }
+  },
+  {
+    "id": 2,
+    "featured": true,
+    "testimonial": {
+      "title": "Working Mum Success Story",
+      "author": "Gopi",
+      "image": "img/testimonials/default.jpg",
+      "link": "https://www.instagram.com/p/CTz0kmVNQBE/?utm_source=ig_web_copy_link",
+      "description": "Gopi is a working mum who has done great to achieve our realistic goal set of weight loss, and improved health through online coaching. We kept her favourite foods in the nutrition plan, she completed a minimum of 2 resistance training workouts a week and hit her weekly steps target. \n\nGopi checked in with me once a week and messaged me when she needed to in order to stay on track and #BooM👊💥 we hit her goals."
+    }
+  },
+  {
+    "id": 3,
+    "featured": true,
+    "testimonial": {
+      "title": "Couple Goals",
+      "author": "Illusion Photo Video",
+      "image": "img/testimonials/default.jpg",
+      "link": "https://www.instagram.com/p/ClLbISpsSCN/?utm_source=ig_web_copy_link",
+      "description": "We chose Jaz based on his experiences, and when we met up, he explained why he was in the PT business. Listening to his story and struggles it made us realise that this was the PT for us. Someone who would encourage us to motivate us and be with us every step of the way on our journey. Myself and Sam are not the normal gym goers. In fact, we have a hard time motivating ourselves.\n\nHowever, the sessions with Jaz motivated us to come. He made each session fun and challenging, and considering me and Sam are competitive, they made it a competition against the both of us, giving us even more of a reason to push out limits. \n\nOverall, we have started to see a difference in our health and our bodies, although still a long way to go. we thank Jaz for always pushing us, and showing us slow and steady is the way to go.\n\nThank you, Jaz. We have started our #boomjourney , and we have you to thank.\n\nAnyone looking for a PT trainer we do not hesitate in recommending Jaz 👊🏽👊🏽"
+    }
+  },
+  {
+    "id": 4,
+    "featured": true,
+    "testimonial": {
+      "title": "Life-Changing Fitness Journey With Jaz",
+      "author": "Aamir Shams",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I am delighted to share my heartfelt testimonial for the incredible personal training experience I've had with Jaz Singh at The Gym.\n\nI rejoined The Gym with determination to achieve my goals that I had failed in previous attempts which were to shed stubborn belly fat, adopt a healthier diet, and embrace a more active lifestyle. This time I had decided to seek help from a Personal Trainer who would not only guide me through workouts designed for my level of fitness and experience in the gym, but also to lower my cholesterol and sugar levels while educating me on the significance of maintaining a balanced and nutritious diet.\n\nAfter reading Jaz’s profile, I emailed him to book a free consultation and when we met, Jaz exhibited a rare combination of professionalism, passion, and genuine care for my well-being which motivated me to invest in his 12 week package.\n\nThe sessions were both engaging and motivating which boosted me to push past my limits, and with Jaz’s holistic approach to my health, there was an easy to follow nutrition plan that was tailored to my individual preferences. Jaz regularly adjusted both the nutrition plan and training plan when needed to help me keep moving forward with my goals.\n\nThis resulted in a noticeable reduction in belly fat, and healthy cholesterol and sugar levels with new found confidence and I felt reassured that I had made the right choice in investing Jaz’s 12 week programme.\n\nI have since become disciplined, learnt to make healthier food choices without feeling deprived, and know the importance of consistency.\n\nI wholeheartedly recommend Jaz to anyone seeking a dedicated and knowledgeable personal trainer.\n\nThank you, Jaz for being a beacon of inspiration and for guiding me towards a healthier, happier version of myself."
+    }
+  },
+  {
+    "id": 5,
+    "featured": true,
+    "testimonial": {
+      "title": "Natasha's Testimonial",
+      "author": "Natasha",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Hey Jaz, I wanted to reach out and say a BIG thank you for you help over the last couple of months. As someone who is relatively new to the gym, I can honestly say that working with you has been such a worthwhile investment for myself. Not only am I pleased with the noticeable physical progress in such a short period of time, but I’ve also noticed a huge shift in my approach to working out.\n\nSpecifically, I’ve felt a lot more confident about my form and technique which was a huge priority for me because I felt limited with my knee /shoulder pain. However, working with you has taught me how to train and strengthen those areas effectively to a point where I can now include exercises that I previously avoided due to pain. I know it’s not your responsibility, but I also appreciate that you have gone above and beyond by encouraging me to check my knee pain out professionally when I would have put it off further.\n\nThanks to your guidance, I’ve noticed a big improvement in how I plan and track my workouts. To think, I would previously roll up to the gym with a half-arsed idea of what to do, whereas now I have a much more structured approach to make the most out of my time and help me hit my goals. And on a lighter note, let’s not forget, I didn’t even know I had chest muscles prior to our sessions!\n\nAll in all, I’m really pleased with your targeted approach to me as an individual, and not just generic help with working out. I feel like you took time out to understand my weaknesses so that you could provide useful feedback to help me progress. I also think our sessions have provided a strong foundation for me to sustainably continue my fitness journey (and hopefully bulletproof my 80-year-old knee), and I hope to work with you again in the future to see how I can progress further."
+    }
+  },
+  {
+    "id": 6,
+    "featured": false,
+    "testimonial": {
+      "title": "Rishu's Testimonial",
+      "author": "Rishu",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I have been struggling with a weight issue, confidence level and blood sugar level since 2019. I was struggling to keep myself fit and active and it was impacting my day-to-day activity. I reached out to Jaz Boom PT in May 2022 for a free consultation. Right on day 1, Jaz had food & nutrition suggestions and a training plan ready for my case. I found Jaz to be professional in the way he conducts his session (which you won't find easily in personal trainers) through a series of structured training plans, food and nutrition daily tracker, weight monitoring, daily motivation and suggesting the right ways to keep myself active and fit (outside gym sessions). Training sessions with Jaz have been focused, fun, challenging and informative. As a result of my initiative to take Jaz's help, I have now lost more than 15 kgs, reduced my blood sugar level to a normal range and managed to raise my confidence in day-to-day activity. I have also taken up a sports activity which was unthinkable a few months back. There is no shortcut to achieving a healthy body and mind. I am thankful that I met Jaz to help me with my case.\nI would suggest anyone struggling with health issues reach out to Jaz as he is the best in Ilford. Thank you, Jaz."
+    }
+  },
+  {
+    "id": 7,
+    "featured": false,
+    "testimonial": {
+      "title": "Asif's Testimonial",
+      "author": "Asif",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I have been struggling with diabetes, my blood sugar has become unmanageable, and my strength has started to dip, leaving me in a state of distress. Being new to England I was finding it tough adjusting to the climate, not feeling well throughout each day, and often struggling with fatigue.\n\nThis led me to search for a Nutritionist, and or a PT who could help me with my wellbeing. Luckily, I found Jaz at The Gym Group Pioneer Point and had a consultation with him to discuss my diabetes and goal.\n\nJaz is a one stop solution for fitness and wellbeing, he is a multiskilled expert in a fitness space. He has a combination of domain expertise as a nutritionist, delivering a health assessment through his techniques, a fitness expert who provides you with a workout plan and supplement plan to help support you with your ill health. This I was expecting, and it is a rare skill set and on a whole I found it in Jaz.\n\nHe is instrumental in the delivery of strategic planning, architecting into a tactical approach and implementing it on a weekly basis. This in return gave me fruitful results, full control of my diabetes, increased strength and I gained self-confidence.\n\nI would strongly recommend anyone struggling with health issues to reach out to Jaz."
+    }
+  },
+  {
+    "id": 8,
+    "featured": false,
+    "testimonial": {
+      "title": "Zainab's Testimonial",
+      "author": "Zainab",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I have successfully completed my 21 day challenge and overwhelmed with the results. Jaz was very helpful especially during our PT session I have always been hesitant if I am using the machines properly or am I doing this right but he told me how to make use of the machines and what to improve on.\n\nHe was always a message away if I ever needed any help and the weekly check in was great as it kept me accountable and that is one aspect I have struggled with. I feel lighter and more fit and have not felt like this in a long time. I would definitely recommend Jaz for PT sessions and online coaching as i still included my curries in my diet which most PT’s recommend to cut out and I could never see results as it is not convenient for me."
+    }
+  },
+  {
+    "id": 9,
+    "featured": false,
+    "testimonial": {
+      "title": "Alina's Feedback",
+      "author": "Alina",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Having Jaz as a PT was great. He approached us in the gym and told us who he was and what he did and asked us about our goals. My goal was to get more toned and my friends goal was to lose weight. He explained how he could help us. My friend and I agreed immediately to work with him because we saw this as an opportunity to reach out desired body. He motivated us and always told us that we could do it if we tried. This helped me as sometimes I would be feeling unmotivated. The sessions definitely worked for me as not only did I get more toned and stronger but my face also cleared up. My acne reduced and so did my digestion. The sessions were fun as we felt very comfortable with him and he was quite funny but then so was I.\n\nI would definitely recommend having sessions with Jaz as it was a blast and the results were amazing!! What set Jaz apart from the rest of the trainers was that he was very easy to talk to and made us feel very comfortable. We got a diet plan from Jaz, a training plan and a lot of support. Overall it was a great experience and I would recommend him."
+    }
+  },
+  {
+    "id": 10,
+    "featured": false,
+    "testimonial": {
+      "title": "Vineet's Testimonial",
+      "author": "Vineet Ranjan",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I am writing this email to extend a big thank you to from me and Sonam for your continuous support and motivation during our weight/fat loss journey and strength and conditioning training since last 12 weeks.\n\nYou are one of the best personal trainers I have ever worked with! You continuously motivated us during the training sessions and kept us reminding that how important it is to focus on building muscles and gaining strength. I am amazed by the fact that you not only instruct us to follow training session and nutrition in a certain way but also explain the science behind it. This shows the knowledge you have gained in the nutrition and personal training over the last so many years. You always maintained a calm and composed behavior and this really helped in keeping us motivated throughout the sessions. \n\nYou always asked us about our well-being, continuous checks on the nutrition and physical training goals, and supported me during the stressful time when I was working extra hours/weekends in my office. I am also amazed by the variations you used during the training sessions which kept the sessions interesting and kept us on our toes to give our best. You always helped with the prompt response on our infinite number of questions.\nSonam and I now feel more energetic, can lift more weights, and also motivated towards clean eating and understand the science behind everything.\n\nI don't know if my above words will do justice to what you have done for us. You are the Best! A big Thank you from both of us!"
+    }
+  },
+  {
+    "id": 11,
+    "featured": false,
+    "testimonial": {
+      "title": "Jackie's Testimonial",
+      "author": "Jackie",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Although officially introduced to Jaz at the Fitness First Health Club, I think really he scouted me when he heard I had problems that he could help with.  He talked passionately about his health history.  I related to him immediately, became a client of his and started training soon after.   \n\nMy goal was to increase muscle strength and improve mobility.  I had a lot of issues and Jaz came up with a diet plan, provided supplements and a training plan to address them.  After the first month, I saw positive changes in my health and wellbeing.  I felt stronger, fitter and had more energy.  We worked well together and laughed a lot.\n\nSince our sessions came to an end during lockdown, he has been supportive to my health issues and continues to provide nutritional advice and exercise workouts.  What makes him different is his aftercare service.  He keeps in touch, he likes to know how you are getting on, and how he can help.  He cares.   \n\nHis approach to overcoming his own personal health issues is so inspiring and makes me think that if he can do it, I can too.  He pushed me to my limit and I’m glad he did.  I would recommend Jaz as the best Personal Trainer to anyone."
+    }
+  },
+  {
+    "id": 12,
+    "featured": false,
+    "testimonial": {
+      "title": "Mandy's Testimonial",
+      "author": "Mandy",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Working towards my fitness goals with Jaz has been great for so many reasons. He has been encouraging and supportive of all aspects of my wellbeing and quickly tailored each session/exercise to me. Our sessions have always been a challenge and never dull! During lockdown, I can honestly say I got stuck in a rut, but our zoom workouts have brought back some well needed balance and discipline. Even via an online platform, our workouts were fun, varied and suited my goals. As a final note I wish Jaz the very best for the future and thank him for not only the encouragement but supportive, kind and knowledgeable person he is."
+    }
+  },
+  {
+    "id": 13,
+    "featured": false,
+    "testimonial": {
+      "title": "Parmjit's Testimonial",
+      "author": "Parmjit",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I started training with Jaz last year after having a number of health problems.  I have arthritis and had been diagnosed with diabetes due to the medication I was taking.  I was also told that I had a fatty liver.\nFrom the beginning Jaz has treated me with a lot of respect and identified the key issues that needed addressing.  He took a holistic approach with my health, looking at my diet and nutrition as well as my fitness.\nJaz assessed my fitness levels and made a programme that suited my needs.  He motivated me to push myself further and make a difference to my overall health and lifestyle.\nI have lost weight, toned my body and following an appointment with my consultant; my sugar levels are now normal, I no longer have a fatty liver and my arthritis has also improved enough to carry out normal daily activities.\n\nI look forward to; my training sessions, going to the gym and walking daily as well as eating healthier.  \n\nMeeting Jaz has changed my life for the better and I would recommend his services to everyone."
+    }
+  },
+  {
+    "id": 14,
+    "featured": false,
+    "testimonial": {
+      "title": "Preethi's Testimonial",
+      "author": "Preethi",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I started PT sessions with you in November and to start with I should say what an adventure your sessions have been. You really knew what my problem was and why was I gaining weight in a particular part of my body. If not you I think I would have not known that. You guided me with the perfect diet which made my life more easier. \n\nI have also taken PT sessions in India but frankly speaking it was no way near to the training I experienced with you. I used to abnormally lose weight but only after under your training that I started losing weight equally throughout my body which even my husband was happy about. Though I don't have a before and after pic of mine I can surely say that I lost almost 3 to 4 inches and also my dad and my sister were pretty shocked. All the credit goes to you. \n\nI also raised a concern with you asking if these exercises will affect me getting pregnant as I was planning for it. I still remember what you said that it's 100 % going to help me out. I became pregnant within 2 months and I was feeling active throughout my delivery apart from the 1st 3 months. \n\nUnfortunately I was not able get back to training with you post-delivery. I’m badly waiting for the chance to start all over again to make myself fit. Hope to start training with you very soon."
+    }
+  },
+  {
+    "id": 15,
+    "featured": false,
+    "testimonial": {
+      "title": "Sehar's Testimonial",
+      "author": "Sehar",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Working with Jaz was a great experience. Jaz approached me and my friend when we were at the gym and had no clue what to do there, he explained who he is and what he does as a pt.\n\nMy goal was to lose weight after postpartum as I didn’t feel confident with myself. \n\nAfter the taster session which I enjoyed I felt like this was the right way for me to reach my goal.\n\nJaz would always message and make sure to ask us how we were and made sure to motivate us.\n\nI learnt how to use the machines when previously I did not know how to use them. I learnt that strength training is a great way to lose weight. I also learnt which exercises targeted which body parts.\n\nI would recommend Jaz because he was easy going and we felt comfortable with him.\n\nJaz was much more approachable and friendly compared to the other PTs. Jaz gave us a diet plan, a workout plan and he made sure to support us when we needed it."
+    }
+  },
+  {
+    "id": 16,
+    "featured": false,
+    "testimonial": {
+      "title": "Urvi's Testimonial",
+      "author": "Urvi",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "Jaz was recommended to me by a friend and I can say it was a worthwhile investment.\n\nJaz was able to create a structured exercise plan and food plan around your lifestyle, which helped provide more focus based on the health questionnaire completed.\n\nI found that I was pretty full in terms of food, which is something generally you don’t associate when trying to lose weight as normally people end up “starving” themselves. Having the weight of food listed was extremely beneficial in learning how to control portion size. He was also able amend the plan if something didn’t suit you. Some of the supplements I found extremely beneficial.\n\nHaving the structure in place helped my motivation and I started implementing more cardio in my daily activities e.g walk to work. I found the weekly check-ins helpful, as it gave a chance to continuously review progress and the fact that he emphasised weight can be measured via inches, loose clothes, improvement in fitness and not just the numbers on the scale.  \n\nI would have no hesitation in recommending Jaz to start your fitness journey.\n\nThanks for your help. Urvi 🙂"
+    }
+  },
+  {
+    "id": 17,
+    "featured": false,
+    "testimonial": {
+      "title": "My Testimonial",
+      "author": "Dawinder",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I am a 59 year old woman who's knees had started hurting and was feeling weak with age. This meant I was putting on weight and was heaviest I've been for first time in my life. I needed to look after myself more after I tried to control my eating and walking but it wasn’t working for me.\nI had never been to a gym or had a personal trainer to help before. I was introduced to Jaz who is a personal trainer and was made feel comfortable to meet him. He made me feel at ease about my health and spoke to me on how he can help. He sent me a health questionnaire to complete and return. This asked about any symptoms, my eating habits, and my exercise regime.  Once I had sent it back to him, he made a list of protocols and asked to meet me to discuss it. He had written about things that could help me which included building up my strength, help my posture, my wellbeing and my weight will drop. I took on Jaz's advice.\nJaz made a diet plan and an exercise regime I could follow. I started my P.T. sessions. Jaz has helped to understand my body and muscles which I hadn't used. He helped me to use some the gym equipment safely.\nMy sessions with Jaz have helped as I can already see and feel the difference within myself.  When my PT sessions are complete Jaz has offered to keep in touch to monitor my progress.\nThank you, Jaz, for teaching me about my personal needs!"
+    }
+  },
+  {
+    "id": 18,
+    "featured": false,
+    "testimonial": {
+      "title": "Mickey's Testimonial",
+      "author": "Mickey",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I was interested in personal training sessions to tone up and feel confident at using free weights and the gym equipment. I asked my husband if he knew any good personal trainers and whilst he didn’t know Jaz, he recommended him because of the success stories he had heard through his friends.\n\nInitially I spoke to Jaz on the phone - I asked a lot of questions and I was impressed by Jaz’s knowledge and his ability to explain things in simple terms.  Having now had several sessions with Jaz I can happily say I feel more energetic, stronger 💪🏻 (obviously with the number of weights he made me push!), I’ve lost body fat, toned up, have improved sleep, and understand so much more about nutrition/diet and supplements. \n\nI loved Jaz’s work ethic, his ability to motivate me even when I felt like giving up, pushing me further and more importantly always on time for my sessions! Jaz’s experience really showed in the way he explained and gave reasons on why I was doing particular exercises and eating certain food.  My training and nutrition plan was tailored to me to meet my needs and now I’m loving the results!\n\nI would always recommend Jaz to anyone looking to get fit! Thanks for all your help Mr BooM 💥😊💪🏻"
+    }
+  },
+  {
+    "id": 19,
+    "featured": false,
+    "testimonial": {
+      "title": "Randeep's Testimonial",
+      "author": "Randeep",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I’ve been training with Jaz for quite some time now, and believe he is one of the most experienced & committed trainers around.\n\nJaz is focused on helping me achieve my goals and makes every session challenging (& somehow fun). My fitness has increased noticeably, and I’ve seen myself improving my ability to complete more exercise.\n\nEvery week Jaz would change up the workout, push me and challenge me to the fullest, this way helped me get results. His energy, positive attitude and love for personal training gave me the motivation and drive to keep going. I also had a shoulder injury prior to starting the sessions which prevented me doing intense workouts, but Jaz focused on this and helped my shoulder get stronger and now I can do workouts without feeling pain. He ensures my technique is correct to avoid any injuries.  Jaz is highly reliable and very punctual, this is important as I always know I will be starting and finishing on time. I would highly recommend Jaz.\n\nAs a bonus, I personally had confidence issues, the sessions helped me deal with this, as Jaz's methods was helping me lose weight and tone up my confidence built up, everything from physically to mentally I went through a positive change."
+    }
+  },
+  {
+    "id": 20,
+    "featured": false,
+    "testimonial": {
+      "title": "Gurpreet's Testimonial",
+      "author": "Gurpreet",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I first contacted Jaz through Instagram as I was struggling with health issues, wanted to get fitter and mainly because I am getting married this year. I started training with Jaz in January and in 3 months I can say that I have seen and felt a huge difference. \n\nPrior to starting the training programme, Jaz made me fill out a questionnaire to understand my problems and drew up a tailored workout and nutrition plan that fitted well with what I was trying to achieve. If I was unable to do a certain exercise Jaz would modify it to make it easier for me so that I could still achieve the same results. \n\nNow I can say that I feel a lot stronger mentally and physically, my nutrition is a lot better especially as I was having digestive issues which overtime have gotten a lot better. This was down to Jaz advising me the right supplements to take with my meals. My energy levels have increased, posture is a lot better, and I have noticed my height has increased by 1/2 an inch (did not see that one coming as I am already so tall lol). I'm leaner and more toned, I've lost 4 inches off my waist and dropped a dress size. \n\nThe reason why I chose to train with Jaz was his exceptional knowledge on nutrition and training the correct way to achieve specific goals. Along the way he very supportive and although I was training with him once a week, the rest of the time he kept in touch to see how I was doing. I had a few slumps along the way, but Jaz was always there encouraging me and motivating me to work hard and get the results. I am happy that I was able to achieve this with 5 months left till my wedding! \n\nThank you so much Jaz for all your help and investing your time to help me achieve these amazing results. Looking forward to training again with you in July!!"
+    }
+  },
+  {
+    "id": 21,
+    "featured": false,
+    "testimonial": {
+      "title": "Kally’s testimonial",
+      "author": "Kally",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I met Jaz through a complimentary PT session when I joined the Gym Group. Unlike my PTs in the past, where I’ve never lost weight, since training with Jaz I’ve lost 8lbs. \n\nJaz is highly professional, disciplined, responsive outside training time, motivated and has extremely valuable knowledge with training, nutrition and diet. What makes him different…he actually _listens_ \nto his clients’ needs and tailors a routine training plan hand in hand with diet. \n\nHe demonstrates and models correct technique to avoid injury, explains clearly what you’re doing and why you’re doing it and provides trustworthy and reliable advice. I always looked forward to my training sessions and would definitely recommend his services to everyone.  \n\nThanks Jaz, you’re the absolute best! 😊"
+    }
+  },
+  {
+    "id": 22,
+    "featured": true,
+    "testimonial": {
+      "title": "Recovering from a 15 year shoulder injury.",
+      "author": "Pam Saleem",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I had turned by back on weights over 15 years ago due to shoulder injuries.  I was always aware of the importance of resistance training especially  now as I embrace my 50’s and wanted to start training again.  When meeting Jaz, I had communicated in my consultation that I want to get back to weights, but I don’t want to train shoulders purely because I just can’t!\n\nJaz explained that whilst stretching is good and receiving sports massages are beneficial, these muscles have been underused over the years and therefore have weakened over time which we could look at slowly strengthening and rehabilitating.\n\nThe key message throughout from Jaz was patience and consistency.  I have never used a personal trainer before, and I saw this as a way of investing in my body so that I can be in the gym long term.\n\nJaz also advised that whilst it’s good to come back to the gym, we want to ensure that I stay in the gym injury free!!!  This resonated with me and gave me food for thought.\n\nOur sessions were primarily focused on being mindful of how I performed each exercise, my posture and form.  Jaz explained that progression for me would be to start slowly building strength in my shoulders and in particular, my rotator cuff and rear deltoids before I go on to what I would consider a “normal workout”\n\nJaz devised a bespoke program tailoring to my needs and goals.  He provide a holistic package which included check ins, a food diary and mobility exercises that were recommended outside of our weekly sessions. \n\nWithin two weeks, I experienced significant improvement in my shoulders, they have never felt better, and they continued to loosen and strengthen. I was determined to commit to all the advice that Jaz gave as I wanted my body to heal.\n\nJaz’s own testimony was inspiring to me which is the main reason why I decided to go with Jaz, his knowledge and his expertise speaks for itself, someone who understands the body and how the muscles interconnect.\n\nBut above all else,  Jaz is a testament of someone that has overcome so much and continues to do so which gave me hope that if he can do it, then I can too.   \n\nWith heartfelt gratitude Jaz, you are an inspiration to me."
+    }
+  },
+  {
+    "id": 23,
+    "featured": false,
+    "testimonial": {
+      "title": "Nisha's Testimonial",
+      "author": "Nisha",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I can't recommend Jaz enough! Working with him has been a truly transformative experience, and I've achieved results I honestly wasn't sure were possible.\n\nWhen I started, my main goal was weight loss, but Jaz helped me understand that it was about so much more than just the numbers on the scale. His professionalism was evident from day one –he took the time to understand my goals, challenges, and even my health concerns, including my blood sugar levels.\n\nWhat truly set Jaz apart was his commitment to accountability. The food diary, which initially felt daunting, became an incredibly insightful tool, thanks to his consistent and supportive check-ins. It wasn't about judgment, but about understanding patterns and making sustainable changes. This guidance, combined with his expertise, directly contributed to significant improvements in my blood sugar management.\n\nIn the gym, Jaz has been exceptional. He didn't just tell me what to do; he taught me how to do it. My gym skills have improved dramatically – I feel confident using equipment I once avoided and performing exercises with proper form.\n\nThanks to Jaz I've not only lost weight but have also gained invaluable knowledge about nutrition, exercise, and how to truly take care of my body. Thank you, Jaz!"
+    }
+  },
+  {
+    "id": 24,
+    "featured": false,
+    "testimonial": {
+      "title": "David’s testimonial",
+      "author": "David",
+      "image": "img/testimonials/default.jpg",
+      "link": "",
+      "description": "I'm very pleased with the personal training sessions I'm having with Jaz. As someone with various health issues I think it's important that my personal trainer understands the challenges.\n\nJaz is someone who has battled with very serious health issues of which two are a rare auto-immune condition and epilepsy and has worked himself into a position to be able to manage those conditions so that his full health doesn’t hold him back in living a life while helping others.\n\nVery few people could have achieved this and the results are nothing short of miraculous. It's not just about knowing how to train but also being able to design a routine specifically for you as well as advising when to push harder and when to take it easy. I don't think you can get that from a PT who has a one size fits all system. I'm much stronger and leaner and am confident of achieving my goals and learning how to maintain them into the long term:\n\nI highly recommend Jaz. He's a great PT who will customise both your nutrition and training according to your own unique individual needs to ensure you continue to make progress to achieving your goals."
+    }
+  }
+];
