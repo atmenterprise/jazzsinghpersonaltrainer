@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-brand-primary: #D4AF37; /* Premium Majestic Metallic Gold */
+  --color-brand-secondary: #B5942D; /* Rich Satin Gold */
+
+  /* Map traditional amber utility references directly to the brand's premium gold color */
+  --color-amber-300: #F1DEC0;
+  --color-amber-400: #E3CD8D;
+  --color-amber-500: #D4AF37;
+  --color-amber-600: #B5942D;
+  --color-amber-700: #93751E;
+  
+  /* Neutral scale map to dark zinc and pitch black for premium elegant depth */
+  --color-slate-900: #0e0e11;
+  --color-slate-950: #040405;
+}
+
+/* Custom styles for professional smooth animations */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #000000;
+  color: #f4f4f5; /* zinc-100 */
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism custom styling matched with extreme dark */
+.glass-panel {
+  background: rgba(10, 10, 12, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+.glass-panel-heavy {
+  background: rgba(4, 4, 5, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+/* Grid overlay background to make it athletic & high tech */
+.grid-overlay {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(212, 175, 55, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(212, 175, 55, 0.015) 1px, transparent 1px);
+}
+
+/* Custom premium scrollbar for elegant dark presentation */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c1c22;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+

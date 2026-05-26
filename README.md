@@ -1,29 +1,20 @@
-# Jaz Singh Personal Trainer Website
-Personal Trainer Website of Jaz Singh, Ilford, UK. The website code is maintained by the [ATM Enterprise](https://github.com/atmenterprise).
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-# Website
+# Run and deploy your AI Studio app
 
-- Github Pages URL: [Jaz Singh Coaching](https://atmenterprise.github.io/jazzsinghpersonaltrainer/)
-- Outside World Web URL: -
+This contains everything you need to run your app locally.
 
-# Tech Stack
-- **Theme:** Jekyll
-- **Deployment Server:** Github Pages
-- **Language:** HTML, CSS, Ruby, JavaScript
-- **Code Repository:** Github
+View your app in AI Studio: https://ai.studio/apps/fb8335f1-24c5-4576-a107-ece2e8a11048
+
+## Run Locally
+
+**Prerequisites:**  Node.js
 
 
-# Credits
-## Jekyll Theme Credit
-
-A Jekyll implementation of the [Creative Theme](https://github.com/volny/creative-theme-jekyll) template by [Start Bootstrap](http://startbootstrap.com).
-
-Creative is a one page Bootstrap theme for creatives, small businesses, and other multipurpose uses.
-The theme includes a number of rich features and plugins that you can use as a great boilerplate for your next Jekyll project! 
-
-Creative Theme is licensed under Apache Free Commercial use license.
-
-## Image & Icon Credits
-
-- All the images are used on a free license from [Unsplash](https://unsplash.com).
-- The GIFF Icons are used and modified on a free license from [Flaticons](https://www.flaticon.com/free-animated-icons/gym).
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
