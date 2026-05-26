@@ -138,7 +138,7 @@ export default function Hero() {
               <Trophy className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-3xl font-display font-black text-white">10+ Years</div>
+              <div className="text-3xl font-display font-black text-white">15+ Years</div>
               <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">Industry Experience</div>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function Hero() {
               <Zap className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-3xl font-display font-black text-white">15kg+ Loss</div>
+              <div className="text-3xl font-display font-black text-white">10kg+ Loss</div>
               <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">Average Client Results</div>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function Hero() {
             </div>
             <div>
               <div className="text-3xl font-display font-black text-white">Specialist</div>
-              <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">Clinical &amp; Autoimmune PT</div>
+              <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">Sustainable Weight Loss, Strength Training, Body Toning & Nutrition</div>
             </div>
           </div>
         </motion.div>

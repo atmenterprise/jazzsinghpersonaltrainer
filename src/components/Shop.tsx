@@ -37,7 +37,7 @@ export default function Shop() {
             <ul className="space-y-3 mb-8">
               <li className="flex items-center space-x-3 text-zinc-400 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-amber-500 shrink-0" />
-                <span>22% Off sitewide automatically applied</span>
+                <span>Contact me to provide you with referral code</span>
               </li>
               <li className="flex items-center space-x-3 text-zinc-400 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-amber-500 shrink-0" />
@@ -66,7 +66,7 @@ export default function Shop() {
             <img
               src="https://raw.githubusercontent.com/atmenterprise/jazzsinghpersonaltrainer/main/img/shop/reflex.jpg"
               alt="Reflex Nutrition Supplementation bottles"
-              className="w-full h-full object-cover hover:scale-105 transition-all duration-700"
+              className="w-full h-full object-top hover:scale-105 transition-all duration-700"
               referrerPolicy="no-referrer"
             />
             

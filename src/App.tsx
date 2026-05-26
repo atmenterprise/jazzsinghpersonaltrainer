@@ -62,7 +62,7 @@ export default function App() {
                   Jaz <span className="text-amber-500 font-extrabold">BooM</span>
                 </span>
                 <span className="text-[8px] uppercase font-mono tracking-widest text-zinc-500 block">
-                  Nutritionist &amp; Personal Training
+                 Personal Training &amp; Nutritionist
                 </span>
               </div>
             </div>

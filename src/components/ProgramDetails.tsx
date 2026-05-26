@@ -23,7 +23,8 @@ export default function ProgramDetails() {
       id: "onetoonept",
       name: "1:1 Personal Training",
       tagline: "Reach your goals faster under personal professional direct care.",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
+      //image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
+      image: "https://raw.githubusercontent.com/atmenterprise/jazzsinghpersonaltrainer/main/img/programs/1.jpg",
       duration: "60 Minute Sessions",
       whosItFor: [
         "Great for anyone who would like to follow a personalised programme to reach their health and fitness related goal faster.",
@@ -55,7 +56,8 @@ export default function ProgramDetails() {
       id: "couplept",
       name: "2:1 Personal Training",
       tagline: "Split the cost, double the motivation with partner accountability.",
-      image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=1200&q=80",
+      //image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=1200&q=80",
+      image: "https://raw.githubusercontent.com/atmenterprise/jazzsinghpersonaltrainer/main/img/programs/2.jpg",
       duration: "60 Minute Sessions (Shared)",
       whosItFor: [
         "If you have a common health and fitness related goal and can workout at the same time, this is a great way to share the experience and achieve your goals faster.",
@@ -87,7 +89,8 @@ export default function ProgramDetails() {
       id: "onlinept",
       name: "Online Coaching",
       tagline: "Full coaching guidance with total remote flexibility from anywhere.",
-      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80",
+      //image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80",
+      image: "https://raw.githubusercontent.com/atmenterprise/jazzsinghpersonaltrainer/main/img/programs/3.jpg",
       duration: "Flexible Scheduling",
       whosItFor: [
         "Great for individuals who are happy following a personalised programme with more flexibility when they train.",
