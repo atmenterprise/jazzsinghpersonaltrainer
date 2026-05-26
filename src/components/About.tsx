@@ -24,7 +24,7 @@ export default function About() {
               <div className="absolute bottom-6 left-6 right-6 z-20 p-5 bg-zinc-950 border border-zinc-800 rounded-none backdrop-blur-md">
                 <div className="text-amber-500 font-display font-black uppercase tracking-wider text-base mb-1">Jaz Singh</div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-mono">
-                  Nutritionist &amp; Personal Trainer (PT) with 10+ years of active fitness experience.
+                  Nutritionist &amp; Personal Trainer (PT) with 15+ years of active fitness experience.
                 </p>
               </div>
             </div>
@@ -44,7 +44,7 @@ export default function About() {
 
             <div className="space-y-6 text-zinc-300 text-base sm:text-lg leading-relaxed">
               <p className="font-extrabold text-white text-lg sm:text-xl border-l-4 border-amber-500 pl-4 py-1 leading-snug">
-                Hi, I’m Jaz — a Nutritionist and Personal Trainer (PT) with over 10 years of experience in the health &amp; fitness industry.
+                Hi, I’m Jaz — a Nutritionist and Personal Trainer (PT) with over 15 years of experience in the health &amp; fitness industry.
               </p>
 
               <p className="text-justify text-zinc-400 text-sm sm:text-base">
