@@ -3,7 +3,7 @@ import { Award, ShieldAlert, Heart, Calendar } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-black border-t border-zinc-900">
+    <section id="about" className="py-24 relative overflow-hidden bg-slate-950 border-t border-zinc-900">
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-500/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -24,7 +24,7 @@ export default function About() {
               <div className="absolute bottom-6 left-6 right-6 z-20 p-5 bg-zinc-950 border border-zinc-800 rounded-none backdrop-blur-md">
                 <div className="text-amber-500 font-display font-black uppercase tracking-wider text-base mb-1">Jaz Singh</div>
                 <p className="text-xs text-zinc-400 leading-relaxed font-mono">
-                  Nutritionist &amp; Personal Trainer (PT) with 15+ years of active fitness experience.
+                  Personal Trainer (PT) &amp; Nutritionist with 15+ years of active fitness experience.
                 </p>
               </div>
             </div>
@@ -48,19 +48,27 @@ export default function About() {
               </p>
 
               <p className="text-justify text-zinc-400 text-sm sm:text-base">
-                Since 2004 I have been living with a rare auto-immune condition, which resulted in me being wheelchair bound, requiring multiple surgeries, and told I may not have kids. Now, I am married, a father of 3 and walking again. I took my health into my own hands to win the battle and now just do my best to manage my unpredictable rare auto-immune condition, along with epilepsy with positive lifestyle changes.
+                In 2004, I was diagnosed with a rare autoimmune condition that left me wheelchair-bound, requiring multiple surgeries and facing the possibility of never having children. I took my health into my own hands and refused to accept that outcome. Today, I am a father of three, walking, training, and living proof that the body is capable of more than a diagnosis suggests.
               </p>
 
               <p className="text-justify text-zinc-400 text-sm sm:text-base">
-                The above brought me to work in the industry to inspire, motivate (while showing empathy) to get the best results for my clients. All have lost weight, become healthier, fitter, stronger &amp; more confident.
+                I continue to manage this condition and epilepsy through exercise, nutrition, and deliberate daily lifestyle choices. That experience is not merely my backstory; it is the foundation of my work and the reason I understand the challenges of maintaining fitness and nutrition when facing health obstacles.
               </p>
 
               <p className="text-justify text-zinc-400 text-sm sm:text-base">
-                Over the course of myself being a nutritionist and personal trainer I have trained and helped many people with not just weight loss, increased strength, body toning and correcting posture, but health conditions such as high blood sugar, high blood pressure, high cholesterol, and hemiplegia.
+                I am Jaz, a nutritionist and personal trainer with over 15 years of experience. I specialise in sustainable fat loss and helping individuals manage chronic conditions such as high blood pressure, cholesterol, and blood sugar to regain control of their health through targeted training and nutrition.
+              </p>
+
+              <p className="text-justify text-zinc-400 text-sm sm:text-base">
+                I have worked with many clients who sought my guidance after their GP indicated that their health markers were trending in the wrong direction. For clients who have previously struggled to maintain gym routines or experienced weight regain, I offer a bespoke plan tailored to your lifestyle, health history, and goals.
+              </p>
+
+              <p className="text-justify text-zinc-400 text-sm sm:text-base">
+                As a former Expert Patient Programme Tutor, I have extensive experience teaching individuals with long-term conditions to manage symptoms through lifestyle changes, bridging the gap between medical needs and fitness.
               </p>
 
               <p className="text-zinc-500 text-xs sm:text-sm italic border-t border-zinc-900 pt-4">
-                I also volunteered as an Expert Patient Programme Tutor in the past, teaching others living with long-term health conditions, how to manage their health by managing their symptoms. This allowed them to use their new lifestyle habits to live a healthier &amp; more independent life.
+                Every client I have worked with has successfully lost weight, improved health markers, built strength, or achieved all three. Your results begin with a free consultation. Get in touch.
               </p>
             </div>
 

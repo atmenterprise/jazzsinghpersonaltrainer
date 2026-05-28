@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { testimonials, TestimonialItem } from "../data/testimonials";
-import { Instagram, Search, Award, RefreshCw, Quote, ArrowLeft, ArrowRight } from "lucide-react";
+import { Instagram, Search, Award, RefreshCw, Quote, ArrowLeft, ArrowRight, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Testimonials() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
   const [filterType, setFilterType] = useState<"featured" | "all">("featured");
+  const [selectedTestimonial, setSelectedTestimonial] = useState<TestimonialItem | null>(null);
 
   // Filter testimonials based on active state & search query
   const filteredTestimonials = testimonials.filter((item) => {
@@ -33,7 +35,7 @@ export default function Testimonials() {
   const currentFeatured = featuredList[activeSlide];
 
   return (
-    <section id="results" className="py-24 relative overflow-hidden bg-black border-t border-zinc-900 grid-overlay">
+    <section id="results" className="py-24 relative overflow-hidden bg-slate-950 border-t border-zinc-900 grid-overlay">
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 rounded-full bg-amber-500/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -92,17 +94,26 @@ export default function Testimonials() {
                   </div>
                 </div>
 
-                {currentFeatured?.testimonial.link && (
-                  <a
-                    href={currentFeatured.testimonial.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-amber-500 hover:text-white border border-amber-500/20 bg-amber-500/5 px-4 py-2.5 rounded-none transition-all self-start sm:self-center"
+                <div className="flex flex-wrap gap-2.5 self-start sm:self-center">
+                  <button
+                    onClick={() => setSelectedTestimonial(currentFeatured)}
+                    className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-black hover:text-white bg-amber-500 hover:bg-zinc-900 border border-amber-500 hover:border-zinc-800 px-4 py-2.5 rounded-none transition-all cursor-pointer"
                   >
-                    <Instagram className="h-3.5 w-3.5" />
-                    <span>View original Instagram post</span>
-                  </a>
-                )}
+                    <span>Read Full Story</span>
+                  </button>
+
+                  {currentFeatured?.testimonial.link && (
+                    <a
+                      href={currentFeatured.testimonial.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-amber-500 hover:text-white border border-amber-500/20 bg-amber-500/5 px-4 py-2.5 rounded-none transition-all"
+                    >
+                      <Instagram className="h-3.5 w-3.5" />
+                      <span>View original Instagram post</span>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -179,10 +190,11 @@ export default function Testimonials() {
             return (
               <div
                 key={item.id}
-                className={`relative p-8 rounded-none bg-zinc-950/80 border transition-all duration-300 flex flex-col justify-between ${
+                onClick={() => setSelectedTestimonial(item)}
+                className={`relative p-8 rounded-none transition-all duration-300 flex flex-col justify-between cursor-pointer group bg-zinc-950/80 border ${
                   isRishu
-                    ? "border-amber-500/40 bg-gradient-to-br from-zinc-950 via-amber-500/5 to-zinc-950 shadow-xl shadow-amber-500/5"
-                    : "border-zinc-900 hover:border-zinc-800"
+                    ? "border-amber-500/50 bg-gradient-to-br from-zinc-950 via-amber-500/5 to-zinc-950 shadow-xl shadow-amber-500/5 hover:-translate-y-1 hover:border-amber-500"
+                    : "border-zinc-900 hover:border-amber-500/40 hover:shadow-lg hover:shadow-amber-500/5 hover:-translate-y-1"
                 }`}
               >
                 {/* Rishu testimonial glowing badge */}
@@ -194,18 +206,23 @@ export default function Testimonials() {
                 )}
 
                 <div>
-                  <h4 className="text-base font-display font-bold text-white mb-3 uppercase tracking-tight">
+                  <h4 className="text-base font-display font-bold text-white mb-3 uppercase tracking-tight group-hover:text-amber-500 transition-colors">
                     "{item.testimonial.title}"
                   </h4>
-                  <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6 whitespace-pre-line line-clamp-6 text-justify">
+                  <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line line-clamp-6 text-justify">
                     {item.testimonial.description}
                   </p>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-amber-500/60 group-hover:text-amber-500 transition-colors inline-flex items-center gap-1 mb-2">
+                    Read Full Review &raquo;
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between border-t border-zinc-900 pt-4 mt-6">
                   <div className="flex items-center space-x-2.5">
-                    <div className={`rounded-none h-8 w-8 flex items-center justify-center font-display font-black text-xs ${
-                      isRishu ? "bg-amber-500 text-black" : "bg-zinc-900 text-amber-500"
+                    <div className={`rounded-none h-8 w-8 flex items-center justify-center font-display font-black text-xs transition-colors ${
+                      isRishu 
+                        ? "bg-amber-500 text-black" 
+                        : "bg-zinc-900 text-amber-500 group-hover:bg-amber-500 group-hover:text-black"
                     }`}>
                       {item.testimonial.author[0]}
                     </div>
@@ -222,7 +239,8 @@ export default function Testimonials() {
                       href={item.testimonial.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-zinc-500 hover:text-white transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-zinc-500 hover:text-white transition-colors p-1"
                       title="View original link"
                     >
                       <Instagram className="h-4 w-4" />
@@ -262,6 +280,91 @@ export default function Testimonials() {
             Book Your Free Consultation Call Today »
           </a>
         </div>
+
+        {/* Testimonials Pop-up Modal */}
+        <AnimatePresence>
+          {selectedTestimonial && (
+            <div 
+              className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-black/95 backdrop-blur-md cursor-default"
+              onClick={() => setSelectedTestimonial(null)}
+            >
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                transition={{ type: "spring", duration: 0.4 }}
+                className="relative bg-zinc-950 border border-zinc-900 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-none shadow-2xl p-6 sm:p-10 scrollbar-thin scrollbar-thumb-zinc-800"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Close button */}
+                <button
+                  onClick={() => setSelectedTestimonial(null)}
+                  className="absolute top-6 right-6 p-2 rounded-none bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-white transition-colors cursor-pointer"
+                  title="Close Modal"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+
+                <div>
+                  <span className="text-xs font-mono tracking-[0.25em] text-amber-500 uppercase font-black block mb-2">
+                    Client Success Story
+                  </span>
+                  
+                  {/* Author details in modal */}
+                  <div className="flex items-center space-x-3.5 mb-6">
+                    <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-none h-12 w-12 flex items-center justify-center font-display font-bold text-lg">
+                      {selectedTestimonial.testimonial.author[0]}
+                    </div>
+                    <div>
+                      <div className="text-white font-display font-extrabold text-sm uppercase">
+                        {selectedTestimonial.testimonial.author}
+                      </div>
+                      <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                        Verified Client
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-display font-black text-white mb-6 uppercase tracking-tight leading-snug">
+                    "{selectedTestimonial.testimonial.title}"
+                  </h3>
+                  
+                  <hr className="h-px bg-zinc-900 border-none mb-6" />
+
+                  <div className="space-y-4 text-zinc-330 text-sm sm:text-base leading-relaxed text-justify max-h-[40vh] overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-zinc-800 font-light w-full">
+                    {selectedTestimonial.testimonial.description.split('\n').filter(Boolean).map((paragraph, index) => (
+                      <p key={index} className="text-zinc-400 leading-relaxed mb-4">{paragraph}</p>
+                    ))}
+                  </div>
+
+                  {selectedTestimonial.testimonial.link && (
+                    <div className="mt-8 pt-6 border-t border-zinc-900">
+                      <a
+                        href={selectedTestimonial.testimonial.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-amber-500 hover:text-white border border-amber-500/20 bg-amber-500/5 px-4 py-2.5 rounded-none transition-all align-middle"
+                      >
+                        <Instagram className="h-3.5 w-3.5" />
+                        <span>View original Instagram post</span>
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                {/* Modal footer Close */}
+                <div className="mt-8 pt-6 border-t border-zinc-900 text-right">
+                  <button
+                    onClick={() => setSelectedTestimonial(null)}
+                    className="bg-amber-500 hover:bg-white hover:text-black text-black px-6 py-3 rounded-none font-display font-black text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                  >
+                    Close Review
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
       </div>
     </section>

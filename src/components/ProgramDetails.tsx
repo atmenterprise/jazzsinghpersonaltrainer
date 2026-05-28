@@ -150,7 +150,7 @@ export default function ProgramDetails() {
   const activeProgram = programDetails[activeTab];
 
   return (
-    <section id="programmes" className="py-24 relative bg-black border-t border-zinc-900">
+    <section id="programmes" className="py-24 relative bg-slate-950 border-t border-zinc-900">
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 rounded-full bg-amber-500/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -203,7 +203,7 @@ export default function ProgramDetails() {
                     <img
                       src={activeProgram.image}
                       alt={activeProgram.name}
-                      className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-top grayscale-[30%] hover:grayscale-0 transition-all duration-500"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-4 left-4 bg-black/90 backdrop-blur-md border border-zinc-800 text-amber-500 font-mono text-[9px] uppercase font-bold px-3 py-1.5 rounded-none">

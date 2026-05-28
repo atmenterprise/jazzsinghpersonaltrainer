@@ -23,7 +23,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-black border-t border-zinc-900">
+    <section id="contact" className="py-24 relative overflow-hidden bg-slate-950 border-t border-zinc-900">
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-500/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -38,7 +38,7 @@ export default function Contact() {
           </h2>
           <hr className="w-16 h-1 bg-amber-500 border-none mx-auto mb-6" />
           <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto">
-            Have any questions or need custom arrangements? Speak directly with Jaz via email, telephone, or socials.
+            Have any questions or need custom arrangements? Speak directly with Jaz via telephone, email, or socials.
           </p>
         </div>
 
