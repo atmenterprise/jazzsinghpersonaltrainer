@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -10,9 +10,33 @@ import Booking from "./components/Booking";
 import Contact from "./components/Contact";
 import LegalModal from "./components/LegalModal";
 import { Dumbbell, ArrowUp } from "lucide-react";
+import { initGA, trackEvent, trackSectionView } from "./utils/analytics";
 
 export default function App() {
   const [legalModalType, setLegalModalType] = useState<"privacy" | "disclaimer" | "faq" | null>(null);
+
+  useEffect(() => {
+    // 1. Initialize Google Analytics
+    initGA();
+    trackSectionView("#home");
+
+    // 2. Intercept postMessages from the Calendly widget to log real bookings as conversion events
+    const handleCalendlyMessage = (e: MessageEvent) => {
+      if (e.data && e.data.event && e.data.event.indexOf("calendly.") === 0) {
+        const eventName = e.data.event;
+        if (eventName === "calendly.event_scheduled") {
+          trackEvent("calendly_booking_success", "lead_generation", "Free Strategy Session Scheduled");
+        } else if (eventName === "calendly.date_and_time_selected") {
+          trackEvent("calendly_slot_selected", "engagement", "Selected Calendly Timeslot");
+        }
+      }
+    };
+
+    window.addEventListener("message", handleCalendlyMessage);
+    return () => {
+      window.removeEventListener("message", handleCalendlyMessage);
+    };
+  }, []);
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

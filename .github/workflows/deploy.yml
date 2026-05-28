@@ -25,6 +25,8 @@ jobs:
         run: npm ci
 
       - name: Build Application
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
         run: npm run build
 
       - name: Deploy to GitHub Pages

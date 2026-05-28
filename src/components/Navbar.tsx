@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Dumbbell, Menu, X, Calendar } from "lucide-react";
+import { trackSectionView, trackEvent } from "../utils/analytics";
 
 interface NavbarProps {
   onDisclaimerClick: () => void;
@@ -28,6 +29,11 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
     { label: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (label: string, href: string) => {
+    trackSectionView(href);
+    trackEvent("nav_click", "engagement", label);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -39,7 +45,7 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center space-x-2.5 group">
+          <a href="#" onClick={() => handleNavClick("Logo Home", "#home")} className="flex items-center space-x-2.5 group">
             <img
               src="https://raw.githubusercontent.com/atmenterprise/jazzsinghpersonaltrainer/main/img/logo/jazboom.png"
               alt="Jaz BooM Logo"
@@ -63,6 +69,7 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
                 <a
                   key={item.label}
                   href={item.href}
+                  onClick={() => handleNavClick(item.label, item.href)}
                   className="text-zinc-400 hover:text-white transition-colors duration-200"
                 >
                   {item.label}
@@ -72,6 +79,7 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
 
             <a
               href="#book"
+              onClick={() => handleNavClick("Free Consultation CTA", "#book")}
               className="bg-amber-500 hover:bg-white hover:text-black text-black font-display font-black uppercase text-xs tracking-widest px-6 py-3 rounded-none transition-colors duration-200 flex items-center space-x-2"
             >
               <Calendar className="h-3.5 w-3.5" />
@@ -82,7 +90,7 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
-              onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 focus:outline-none"
               aria-expanded="false"
             >
@@ -100,7 +108,10 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
               <a
                 key={item.label}
                 href={item.href}
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setIsOpen(false);
+                  handleNavClick(item.label, item.href);
+                }}
                 className="block px-3 py-3 text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-zinc-900/40"
               >
                 {item.label}
@@ -109,7 +120,10 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
             <div className="pt-4 px-3">
               <a
                 href="#book"
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setIsOpen(false);
+                  handleNavClick("Free Consultation Mobile CTA", "#book");
+                }}
                 className="w-full bg-amber-500 hover:bg-white hover:text-black text-black font-display font-black uppercase text-xs tracking-widest py-4 px-4 rounded-none transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <Calendar className="h-4 w-4" />
@@ -117,9 +131,9 @@ export default function Navbar({ onDisclaimerClick, onPrivacyClick, onFaqClick }
               </a>
             </div>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-6 text-[10px] font-mono tracking-widest uppercase text-zinc-500">
-              <button onClick={() => { setIsOpen(false); onFaqClick(); }} className="hover:text-white transition-colors cursor-pointer">FAQs</button>
-              <button onClick={() => { setIsOpen(false); onDisclaimerClick(); }} className="hover:text-white transition-colors cursor-pointer">Disclaimer</button>
-              <button onClick={() => { setIsOpen(false); onPrivacyClick(); }} className="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
+              <button onClick={() => { setIsOpen(false); onFaqClick(); trackEvent("view_faqs", "engagement", "FAQ Modal Open"); }} className="hover:text-white transition-colors cursor-pointer">FAQs</button>
+              <button onClick={() => { setIsOpen(false); onDisclaimerClick(); trackEvent("view_disclaimer", "legal", "Disclaimer Modal Open"); }} className="hover:text-white transition-colors cursor-pointer">Disclaimer</button>
+              <button onClick={() => { setIsOpen(false); onPrivacyClick(); trackEvent("view_privacy", "legal", "Privacy Modal Open"); }} className="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
             </div>
           </div>
         </div>
