@@ -1,0 +1,29 @@
+# Site settings
+title: Jaz BooM Personal Training
+email: jaz_personaltraining@yahoo.co.uk
+description: "Jaz BooM Personal Training Official Webpage"
+baseurl: "/"
+url: "https://www.jazboompersonaltraining.co.uk"
+#baseurl: "/jazzsinghpersonaltrainer"
+#url: "https://atmenterprise.github.io"
+include: ["_pages"]
+logo: 'img/logo/jazboom.png'
+
+facebook_url: https://www.facebook.com/JazBooMPT
+instagram_url: https://www.instagram.com/jaz_boom_pt/
+whatsapp_url: https://wa.me/447415547566?text=Hi%20Jaz
+address_url: https://goo.gl/maps/LWHsbBC1DGUCpS7x6
+appointment_booking_url: https://koalendar.com/e/atm-enterprise
+gym_group_url: https://www.thegymgroup.com/find-a-gym/east-london-gyms/london-ilford-pioneer-point/
+google_forms_url: https://docs.google.com/forms/d/1ytBEc-LurZGO_vNCqz9k6yHh1NQXmHzpGmw-G0G6Hxk/prefill
+google_analytics_id: G-RVS79BPFKD
+calendy_url: https://calendly.com/jaz_personaltraining/15min
+
+# Developer settings
+developer_name: ATM Enterprise
+developer_webpage: https://linktr.ee/atmenterprise
+twitter_username:
+github_username:
+
+# Build settings
+markdown: kramdown

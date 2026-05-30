@@ -1,0 +1,100 @@
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            {% if page.url == "/" %}
+            <a class="navbar-brand page-scroll" href="#page-top">
+                {{site.title}}
+            </a>
+            {% else %}
+            <a class="navbar-brand page-scroll" href="{{site.baseurl}}/">{{site.title}}</a>
+            {% endif %}
+
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <ul class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if page.url == "/" %}
+                <li>
+                    <a class="page-scroll" href="#page-top">Home</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#about">About Me</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#services">Specialist Areas</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle page-scroll" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        Programmes <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for program in site.data.programs %}
+                        <li><a href="#{{program.program_id}}" class="page-scroll">{{program.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#shop">Shop</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#success">Success Stories</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/booking#book">Book Now</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#contact">Contact</a>
+                </li>
+
+                {% else %}
+
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/">Home</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/#about">About Me</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/#services">Specialist Areas</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle page-scroll" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        Programmes <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for program in site.data.programs %}
+                        <li><a href="{{site.baseurl}}/{{program.program_id}}" class="page-scroll">{{program.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/#shop">Shop</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/#success">Success Stories</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/booking#book">Book Now</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="{{site.baseurl}}/#contact">Contact</a>
+                </li>
+                {% endif %}
+            </ul>
+        </ul>
+    </div>
+    </div>
+</nav>
