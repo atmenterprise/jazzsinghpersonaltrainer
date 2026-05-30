@@ -1,0 +1,71 @@
+<section class="bg-dark">
+    <div class="container">
+        <h4 class="highlight text-center">{{site.title | upcase}}</h4>
+        <h5 class="text-center text-muted">The place to begin your transformation journey</h5>
+        <hr>
+        <div class="row flex-lg-row-reverse text-center">
+            <div class="social">
+                <a href="{{ site.facebook_url }}" class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-facebook socialicon-sm"></i>
+                </a>
+
+                <a href="{{ site.instagram_url }}" class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-instagram socialicon-sm"></i>
+                </a>
+
+                <a href="{{ site.whatsapp_url }}" class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-whatsapp socialicon-sm"></i>
+                </a>
+
+                <a href="mailTo:{{ site.email }}" class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-envelope socialicon-sm"></i>
+                </a>
+
+                <a href="{{ site.address_url }}" class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-geo-fill socialicon-sm"></i>
+                </a>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+                    <a href="{{site.baseurl}}/disclaimer">DISCLAIMER</a> |
+                    <a href="{{site.baseurl}}/privacy">PRIVACY POLICY</a> |
+                    <a href="{{site.baseurl}}/privacy">GDPR POLICY</a> |
+                    <a href="{{site.baseurl}}/onetoonept#faq">FAQs</a> |
+                    <a href="#" id="open_preferences_center">UPDATE COOKIES PREFERENCE</a>
+        </div>
+        <hr>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-muted">
+                    &copy; COPYRIGHT 2024 <a href="{{site.baseurl}}/">{{site.title | upcase}}</a>. ALL RIGHTS RESERVED.
+                </h6>
+            </div>
+            <div class="col-md-6 text-right">
+                <h6 class="text-muted">
+                    WBESITE DESIGNED BY
+                    <a href="{{site.developer_webpage}}" target="_blank" rel="noopener noreferrer">
+                        {{site.developer_name | upcase}}
+                    </a>
+                </h6>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Calendly badge widget begin -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="text/javascript">
+        window.onload = function() { Calendly.initBadgeWidget({
+            url: '{{site.calendy_url}}',
+            text: 'Schedule time with me',
+            color: '#0069ff',
+            textColor: '#ffffff',
+            branding: true }); }
+    </script>
+    <!-- Calendly badge widget end -->
+
+</section>

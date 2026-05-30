@@ -1,0 +1,40 @@
+<section class="bg-dark" id="programmes">
+    <div class="container bg-dark">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading highlight">Programmes</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <p></p>
+    <div class="container bg-dark">
+        <div class="row text-justify">
+
+            {% for program in site.data.programs %}
+            <div class="col-md-6" id="{{program.program_id}}" >
+                <div class="col-md-12 panel bg-dark">
+                    <div class="thumbnail bg-dark">
+                        <div class="panel-body text-center">
+                            <img src="{{program.image_url}}" class="cropped-image">
+                        </div>
+                        <h3 class="panel-header highlight text-center">{{program.name}}</h3>
+                        <hr/>
+                        <div class="panel-body">
+                            <p class="wrap text-center">{{program.short_description | truncatewords: 40}}</p>
+                            <p class="text-center">
+                                <a class="btn btn-default" href="{{site.baseurl}}/{{program.page_url}}" role="button">View details &raquo;</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <img src="{{site.logo}}" class="logowatermark" alt="jaz boom logo">
+
+</section>

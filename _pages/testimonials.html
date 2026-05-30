@@ -1,0 +1,63 @@
+---
+layout: programlayout
+permalink: /testimonials
+---
+
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <div class="row flex-lg-row-reverse">
+                <div class="col-md-3 text-center">
+                    <img src="{{site.logo}}" class="logo wow bounceIn" alt="jaz boom logo">
+                </div>
+                <div class="col-md-8 text-center">
+                    <h1>Client Success Stories</h1>
+                    <hr>
+                    <h3 class="lead">
+                        Hear from my clients their own success stories over the years and how I have helped them achieve their goals.
+                    </h3>
+                    <p class="lead text-center">
+                        Book Your Complimentary Consultation Today with me.
+                    </p>
+                    <p class="text-center">
+                        <a href="{{site.baseurl}}/booking#book" class="btn btn-primary btn-lg lead">Book Today &raquo;</a>
+                    </p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br><br>
+            {% for t in site.data.testimonials %}
+                <div class="row text-justify thumbnail">
+                    <div class="col">
+                        <h5 class="panel-header lead highlight text-center">{{t.testimonial.title}}</h5>
+                        <hr>
+                        <div class="panel-body">
+                            <p class="fontblack text-center">
+                                Testimonial By: <span class="highlight">{{t.testimonial.author}}</span>
+                                <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                                {% if t.testimonial.link == "" %}
+                                    <a href="{{ site.instagram_url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-instagram fa-x"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ t.testimonial.link }}" target="_blank" rel="noopener noreferrer">
+                                        <i class="bi bi-instagram fa-x"></i>
+                                    </a>
+                                {% endif %}
+                            </p>
+
+                            <p class="wrap has-dropcap text-muted text-justify">{{t.testimonial.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>

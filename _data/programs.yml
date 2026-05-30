@@ -1,0 +1,41 @@
+- id: 1
+  program_id: "onetoonept"
+  name: "1:1 Personal Training"
+  short_description: "Working with a personal trainer helps you reach your goal faster while
+teaching you how to independently sustain your results after the process is
+complete.
+  "
+  image_url: 'img/programs/1.jpg'
+  page_url: 'onetoonept'
+- id: 2
+  program_id: "couplept"
+  name: "2:1 Personal Training"
+  short_description: "Share all the benefits of one to one personal training.
+  
+  Fun fact, studies have shown that exercising with a friend or family member
+  can increase calories burned by up to 25%.
+  "
+  image_url: 'img/programs/2.jpg'
+  page_url: 'couplept'
+- id: 3
+  program_id: "onlinept"
+  name: "Online Coaching"
+  short_description: "Online Coaching tailored just for you.
+  
+  Online coaching allows you to work through your program remotely wherever you are with my support and guidance to help you continue to make progress.
+  
+  
+  "
+  image_url: 'img/programs/3.jpg'
+  page_url: 'onlinept'
+- id: 4
+  program_id: "nutritionpt"
+  name: "Health Check"
+  short_description: "
+  Health check to help to highlight what symptoms and habits are holding you back from reaching your goals and what you could do today to begin positively managing your health.
+  
+  
+  
+  "
+  image_url: 'img/programs/4.jpg'
+  page_url: 'nutritionpt'
