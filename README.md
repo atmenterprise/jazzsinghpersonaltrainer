@@ -1,29 +1,30 @@
 # Jaz Singh Personal Trainer Website
-Personal Trainer Website of Jaz Singh, Ilford, UK. The website code is maintained by the [ATM Enterprise](https://github.com/atmenterprise).
+Personal Trainer Website of Jaz Singh, Ilford, UK. The website code is maintained by [ATM Enterprise](https://github.com/atmenterprise).
 
-# Website
+## Tech Stack
+- **Framework:** React 19 + React Router
+- **Build Tool:** Vite
+- **Language:** JavaScript (ESNext), JSX, CSS3
+- **Styling:** Bootstrap + Custom Theme CSS
 
-- Github Pages URL: [Jaz Singh Coaching](https://atmenterprise.github.io/jazzsinghpersonaltrainer/)
-- Outside World Web URL: -
+## Available Scripts
 
-# Tech Stack
-- **Theme:** Jekyll
-- **Deployment Server:** Github Pages
-- **Language:** HTML, CSS, Ruby, JavaScript
-- **Code Repository:** Github
+In the project directory, you can run:
 
+### `npm run dev`
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000).
 
-# Credits
-## Jekyll Theme Credit
+### `npm run build`
+Builds the app for production to the `dist` folder.
 
-A Jekyll implementation of the [Creative Theme](https://github.com/volny/creative-theme-jekyll) template by [Start Bootstrap](http://startbootstrap.com).
+### `npm run preview`
+Locally preview the production build.
 
-Creative is a one page Bootstrap theme for creatives, small businesses, and other multipurpose uses.
-The theme includes a number of rich features and plugins that you can use as a great boilerplate for your next Jekyll project! 
+## Credits
 
-Creative Theme is licensed under Apache Free Commercial use license.
+### Theme Credit
+Based on the Creative Bootstrap Theme originally created by [Start Bootstrap](http://startbootstrap.com).
 
-## Image & Icon Credits
-
-- All the images are used on a free license from [Unsplash](https://unsplash.com).
-- The GIFF Icons are used and modified on a free license from [Flaticons](https://www.flaticon.com/free-animated-icons/gym).
+### Image & Icon Credits
+- All images are used under free license terms from [Unsplash](https://unsplash.com).
+- GIF icons are used under free license terms from [Flaticon](https://www.flaticon.com/free-animated-icons/gym).
