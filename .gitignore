@@ -27,3 +27,4 @@ lerna-debug.log*
 .DS_Store
 .vercel
 .env*
+!.env.example

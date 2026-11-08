@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" fill="none" role="img" aria-labelledby="title">
+  <title id="title">ATM — Apps That Matter</title>
+  <!-- Inline wordmark from https://atmenterprise.github.io/atm/ -->
+  <g fill="#1A1A1A" font-family="'Plus Jakarta Sans', Inter, sans-serif">
+    <text x="10" y="56" font-weight="900" font-size="68" letter-spacing="-3.5">atm</text>
+    <g font-weight="700"><text x="152" y="28" font-size="13" letter-spacing="4.8">APPS</text><text x="152" y="46" font-size="13" letter-spacing="4.8">THAT</text><text x="152" y="62" font-size="10" letter-spacing="2.1">MATTER</text></g>
+  </g>
+</svg>

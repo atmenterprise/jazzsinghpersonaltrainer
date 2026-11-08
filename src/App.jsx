@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, lazy, useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Booking from './pages/Booking';
@@ -11,6 +11,7 @@ import Privacy from './pages/Privacy';
 import Testimonials from './pages/Testimonials';
 import Faq from './pages/Faq';
 import WebsiteGuide from './components/WebsiteGuide';
+const AdminAuth = lazy(() => import('./admin/AdminAuth'));
 
 export default function App() {
   const location = useLocation();
@@ -48,6 +49,7 @@ export default function App() {
   return (
     <>
     <Routes>
+      <Route path="/admin/*" element={<Suspense fallback={<p role="status">Loading admin…</p>}><AdminAuth /></Suspense>} />
       <Route path="/" element={<Home />} />
       <Route path="/booking" element={<Booking />} />
       <Route path="/onetoonept" element={<OneToOnePT />} />
@@ -61,7 +63,7 @@ export default function App() {
       {/* Fallback to Home */}
       <Route path="*" element={<Home />} />
     </Routes>
-    <WebsiteGuide />
+    {!location.pathname.startsWith('/admin') && <WebsiteGuide />}
     </>
   );
 }
