@@ -2,6 +2,7 @@ import React from 'react';
 import siteConfig from '../data/siteConfig.json';
 import testimonials from '../data/testimonials.json';
 import ProgramLayout from '../components/ProgramLayout';
+import TestimonialCard from '../components/TestimonialCard';
 
 export default function Testimonials() {
   return (
@@ -33,39 +34,17 @@ export default function Testimonials() {
         </div>
       </header>
 
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <br />
-            <br />
-            {testimonials.map((t) => (
-              <div className="row text-justify thumbnail" key={t.id}>
-                <div className="col">
-                  <h5 className="panel-header lead highlight text-center">{t.testimonial.title}</h5>
-                  <hr />
-                  <div className="panel-body">
-                    <p className="fontblack text-center">
-                      Testimonial By: <span className="highlight">{t.testimonial.author}</span>
-                      <span className="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                      <a
-                        href={t.testimonial.link || siteConfig.instagram_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="bi bi-instagram fa-x"></i>
-                      </a>
-                    </p>
-
-                    <p className="wrap has-dropcap text-muted text-justify" style={{ whiteSpace: 'pre-line' }}>
-                      {t.testimonial.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+      <section className="stories-section" aria-label="Client testimonials">
+        <div className="container">
+          <div className="stories-grid">
+            {testimonials.map((entry) => <TestimonialCard key={entry.id} entry={entry} />)}
+          </div>
+          <div className="stories-cta">
+            <h2>Your results begin with a complimentary consultation.</h2>
+            <a href="/booking#book" className="btn btn-primary btn-lg">Book Today &raquo;</a>
           </div>
         </div>
-      </div>
+      </section>
     </ProgramLayout>
   );
 }

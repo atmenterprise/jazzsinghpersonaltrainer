@@ -19,8 +19,10 @@ export default function App() {
       const el = document.getElementById(id);
       if (el) {
         setTimeout(() => {
-          const top = el.getBoundingClientRect().top + window.pageYOffset - 50;
-          window.scrollTo({ top, behavior: 'smooth' });
+          const offset = (document.getElementById('mainNav')?.offsetHeight || 72) + 16;
+          const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
         }, 100);
       }
     } else {

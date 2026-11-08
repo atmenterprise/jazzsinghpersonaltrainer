@@ -1,317 +1,148 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import siteConfig from '../data/siteConfig.json';
 import programs from '../data/programs.json';
+
+const sections = [
+  ['Home', 'page-top'],
+  ['About Me', 'about'],
+  ['Specialist Areas', 'services'],
+  ['Programmes', 'programmes'],
+  ['Shop', 'shop'],
+  ['Success Stories', 'success'],
+  ['Book Now', 'booking'],
+  ['Contact', 'contact'],
+];
 
 export default function Nav() {
   const [navCollapsed, setNavCollapsed] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isAffixed, setIsAffixed] = useState(false);
   const [activeSection, setActiveSection] = useState('page-top');
+  const navRef = useRef(null);
+  const programmesRef = useRef(null);
+  const dropdownToggleRef = useRef(null);
+  const mobileToggleRef = useRef(null);
   const location = useLocation();
-  const isHome = location.pathname === '/' || location.pathname === '';
+  const isHome = location.pathname === '/';
 
-  // Handle affix on scroll
+  const closeMenus = () => {
+    setNavCollapsed(true);
+    setDropdownOpen(false);
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsAffixed(true);
-      } else {
-        setIsAffixed(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Scrollspy logic for home page
-  useEffect(() => {
-    if (!isHome) return;
-
-    const sectionIds = [
-      'page-top',
-      'about',
-      'services',
-      'programmes',
-      'shop',
-      'success',
-      'contact'
-    ];
-
-    const handleScrollSpy = () => {
-      const scrollPosition = window.scrollY + 120; // 120px offset for top navbar
-
+    const updateScroll = () => {
+      setIsAffixed(window.scrollY > 100);
+      if (!isHome) return;
+      const offset = (navRef.current?.offsetHeight || 72) + 20;
       let current = 'page-top';
-      for (const id of sectionIds) {
+      for (const [, id] of sections) {
+        if (id === 'booking') continue;
         const element = document.getElementById(id);
-        if (element) {
-          const top = element.offsetTop;
-          if (scrollPosition >= top) {
-            current = id;
-          }
-        }
+        if (element && element.getBoundingClientRect().top <= offset) current = id;
       }
       setActiveSection(current);
     };
-
-    window.addEventListener('scroll', handleScrollSpy);
-    handleScrollSpy(); // initial check
-
-    return () => window.removeEventListener('scroll', handleScrollSpy);
+    updateScroll();
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    return () => window.removeEventListener('scroll', updateScroll);
   }, [isHome]);
 
-  // Close menus on route change
   useEffect(() => {
     setNavCollapsed(true);
     setDropdownOpen(false);
-  }, [location]);
+  }, [location.pathname, location.hash]);
 
-  const toggleNav = () => setNavCollapsed(!navCollapsed);
-  const toggleDropdown = (e) => {
-    e.preventDefault();
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleNavClick = (targetId) => {
-    setNavCollapsed(true);
-    setDropdownOpen(false);
-    if (isHome && targetId) {
-      const element = document.getElementById(targetId);
-      if (element) {
-        const top = targetId === 'page-top' ? 0 : element.getBoundingClientRect().top + window.pageYOffset - 50;
-        window.scrollTo({ top, behavior: 'smooth' });
-        setActiveSection(targetId);
+  useEffect(() => {
+    const dismiss = (event) => {
+      if (!programmesRef.current?.contains(event.target)) setDropdownOpen(false);
+      if (event.type === 'pointerdown' && !navRef.current?.contains(event.target)) setNavCollapsed(true);
+    };
+    const escape = (event) => {
+      if (event.key !== 'Escape') return;
+      if (dropdownOpen) {
+        setDropdownOpen(false);
+        dropdownToggleRef.current?.focus();
+      } else if (!navCollapsed) {
+        setNavCollapsed(true);
+        mobileToggleRef.current?.focus();
       }
-    }
+    };
+    document.addEventListener('pointerdown', dismiss);
+    document.addEventListener('focusin', dismiss);
+    document.addEventListener('keydown', escape);
+    return () => {
+      document.removeEventListener('pointerdown', dismiss);
+      document.removeEventListener('focusin', dismiss);
+      document.removeEventListener('keydown', escape);
+    };
+  }, [dropdownOpen, navCollapsed]);
+
+  const sectionLink = (id, className = 'page-scroll') => {
+    const destination = id === 'booking' ? '/booking#book'
+      : id === 'success' && !isHome ? '/testimonials'
+      : id === 'page-top' ? '/' : `/#${id}`;
+    return {
+      className,
+      to: destination,
+      onClick: (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+        closeMenus();
+        if (!isHome || id === 'booking') return;
+        const element = document.getElementById(id);
+        if (!element) return;
+        event.preventDefault();
+        const top = id === 'page-top' ? 0 : element.getBoundingClientRect().top + window.scrollY - 88;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
+        setActiveSection(id);
+      },
+    };
   };
 
-  // Determine active state for other pages
-  const isCurrentPath = (path) => location.pathname === path;
-  const isProgramActive = programs.some((p) => location.pathname === `/${p.program_id}`);
+  const isActive = (id) => isHome ? activeSection === id
+    : id === 'booking' ? location.pathname === '/booking'
+    : id === 'success' ? location.pathname === '/testimonials'
+    : id === 'programmes' && programs.some((program) => location.pathname === `/${program.page_url}`);
 
   return (
-    <nav
-      id="mainNav"
-      className={`navbar navbar-default navbar-fixed-top ${isAffixed ? 'affix' : 'affix-top'}`}
-    >
+    <nav ref={navRef} id="mainNav" aria-label="Main navigation" className={`navbar navbar-default navbar-fixed-top ${isAffixed ? 'affix' : 'affix-top'}`}>
       <div className="container-fluid">
-        {/* Brand and toggle get grouped for better mobile display */}
         <div className="navbar-header">
-          <button
-            type="button"
-            className={`navbar-toggle ${navCollapsed ? 'collapsed' : ''}`}
-            onClick={toggleNav}
-            aria-expanded={!navCollapsed}
-          >
+          <button ref={mobileToggleRef} type="button" className={`navbar-toggle ${navCollapsed ? 'collapsed' : ''}`} aria-expanded={!navCollapsed} aria-controls="main-navigation-links" onClick={() => {
+            setNavCollapsed(!navCollapsed);
+            setDropdownOpen(false);
+          }}>
             <span className="sr-only">Toggle navigation</span>
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
+            <span className="icon-bar"></span><span className="icon-bar"></span><span className="icon-bar"></span>
           </button>
-
-          {isHome ? (
-            <a
-              className="navbar-brand page-scroll"
-              href="#page-top"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('page-top');
-              }}
-            >
-              {siteConfig.title}
-            </a>
-          ) : (
-            <Link className="navbar-brand page-scroll" to="/">
-              {siteConfig.title}
-            </Link>
-          )}
+          <Link {...sectionLink('page-top', 'navbar-brand page-scroll')}>{siteConfig.title}</Link>
         </div>
-
-        {/* Collect the nav links, forms, and other content for toggling */}
-        <div
-          className={`collapse navbar-collapse ${navCollapsed ? '' : 'in'}`}
-          id="bs-example-navbar-collapse-1"
-        >
+        <div className={`collapse navbar-collapse ${navCollapsed ? '' : 'in'}`} id="main-navigation-links">
           <ul className="nav navbar-nav navbar-right">
-            {isHome ? (
-              <>
-                <li className={activeSection === 'page-top' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#page-top"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('page-top');
-                    }}
-                  >
-                    Home
-                  </a>
-                </li>
-                <li className={activeSection === 'about' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#about"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('about');
-                    }}
-                  >
-                    About Me
-                  </a>
-                </li>
-                <li className={activeSection === 'services' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#services"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('services');
-                    }}
-                  >
-                    Specialist Areas
-                  </a>
-                </li>
-                <li className={`dropdown ${dropdownOpen ? 'open' : ''} ${activeSection === 'programmes' ? 'active' : ''}`}>
-                  <a
-                    href="#"
-                    className="dropdown-toggle page-scroll"
-                    onClick={toggleDropdown}
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded={dropdownOpen}
-                  >
-                    Programmes <span className="caret"></span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    {programs.map((program) => (
-                      <li key={program.id}>
-                        <a
-                          href={`#${program.program_id}`}
-                          className="page-scroll"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleNavClick(program.program_id);
-                          }}
-                        >
-                          {program.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li className={activeSection === 'shop' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#shop"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('shop');
-                    }}
-                  >
-                    Shop
-                  </a>
-                </li>
-                <li className={activeSection === 'success' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#success"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('success');
-                    }}
-                  >
-                    Success Stories
-                  </a>
-                </li>
-                <li className={location.pathname === '/booking' ? 'active' : ''}>
-                  <Link
-                    className="page-scroll"
-                    to="/booking#book"
-                    onClick={() => setNavCollapsed(true)}
-                  >
-                    Book Now
-                  </Link>
-                </li>
-                <li className={activeSection === 'contact' ? 'active' : ''}>
-                  <a
-                    className="page-scroll"
-                    href="#contact"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('contact');
-                    }}
-                  >
-                    Contact
-                  </a>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className={isHome ? 'active' : ''}>
-                  <Link className="page-scroll" to="/" onClick={() => setNavCollapsed(true)}>
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link className="page-scroll" to="/#about" onClick={() => setNavCollapsed(true)}>
-                    About Me
-                  </Link>
-                </li>
-                <li>
-                  <Link className="page-scroll" to="/#services" onClick={() => setNavCollapsed(true)}>
-                    Specialist Areas
-                  </Link>
-                </li>
-                <li className={`dropdown ${dropdownOpen ? 'open' : ''} ${isProgramActive ? 'active' : ''}`}>
-                  <a
-                    href="#"
-                    className="dropdown-toggle page-scroll"
-                    onClick={toggleDropdown}
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded={dropdownOpen}
-                  >
-                    Programmes <span className="caret"></span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    {programs.map((program) => (
-                      <li key={program.id} className={isCurrentPath(`/${program.program_id}`) ? 'active' : ''}>
-                        <Link
-                          to={`/${program.program_id}`}
-                          className="page-scroll"
-                          onClick={() => {
-                            setNavCollapsed(true);
-                            setDropdownOpen(false);
-                          }}
-                        >
-                          {program.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li>
-                  <Link className="page-scroll" to="/#shop" onClick={() => setNavCollapsed(true)}>
-                    Shop
-                  </Link>
-                </li>
-                <li className={isCurrentPath('/testimonials') ? 'active' : ''}>
-                  <Link className="page-scroll" to="/testimonials" onClick={() => setNavCollapsed(true)}>
-                    Success Stories
-                  </Link>
-                </li>
-                <li className={isCurrentPath('/booking') ? 'active' : ''}>
-                  <Link className="page-scroll" to="/booking#book" onClick={() => setNavCollapsed(true)}>
-                    Book Now
-                  </Link>
-                </li>
-                <li>
-                  <Link className="page-scroll" to="/#contact" onClick={() => setNavCollapsed(true)}>
-                    Contact
-                  </Link>
-                </li>
-              </>
-            )}
+            {sections.map(([label, id]) => (
+              <li key={id} ref={id === 'programmes' ? programmesRef : undefined} className={`${isActive(id) ? 'active' : ''} ${id === 'programmes' ? 'programmes-nav' : ''}`}>
+                {id === 'programmes' ? (
+                  <>
+                    <div className="programmes-control">
+                      <Link {...sectionLink(id)} aria-current={isActive(id) ? 'location' : undefined}>{label}</Link>
+                      <button ref={dropdownToggleRef} type="button" className="programmes-toggle" aria-label="Choose a programme" aria-expanded={dropdownOpen} aria-controls="programme-navigation" onClick={() => setDropdownOpen(!dropdownOpen)} onKeyDown={(event) => {
+                        if (event.key !== 'ArrowDown') return;
+                        event.preventDefault();
+                        setDropdownOpen(true);
+                        requestAnimationFrame(() => programmesRef.current?.querySelector('.programme-menu a')?.focus());
+                      }}><i className="bi bi-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                    {dropdownOpen && <ul className="programme-menu" id="programme-navigation" aria-label="Programmes">
+                      {programs.map((program) => <li key={program.id}>
+                        <Link to={`/${program.page_url}`} onClick={closeMenus} aria-current={location.pathname === `/${program.page_url}` ? 'page' : undefined}>{program.name}</Link>
+                      </li>)}
+                    </ul>}
+                  </>
+                ) : <Link {...sectionLink(id, id === 'booking' ? 'page-scroll nav-booking' : 'page-scroll')} aria-current={isActive(id) ? 'location' : undefined}>{label}</Link>}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
