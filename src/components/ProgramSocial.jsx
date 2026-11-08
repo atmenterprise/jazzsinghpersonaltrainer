@@ -2,37 +2,18 @@ import React from 'react';
 import siteConfig from '../data/siteConfig.json';
 
 export default function ProgramSocial() {
+  const links = [
+    ['Facebook', 'facebook', siteConfig.facebook_url],
+    ['Instagram', 'instagram', siteConfig.instagram_url],
+    ['WhatsApp', 'whatsapp', siteConfig.whatsapp_url],
+    ['Email Jaz', 'envelope', `mailto:${siteConfig.email}`],
+  ];
   return (
-    <div className="row">
-      <br />
-      <br />
-      <br />
-      <p className="lead text-center">
-        Book Your Complimentary Consultation Today.
-      </p>
-      <hr />
-      <p className="text-center">
-        <a href="/booking#book" className="btn btn-primary btn-lg page-scroll lead">
-          Book Now &raquo;
-        </a>
-      </p>
-      <br />
-      <div className="social text-center">
-        <a href={siteConfig.facebook_url} className="btn" target="_blank" rel="noopener noreferrer">
-          <i className="bi bi-facebook socialicon"></i>
-        </a>
-
-        <a href={siteConfig.instagram_url} className="btn" target="_blank" rel="noopener noreferrer">
-          <i className="bi bi-instagram socialicon"></i>
-        </a>
-
-        <a href={siteConfig.whatsapp_url} className="btn" target="_blank" rel="noopener noreferrer">
-          <i className="bi bi-whatsapp socialicon"></i>
-        </a>
-
-        <a href={`mailTo:${siteConfig.email}`} className="btn" target="_blank" rel="noopener noreferrer">
-          <i className="bi bi-envelope socialicon"></i>
-        </a>
+    <div className="programme-booking-card">
+      <h2>Book Your Complimentary Consultation Today.</h2>
+      <a href="/booking#book" className="btn btn-primary btn-lg">Book Now &raquo;</a>
+      <div className="programme-socials">
+        {links.map(([label, icon, href]) => <a key={label} href={href} aria-label={label} {...(href.startsWith('https:') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}><i className={`bi bi-${icon}`} aria-hidden="true"></i></a>)}
       </div>
     </div>
   );

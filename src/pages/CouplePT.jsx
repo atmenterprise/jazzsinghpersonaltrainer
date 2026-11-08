@@ -1,41 +1,13 @@
 import React from 'react';
-import siteConfig from '../data/siteConfig.json';
-import ProgramLayout from '../components/ProgramLayout';
-import ProgramSocial from '../components/ProgramSocial';
+import ProgramDetail from '../components/ProgramDetail';
 
 export default function CouplePT() {
-  return (
-    <ProgramLayout showFaq={true}>
-      <header>
-        <div className="header-content">
-          <div className="header-content-inner">
-            <div className="row flex-lg-row-reverse">
-              <div className="col-md-3 text-center">
-                <img src={`/${siteConfig.logo}`} className="logo wow bounceIn" alt="jaz boom logo" />
-              </div>
-              <div className="col-md-8 text-center">
-                <h1>2:1 Personal Training</h1>
-                <hr />
-                <h3 className="lead">
-                  Share all the benefits of one to one personal training.
-                  <br />
-                  Fun fact, studies have shown that exercising with a friend or family member
-                  can increase calories burned by up to 25%.
-                </h3>
-                <hr />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="container">
-        <div className="row flex-lg-row-reverse">
-          <div className="col-md-8">
-            <br />
-            <br />
-            <h2 className="highlight">WHO'S IT FOR?</h2>
-            <p className="text-justify">
+  const sections = [
+    {
+      id: 'who-its-for',
+      title: "WHO'S IT FOR?",
+      content: (<>
+<p className="text-justify">
               If you have a common health and fitness related goal and can workout at the
               same time, then this is a great way to share the experience of personal training
               and achieve your goals in a faster time frame.
@@ -48,11 +20,13 @@ export default function CouplePT() {
               You are less likely to quit the process early or put less effort into your workouts
               as their will be a little friendly competition to each session.
             </p>
-
-            <br />
-
-            <h2 className="highlight">WHAT'S INCLUDED?</h2>
-            <p className="text-justify">
+      </>),
+    },
+    {
+      id: 'whats-included',
+      title: "WHAT'S INCLUDED?",
+      content: (<>
+<ul className="programme-inclusions">
               <li className="list-padding">
                 Receive a personalised nutrition plan while trying to keep your lifestyle
                 in mind all while increasing your nutrition knowledge and promoting
@@ -77,12 +51,14 @@ export default function CouplePT() {
               <li className="list-padding">
                 Photos, scales and how you feel will be used to measure progress.
               </li>
-            </p>
-
-            <br />
-
-            <h2 className="highlight">THE RESULTS YOU CAN EXPECT</h2>
-            <p className="text-justify">
+            </ul>
+      </>),
+    },
+    {
+      id: 'your-results',
+      title: 'THE RESULTS YOU CAN EXPECT',
+      content: (<>
+<p className="text-justify">
               If you are both willing to commit 100% to the process by working hard, staying
               consistent, remaining patient, asking questions, and applying feedback then
               you will both achieve results whatever your age, ability or starting point.
@@ -93,11 +69,13 @@ export default function CouplePT() {
               feel the difference in measures such as mood, stress, sleep, digestion,
               confidence, and energy.
             </p>
-
-            <br />
-
-            <h2 className="highlight">YOUR INVESTMENT</h2>
-            <p className="text-justify">
+      </>),
+    },
+    {
+      id: 'your-investment',
+      title: 'YOUR INVESTMENT',
+      content: (<>
+<p className="text-justify">
               Minimise the cost by splitting the payments between yourselves and have a
               real return on your investment because I’m invested in you achieving your
               goals. Receive help over every hurdle and gain the knowledge of how to avoid
@@ -114,15 +92,20 @@ export default function CouplePT() {
             <p className="text-justify">
               Find out more by <a href="/booking#book">booking</a> a complementary consultation today.
             </p>
+      </>),
+    },
+  ];
 
-            <hr />
-          </div>
-
-          <div className="col-md-4">
-            <ProgramSocial />
-          </div>
-        </div>
-      </div>
-    </ProgramLayout>
-  );
+  return <ProgramDetail
+    title='2:1 Personal Training'
+    introduction={<>
+<p className="lead">
+                  Share all the benefits of one to one personal training.
+                  <br />
+                  Fun fact, studies have shown that exercising with a friend or family member
+                  can increase calories burned by up to 25%.
+                </p>
+    </>}
+    sections={sections}
+  />;
 }

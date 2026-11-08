@@ -8,10 +8,10 @@ const sections = [
   ['About Me', 'about'],
   ['Specialist Areas', 'services'],
   ['Programmes', 'programmes'],
-  ['Shop', 'shop'],
   ['Success Stories', 'success'],
-  ['Book Now', 'booking'],
+  ['Shop', 'shop'],
   ['Contact', 'contact'],
+  ['Book Now', 'booking'],
 ];
 
 export default function Nav() {

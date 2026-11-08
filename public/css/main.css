@@ -193,7 +193,7 @@ header {
   -o-background-size: cover;
   background-position: center;
   background-color: #000;
-  background-image: linear-gradient(90deg, #000d, #0009), url("../img/header-coaching.jpg");
+  background-image: linear-gradient(90deg, #000d, #0009), url("../img/header-jaz-training.jpg");
   text-align: center;
   color: white;
 }

@@ -19,7 +19,7 @@ export default function PolicyModal({ policy, onClose }) {
     };
   }, []);
 
-  const title = policy === 'disclaimer' ? 'Disclaimer' : policy === 'gdpr' ? 'GDPR & privacy policy' : 'Privacy policy';
+  const title = policy === 'disclaimer' ? 'Disclaimer' : 'Privacy & GDPR policy';
 
   return createPortal(
     <dialog ref={dialogRef} className="policy-modal" aria-labelledby="policy-modal-title" onCancel={onClose} onClick={(event) => {

@@ -5,7 +5,7 @@ import DisclaimerContent from '../components/DisclaimerContent';
 
 export default function Disclaimer() {
   return (
-    <ProgramLayout showFaq={false}>
+    <ProgramLayout>
       <header>
         <div className="header-content">
           <div className="header-content-inner">

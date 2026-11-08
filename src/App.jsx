@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Booking from './pages/Booking';
 import OneToOnePT from './pages/OneToOnePT';
@@ -9,11 +9,26 @@ import NutritionPT from './pages/NutritionPT';
 import Disclaimer from './pages/Disclaimer';
 import Privacy from './pages/Privacy';
 import Testimonials from './pages/Testimonials';
+import Faq from './pages/Faq';
+import WebsiteGuide from './components/WebsiteGuide';
 
 export default function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const previousPath = useRef(null);
 
   useEffect(() => {
+    const changedPage = previousPath.current !== location.pathname;
+    previousPath.current = location.pathname;
+    if (location.hash === '#faq' && ['/onetoonept', '/couplept', '/onlinept', '/nutritionpt'].includes(location.pathname)) {
+      navigate('/faq', { replace: true });
+      return;
+    }
+    // Arrive at the top from Home; keep the list position for same-page story links.
+    if (location.pathname === '/testimonials' && /^#story-\d+$/.test(location.hash)) {
+      if (changedPage) window.scrollTo(0, 0);
+      return;
+    }
     if (location.hash) {
       const id = location.hash.replace('#', '');
       const el = document.getElementById(id);
@@ -28,9 +43,10 @@ export default function App() {
     } else {
       window.scrollTo(0, 0);
     }
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, navigate]);
 
   return (
+    <>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/booking" element={<Booking />} />
@@ -41,8 +57,11 @@ export default function App() {
       <Route path="/disclaimer" element={<Disclaimer />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/testimonials" element={<Testimonials />} />
+      <Route path="/faq" element={<Faq />} />
       {/* Fallback to Home */}
       <Route path="*" element={<Home />} />
     </Routes>
+    <WebsiteGuide />
+    </>
   );
 }

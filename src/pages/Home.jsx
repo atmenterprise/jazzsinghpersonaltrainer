@@ -176,6 +176,32 @@ export default function Home() {
         <img src={`/${siteConfig.logo}`} className="logowatermark" alt="jaz boom logo" />
       </section>
 
+      {/* Success Stories Section */}
+      <section className="home-success" id="success" aria-labelledby="success-title">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <h2 id="success-title" className="section-heading highlight">Client Success Stories</h2>
+              <hr className="success-divider" aria-hidden="true" />
+              <p className="success-intro">Different starting points. Personal support. Progress in everyday life.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="container">
+          <HomeSuccessStories entries={featuredTestimonials} />
+          <div className="stories-cta">
+            <h3>Your results begin with a complimentary consultation.</h3>
+            <div className="stories-actions">
+              <a href="/booking#book" className="btn btn-primary btn-lg">Book Your Complimentary Consultation</a>
+              <a href="/testimonials" className="btn btn-default btn-md">Read more Client Success Stories &raquo;</a>
+            </div>
+          </div>
+        </div>
+
+        <img src={`/${siteConfig.logo}`} className="logowatermark" alt="jaz boom logo" />
+      </section>
+
       {/* Shop Section */}
       <section id="shop" aria-labelledby="shop-title">
         <div className="container">
@@ -195,32 +221,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Success Stories Section */}
-      <section className="bg-primary home-success" id="success" aria-labelledby="success-title">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12 text-center">
-              <h2 id="success-title" className="section-heading highlight">Client Success Stories</h2>
-              <hr className="light" />
-              <p className="success-intro">Different starting points. Personal support. Progress in everyday life.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="container">
-          <HomeSuccessStories entries={featuredTestimonials} />
-          <div className="stories-cta">
-            <h3>Your results begin with a complimentary consultation.</h3>
-            <div className="stories-actions">
-              <a href="/booking#book" className="btn btn-primary btn-lg">Book Your Complimentary Consultation</a>
-              <a href="/testimonials" className="btn btn-default btn-md">Read more Client Success Stories &raquo;</a>
-            </div>
-          </div>
-        </div>
-
-        <img src={`/${siteConfig.logo}`} className="logowatermark" alt="jaz boom logo" />
       </section>
 
       {/* Contact Section */}

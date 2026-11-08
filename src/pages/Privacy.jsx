@@ -5,7 +5,7 @@ import PrivacyContent from '../components/PrivacyContent';
 
 export default function Privacy() {
   return (
-    <ProgramLayout showFaq={false}>
+    <ProgramLayout>
       <header>
         <div className="header-content">
           <div className="header-content-inner">
@@ -14,11 +14,10 @@ export default function Privacy() {
                 <img src={`/${siteConfig.logo}`} className="logo wow bounceIn" alt="jaz boom logo" />
               </div>
               <div className="col-md-8 text-center">
-                <h1>Privacy & GDPR</h1>
+                <h1>Privacy &amp; GDPR policy</h1>
                 <hr />
                 <h3 className="lead">
-                  The privacy and GDPR rule that this website abides by. Please read the below statement for more
-                  details.
+                  How your information is used, the services this website connects to, and your privacy rights.
                 </h3>
                 <hr />
               </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import highlights from '../data/storyHighlights.json';
 
 export default function HomeSuccessStories({ entries }) {
@@ -24,7 +25,7 @@ export default function HomeSuccessStories({ entries }) {
                 <span className="story-avatar" aria-hidden="true">{author.split(/\s+/).slice(0, 2).map((name) => name[0]).join('')}</span>
                 <strong>{author}</strong>
               </div>
-              <a href={`/testimonials#story-${entry.id}`} className="home-story-link">Read the full story <span aria-hidden="true">↗</span></a>
+              <Link to={`/testimonials#story-${entry.id}`} className="home-story-link" aria-haspopup="dialog" aria-label={`Read the full story by ${author}`}>Read the full story <span aria-hidden="true">↗</span></Link>
             </div>
           </article>
         );
