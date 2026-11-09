@@ -4,6 +4,7 @@ The admin at `/admin` is branded for ATM Enterprise, the development studio. Its
 
 ATM Content Studio supports multiple projects in one database and one admin deployment. Each project has its own ID, website domain, content and members. The public website remains independent: saved edits appear publicly only after its content integration is connected. No deployment was performed.
 
+
 ## Setup and existing database upgrade
 
 Use Node.js 22+ and install dependencies with `npm install`.
