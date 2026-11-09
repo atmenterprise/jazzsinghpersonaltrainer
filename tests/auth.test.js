@@ -69,7 +69,7 @@ test('expired tokens, wrong issuer/audience and forged signatures are rejected',
   assert.equal((await request(hsToken)).statusCode, 401);
 });
 test('unconfigured authentication fails closed', async () => {
-  for (const env of [{}, { AUTH0_DOMAIN: 'https://tenant.auth0.com/', AUTH0_AUDIENCE: audience }]) {
+  for (const env of [{}, { AUTH0_DOMAIN: 'https://tenant.auth0.com/invalid-path', AUTH0_AUDIENCE: audience }]) {
     const check = createAdminAuthenticator({ env });
     await assert.rejects(check({ headers: {} }), error => error.status === 503);
   }

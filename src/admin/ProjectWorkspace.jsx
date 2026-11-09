@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAdminAuth } from './session';
 import Admin from './Admin';
 import Brand from './Brand';
 export default function ProjectWorkspace() {
-  const { getAccessTokenSilently, logout } = useAuth0();
+  const { logout } = useAdminAuth();
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,8 +17,7 @@ export default function ProjectWorkspace() {
     setLoading(true); setError('');
     (async () => {
       try {
-        const token = await getAccessTokenSilently();
-        const response = await fetch('/api/admin/projects', { signal: controller.signal, headers: { Authorization: `Bearer ${token}` } });
+        const response = await fetch('/api/admin/projects', { signal: controller.signal, credentials: 'same-origin' });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Unable to load projects.');
         if (!controller.signal.aborted) { setProjects(result); setProject(result[0] || null); }
@@ -26,12 +25,11 @@ export default function ProjectWorkspace() {
       finally { if (!controller.signal.aborted) setLoading(false); }
     })();
     return () => controller.abort();
-  }, [getAccessTokenSilently, retry]);
+  }, [retry]);
   async function create(event) {
     event.preventDefault(); setSaving(true); setError('');
     try {
-      const token = await getAccessTokenSilently();
-      const response = await fetch('/api/admin/projects', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ data: draft }) });
+      const response = await fetch('/api/admin/projects', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: draft }) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Unable to create project.');
       setProjects(old => [...old, result]); setProject(result); setCreating(false); setDraft({ id: '', name: '', domain: '' });

@@ -10,7 +10,7 @@ export function createAdminAuthenticator({ env = process.env, resolveKey } = {})
   let cachedIssuer;
   let remoteKeys;
   return async function authenticate(req) {
-    const domain = env.AUTH0_DOMAIN;
+    const domain = env.AUTH0_DOMAIN?.replace(/^https:\/\//, '').replace(/\/$/, '');
     const audience = env.AUTH0_AUDIENCE;
     if (!domain || !/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.[a-z]{2,}$/i.test(domain) || !audience) {
       throw new AuthError(503, 'Admin authentication is not configured. Set AUTH0_DOMAIN and AUTH0_AUDIENCE on the server.');

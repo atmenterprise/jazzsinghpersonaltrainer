@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAdminAuth } from './session';
 import { resources, safeUrl } from '../../server/content';
 import './admin.css';
 import Brand from './Brand';
@@ -8,7 +8,7 @@ const names = { programmes: 'Programmes & services', testimonials: 'Testimonials
 const labels = { image_url: 'Image URL', short_description: 'Short description', name: 'Name', program_id: 'Service ID', page_url: 'Page slug', image: 'Client photo URL', link: 'Original story URL', featured: 'Feature on homepage', url: 'Image URL', alt: 'Alternative text', focus: 'Story focus', headline: 'Homepage headline', summary: 'Homepage summary', excerpt: 'Story excerpt' };
 const blank = resource => Object.fromEntries(Object.entries(resources[resource]).map(([key, [type]]) => [key, type === 'boolean' ? false : '']));
 export default function Admin({ project, projects, onProjectChange, onCreateProject }) {
-  const { getAccessTokenSilently, logout, loginWithRedirect, user } = useAuth0();
+  const { logout, loginWithRedirect, user } = useAdminAuth();
   const [resource, setResource] = useState('images');
   const [rows, setRows] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -22,13 +22,12 @@ export default function Admin({ project, projects, onProjectChange, onCreateProj
   const dirty = draft && JSON.stringify(draft) !== JSON.stringify(selected?.data || blank(resource));
   const canLeave = () => !dirty || window.confirm('Discard your unsaved changes?');
   const api = useCallback(async (path, options = {}, signal) => {
-    const token = await getAccessTokenSilently();
     if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
-    const response = await fetch(`/api/admin/${path}?project=${encodeURIComponent(project.id)}`, { ...options, signal, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
+    const response = await fetch(`/api/admin/${path}?project=${encodeURIComponent(project.id)}`, { ...options, signal, credentials: 'same-origin', headers: { 'Content-Type': 'application/json' } });
     const result = await response.json().catch(() => ({ error: 'API unavailable. Start the backend service.' }));
     if (!response.ok) throw new Error(result.error || 'Request failed.');
     return result;
-  }, [getAccessTokenSilently, project.id]);
+  }, [project.id]);
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true); setError(''); setRows([]); setDraft(null); setSelected(null);

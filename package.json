@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "dev:api": "node --env-file-if-exists=.env server/index.js",
     "db:setup": "node --env-file-if-exists=.env scripts/setup-db.js",
-    "test:admin": "node --test tests/admin.test.js tests/auth.test.js tests/projects.test.js"
+    "test:admin": "node --test tests/admin.test.js tests/auth.test.js tests/projects.test.js tests/session-auth.test.js"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.30.0",
     "@neondatabase/serverless": "^1.2.0",
+    "express": "^5.3.0",
+    "express-openid-connect": "^3.4.0",
     "jose": "^6.2.16",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

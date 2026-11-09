@@ -18,24 +18,62 @@ The initial import uses the existing repository's JSON and defaults to project I
 
 Setup is rerunnable: already imported rows are preserved; deliberately deleted seed records are recreated. If no owner subject is configured, imported content stays inaccessible until a member is assigned. `node scripts/setup-db.js --check` validates all 57 seed records without connecting to a database.
 
-## Auth0 (admin only)
+## Auth0 (Vercel Regular Web Application, admin only)
 
-The Auth0 provider and SDK load only under `/admin/*`; public routes do not require authentication. The old shared token is no longer accepted.
+The admin uses server-side Auth0 sessions through `express-openid-connect`. It works with Vercel's **Regular Web Application** and no longer needs a SPA client or `VITE_AUTH0_*` variables. Public pages remain unauthenticated. The browser talks to the same-origin admin API; tokens and all secrets stay on the server in an encrypted HttpOnly session cookie. The SDK handles the authorization-code flow with PKCE, state, nonce, token validation and session encryption.
 
-1. Create an Auth0 **Single Page Application** for ATM Content Studio. Enable **Universal Login** and a database connection with signup allowed for the application.
-2. Set **Allowed Callback URLs** and **Allowed Logout URLs** to `http://localhost:5173/admin` and your production studio URL, such as `https://studio.example.com/admin`. Set **Allowed Web Origins** to the corresponding origins without paths. If deploying the studio on additional domains, explicitly allow each origin/callback/logout URL. Merely registering a project domain does not grant Auth0 callback access.
-3. Create or reuse an Auth0 API with **RS256** signing. For a new API, an example identifier is `https://atm-content-studio-api`. Authorize the admin SPA in the API's application access policy. Add `manage:content`; enable **RBAC** and **Add Permissions in the Access Token** using the Auth0 token profile that includes `permissions`.
-4. Create an **Admin** role with `manage:content` and assign it to approved users manually. New signups do not receive content access automatically.
-5. Set server `AUTH0_DOMAIN` (hostname only) and `AUTH0_AUDIENCE` (API identifier). Set public frontend `VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID` (SPA client ID) and `VITE_AUTH0_AUDIENCE`. Domain/audience must match the server configuration. No client secret is needed.
-6. Restart development processes. Configure the frontend values before a production build; Vite embeds them at build time.
+Set these server environment variables in Vercel's **Preview** environment for preview testing and **Production** for production:
 
-Signup opens Auth0 with `screen_hint=signup`; returning users can sign in. The SDK uses Authorization Code flow with PKCE and keeps access tokens in memory. API requests obtain a current token from the SDK. The server verifies signature, issuer, audience, expiry and `manage:content` on every request. An authenticated account without that permission receives 403 before database access.
+| Variable | Purpose |
+| --- | --- |
+| `AUTH0_CLIENT_ID` | Regular Web Application Client ID |
+| `AUTH0_CLIENT_SECRET` | Regular Web Application client secret, used for server-side code exchange |
+| `AUTH0_DOMAIN` | Auth0 hostname or HTTPS tenant origin |
+| `AUTH0_SECRET` | Random session encryption secret of at least 32 characters |
+| `AUTH0_MANAGEMENT_API_CLIENT_ID` | Optional server-side application's credentials for checking user permissions |
+| `AUTH0_MANAGEMENT_API_CLIENT_SECRET` | Matching secret for that Management API application |
 
-After permission assignment, select **Check access again** for a fresh token or sign out and back in. Existing access tokens retain their permissions until expiry, so choose an appropriate token lifetime. Use **Sign in again** if silent renewal cannot complete. Logout returns to `/admin` on the current studio origin.
+The first four are required for signup/login. The Management API pair is used for checking approved users' permissions; authorize that application for the Auth0 Management API's `read:users` scope. It may be a separate machine-to-machine application. Use actual credentials in Preview, not a production-only placeholder. No credential values are returned by the public session-status endpoint or embedded in the Vite build.
 
-Auth0 stores passwords, verification and account recovery. PostgreSQL stores Auth0 subject identifiers only in project memberships; it does not store passwords or sessions.
+In the Auth0 Regular Web Application, enable a database connection with signup allowed. Configure:
 
-Official references: [React SDK](https://auth0.com/docs/quickstart/spa/react), [token validation](https://auth0.com/docs/secure/tokens/access-tokens/validate-access-tokens), [RBAC](https://auth0.com/docs/get-started/apis/enable-role-based-access-control-for-apis).
+| Setting | Local | Vercel preview |
+| --- | --- | --- |
+| Allowed Callback URLs | `http://localhost:5173/api/admin/auth/callback` | `https://project-1l6vp-git-refresheddesign-jatayu5.vercel.app/api/admin/auth/callback` |
+| Allowed Logout URLs | `http://localhost:5173/admin` | `https://project-1l6vp-git-refresheddesign-jatayu5.vercel.app/admin` |
+| Allowed Web Origins | `http://localhost:5173` | `https://project-1l6vp-git-refresheddesign-jatayu5.vercel.app` |
+
+Add the equivalent production URLs without removing needed existing entries. **The callback changed from `/admin` to `/api/admin/auth/callback`.** Keep using `/admin` to open the editor. The callback is handled by the server, not the React router. Redeploy Vercel after changing its environment values.
+
+The app chooses its HTTPS origin by matching the request hostname to trusted `VERCEL_URL`, `VERCEL_BRANCH_URL`, or `VERCEL_PROJECT_PRODUCTION_URL` system variables. For other/custom admin hosts set optional `AUTH0_BASE_URL` to the complete trusted origin, for example `https://studio.example.com`. It defaults to `http://localhost:5173` locally. Do not use a different port without changing that setting. Never derive an allowed callback from arbitrary forwarded host headers.
+
+Locally, copy `.env.example` to `.env` and fill in the standard server variables, then run `npm run dev:api` and `npm run dev -- --port 5173 --strictPort`. Both use the same-origin Vite proxy at `/api`; a separate Vercel emulator is unnecessary. The backend reads `.env`; it does not automatically read `.env.local`. No frontend Auth0 environment variables are needed.
+
+### Admin approval
+
+Signup alone never grants editing access. Create or reuse an Auth0 API with permission `manage:content` and assign that permission to an approved user's Admin role. The permission checker uses one of these server-trusted sources:
+
+1. Auth0 Management API: the configured Management API application reads the user's assigned permissions. By default it checks permissions belonging to `https://atm-content-studio-api`. Set optional `AUTH0_AUDIENCE` if your content API uses a different identifier. When set, the login request also requests an API access token, which the server verifies with the existing RS256 JWT validator; configure RBAC and **Add Permissions in the Access Token** for that API.
+2. Optional Auth0 Post Login Action: when Management API access is unavailable, add the namespaced ID-token claim shown below and deploy/bind the Action to the Login flow. Assign the dedicated **ATM Content Admin** role only to approved users:
+
+```javascript
+exports.onExecutePostLogin = async (event, api) => {
+  if (event.authorization?.roles?.includes('ATM Content Admin')) {
+    api.idToken.setCustomClaim(
+      'https://atmenterprise.github.io/atm/permissions',
+      ['manage:content']
+    );
+  }
+};
+```
+
+The claim must be generated by an Auth0 Action, not supplied through editable user metadata. With no approval source, signup and login still work, but the account remains pending. Project membership remains separately required for accessing each project's content. A namespaced ID-token claim remains valid for the eight-hour application session; sign out and back in after changing that Action/role. Management API permissions are checked for each authorized request; only its machine access token is cached on the server.
+
+Logout submits a same-origin POST and returns to `/admin`. Session cookies are HttpOnly, SameSite=Lax, Secure on HTTPS, scoped to `/api/admin`, and expire after eight hours without rolling extension. Mutating requests must include an Origin matching the trusted admin origin, protecting cookie-authenticated writes from cross-site requests. The old shared token is not accepted; explicit bearer clients can still use the existing API audience/JWT verification with the same origin requirement for mutations.
+
+Auth0 stores passwords, verification and account recovery. PostgreSQL stores only Auth0 subject identifiers for project memberships, not credentials or sessions.
+
+Official references: [Express SDK](https://auth0.com/docs/quickstart/webapp/express), [SDK configuration](https://auth0.github.io/express-openid-connect/interfaces/ConfigParams.html), [viewing user permissions](https://auth0.com/docs/manage-users/access-control/configure-core-rbac/rbac-users/view-user-permissions).
 
 ## Projects and access
 
@@ -80,10 +118,14 @@ Initial content comes from the current site. Its hardcoded programme page copy, 
 
 ## API
 
-All endpoints require an approved user's `Authorization: Bearer <AUTH0_API_ACCESS_TOKEN>`. Bodies use JSON and are limited to 100 KB. SQL values are parameterized.
+Content/project endpoints require an approved server session (HttpOnly cookie), plus project membership for content operations. Mutations must originate from the trusted studio origin. Bodies use JSON and are limited to 100 KB. SQL values are parameterized.
 
 | Method | Endpoint | Body |
 | --- | --- | --- |
+| GET | `/api/admin/auth/status` | — (public session state; no credentials/tokens) |
+| GET | `/api/admin/auth/login` | — (append `?screen_hint=signup` for signup) |
+| GET | `/api/admin/auth/callback` | OAuth callback handled by the server SDK |
+| POST | `/api/admin/auth/logout` | Same-origin browser form |
 | GET | `/api/admin/session` | — (approved subject, no database access) |
 | GET | `/api/admin/projects` | — (only member projects) |
 | POST | `/api/admin/projects` | `{ "data": { "id": "acme", "name": "Acme", "domain": "https://example.com" } }` |
@@ -97,8 +139,8 @@ Content endpoints require an explicit project ID; the server never defaults to a
 
 ## Hosting and verification
 
-On Vercel, `api/admin/[...path].js` exposes the API and `vercel.json` preserves API routes while serving the SPA. Configure server credentials and build-time frontend Auth0 identifiers, run database setup for the target database, then deploy normally. Static hosting alone cannot run the backend. For other hosts, expose the Node service through an HTTPS reverse proxy at `/api/admin/*` and configure SPA fallback at `/admin`.
+On Vercel, `api/admin/[...path].js` exposes the API and `vercel.json` preserves API routes while serving the SPA. Configure the standard server-side Auth0 variables, run database setup for the target database, then deploy normally. Auth0 values are read at server runtime; none are bundled into the frontend. Static hosting alone cannot run the backend. For other hosts, expose the Node service through an HTTPS reverse proxy at `/api/admin/*` and configure SPA fallback at `/admin`.
 
 A single studio deployment can manage projects on different domains; each website's eventual content integration is separate. Deploying the admin itself on several domains additionally requires Auth0 callback/origin configuration for each admin host.
 
-Run `npm run test:admin`, `node --test tests/*.test.js`, and `npm run build`. Tests cover signed-token validation, approval, project membership, scoped CRUD queries, atomic project creation, image URL resolution, content validation and concurrent-edit protection. A live Neon migration and Auth0/browser flows require configured services and have not been verified here.
+Run `npm run test:admin`, `node --test tests/*.test.js`, and `npm run build`. Tests cover standard server configuration, real SDK session-status middleware, callback-origin validation, cross-site write rejection, Management API credential isolation and approval, signed-token validation, project membership, scoped CRUD queries, atomic project creation, image URL resolution, content validation and concurrent-edit protection. A live Neon migration and Auth0/browser flows require configured services and have not been verified here.
