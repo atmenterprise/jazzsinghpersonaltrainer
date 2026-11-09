@@ -1,17 +1,16 @@
-import React, { Suspense, lazy, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Home from './pages/Home';
-import Booking from './pages/Booking';
-import OneToOnePT from './pages/OneToOnePT';
-import CouplePT from './pages/CouplePT';
-import OnlinePT from './pages/OnlinePT';
-import NutritionPT from './pages/NutritionPT';
-import Disclaimer from './pages/Disclaimer';
-import Privacy from './pages/Privacy';
-import Testimonials from './pages/Testimonials';
-import Faq from './pages/Faq';
+import Home from './site-pages/Home';
+import Booking from './site-pages/Booking';
+import OneToOnePT from './site-pages/OneToOnePT';
+import CouplePT from './site-pages/CouplePT';
+import OnlinePT from './site-pages/OnlinePT';
+import NutritionPT from './site-pages/NutritionPT';
+import Disclaimer from './site-pages/Disclaimer';
+import Privacy from './site-pages/Privacy';
+import Testimonials from './site-pages/Testimonials';
+import Faq from './site-pages/Faq';
 import WebsiteGuide from './components/WebsiteGuide';
-const AdminAuth = lazy(() => import('./admin/AdminAuth'));
 
 export default function App() {
   const location = useLocation();
@@ -49,7 +48,6 @@ export default function App() {
   return (
     <>
     <Routes>
-      <Route path="/admin/*" element={<Suspense fallback={<p role="status">Loading admin…</p>}><AdminAuth /></Suspense>} />
       <Route path="/" element={<Home />} />
       <Route path="/booking" element={<Booking />} />
       <Route path="/onetoonept" element={<OneToOnePT />} />

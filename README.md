@@ -2,9 +2,10 @@
 Personal Trainer Website of Jaz Singh, Ilford, UK. The website code is maintained by [ATM Enterprise](https://github.com/atmenterprise).
 
 ## Tech Stack
-- **Framework:** React 19 + React Router
-- **Build Tool:** Vite
-- **Language:** JavaScript (ESNext), JSX, CSS3
+- **Public website:** React 19 + React Router (preserved Vite SPA)
+- **Admin/auth/API:** Next.js App Router + Auth0 Next.js SDK
+- **Build:** Vite public bundle + Next.js server
+- **Language:** JavaScript/JSX, TypeScript for Next.js, CSS3
 - **Styling:** Bootstrap + Custom Theme CSS
 
 ## Available Scripts
@@ -15,10 +16,16 @@ In the project directory, you can run:
 Runs the app in development mode at [http://localhost:3000](http://localhost:3000).
 
 ### `npm run build`
-Builds the app for production to the `dist` folder.
+Builds the public Vite bundle into `public/site`, then builds the Next.js admin/server into `.next`.
 
 ### `npm run preview`
-Locally preview the production build.
+Starts the production Next.js server after a build.
+
+### `npm run dev:site`
+Runs Vite with hot reloading for public-page edits. Test the Next.js admin at port 3000.
+
+### `npm run build:static`
+Builds only the original public website into `dist` for GitHub Pages.
 
 ## Credits
 

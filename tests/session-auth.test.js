@@ -1,22 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { IncomingMessage, ServerResponse } from 'node:http';
-import { Socket } from 'node:net';
-import { createApp } from '../server/app.js';
 import { sessionSettings, adminOrigin, requireSameOrigin, createSessionAuthenticator, permissionClaim } from '../server/session-auth.js';
 const env = {
   AUTH0_DOMAIN: 'tenant.uk.auth0.com', AUTH0_CLIENT_ID: 'regular-client', AUTH0_CLIENT_SECRET: 'client-secret-that-must-stay-server-side', AUTH0_SECRET: 'session-encryption-secret-with-at-least-32-characters',
 };
-function run(app, { path = '/api/admin/auth/status', method = 'GET', headers = {} } = {}) {
-  return new Promise((resolve, reject) => {
-    const req = new IncomingMessage(new Socket());
-    Object.assign(req, { url: path, method, headers: { host: 'localhost:5173', ...headers } });
-    const res = new ServerResponse(req);
-    res.end = value => { resolve({ status: res.statusCode, headers: res.getHeaders(), body: value ? JSON.parse(value) : null }); return res; };
-    app.handle(req, res, reject);
-    req.push(null);
-  });
-}
 function oidcRequest(user) {
   return { headers: {}, oidc: { isAuthenticated: () => !!user, user } };
 }
@@ -33,50 +20,13 @@ test('callback origin only accepts configured origins and trusted Vercel hosts',
   const vars = { VERCEL: '1', VERCEL_URL: 'deploy.vercel.app', VERCEL_BRANCH_URL: 'branch.vercel.app' };
   assert.equal(adminOrigin({ headers: { host: 'branch.vercel.app' } }, vars), 'https://branch.vercel.app');
   assert.throws(() => adminOrigin({ headers: { host: 'attacker.example', 'x-forwarded-host': 'branch.vercel.app' } }, vars));
-  assert.equal(adminOrigin({ headers: {} }, {}), 'http://localhost:5173');
+  assert.equal(adminOrigin({ headers: {} }, {}), 'http://localhost:3000');
   assert.equal(adminOrigin({ headers: {} }, { AUTH0_BASE_URL: 'https://studio.example' }), 'https://studio.example');
   assert.throws(() => adminOrigin({ headers: {} }, { AUTH0_BASE_URL: 'https://attacker@studio.example/path' }));
 });
 test('cookie-authenticated mutations reject absent or cross-site origins', () => {
   for (const origin of [undefined, 'https://attacker.example']) assert.throws(() => requireSameOrigin({ method: 'POST', headers: { origin } }, 'https://studio.example'), e => e.status === 403);
   assert.doesNotThrow(() => requireSameOrigin({ method: 'POST', headers: { origin: 'https://studio.example' } }, 'https://studio.example'));
-});
-test('real Auth0 middleware serves login status with only server-side configuration', async () => {
-  const response = await run(createApp({ env }));
-  assert.equal(response.status, 200);
-  assert.deepEqual(response.body, { configured: true, authenticated: false });
-  assert.equal(JSON.stringify(response).includes(env.AUTH0_CLIENT_SECRET), false);
-  assert.equal(JSON.stringify(response).includes(env.AUTH0_SECRET), false);
-});
-test('missing configuration names only missing variables and never exposes secrets', async () => {
-  const response = await run(createApp({ env: { ...env, AUTH0_CLIENT_SECRET: '' } }));
-  assert.equal(response.status, 503);
-  assert.match(response.body.error, /AUTH0_CLIENT_SECRET/);
-  assert.equal(JSON.stringify(response.body).includes(env.AUTH0_SECRET), false);
-});
-test('regular app uses authorization code, secure cookies, admin-only routes and signup', async () => {
-  let config;
-  const app = createApp({ env, authMiddleware: options => {
-    config = options;
-    return (req, res, next) => {
-      req.oidc = { isAuthenticated: () => false };
-      res.oidc = { login: params => res.json(params), logout: params => res.json(params) };
-      next();
-    };
-  } });
-  const signup = await run(app, { path: '/api/admin/auth/login?screen_hint=signup' });
-  assert.equal(signup.body.authorizationParams.screen_hint, 'signup');
-  assert.equal(signup.body.returnTo, '/admin');
-  assert.equal(config.authorizationParams.response_type, 'code');
-  assert.equal(config.authorizationParams.response_mode, 'query');
-  assert.equal(config.routes.callback, '/api/admin/auth/callback');
-  assert.equal(config.session.cookie.httpOnly, true);
-  assert.equal(config.session.cookie.sameSite, 'Lax');
-  assert.equal(config.session.cookie.path, '/api/admin');
-  assert.equal((await run(app, { path: '/' })).status, 404);
-  assert.equal((await run(app, { path: '/api/admin/auth/logout', method: 'POST', headers: { origin: 'https://evil.example' } })).status, 403);
-  const logout = await run(app, { path: '/api/admin/auth/logout', method: 'POST', headers: { origin: 'http://localhost:5173' } });
-  assert.equal(logout.body.returnTo, 'http://localhost:5173/admin');
 });
 test('a signed-in but unapproved user remains blocked', async () => {
   const check = createSessionAuthenticator({ env });
@@ -108,19 +58,4 @@ test('permissions from other APIs and failed Management API calls do not grant a
   await assert.rejects(check(oidcRequest({ sub: 'auth0|pending' })), e => e.status === 403);
   const broken = createSessionAuthenticator({ env: managementEnv, fetchImpl: async () => ({ ok: false }) });
   await assert.rejects(broken(oidcRequest({ sub: 'auth0|pending' })), e => e.status === 503);
-});
-test('invalid session cookies cannot authenticate', async () => {
-  const response = await run(createApp({ env }), { headers: { cookie: 'atm_session=forged-session-value' } });
-  assert.equal(response.status, 200);
-  assert.equal(response.body.authenticated, false);
-});
-test('Vercel HTTPS sessions use Secure cookies', async () => {
-  let config;
-  const app = createApp({ env: { ...env, VERCEL: '1', VERCEL_BRANCH_URL: 'branch.vercel.app' }, authMiddleware: options => {
-    config = options;
-    return (req, res, next) => { req.oidc = { isAuthenticated: () => false }; next(); };
-  } });
-  assert.equal((await run(app, { headers: { host: 'branch.vercel.app' } })).status, 200);
-  assert.equal(config.baseURL, 'https://branch.vercel.app');
-  assert.equal(config.session.cookie.secure, true);
 });

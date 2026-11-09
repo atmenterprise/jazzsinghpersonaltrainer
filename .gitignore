@@ -28,3 +28,7 @@ lerna-debug.log*
 .vercel
 .env*
 !.env.example
+.next/
+public/site/
+next-env.d.ts
+*.tsbuildinfo

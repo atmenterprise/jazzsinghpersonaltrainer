@@ -26,7 +26,7 @@ export function adminOrigin(req, env = process.env) {
     if (!hosts.includes(host)) throw new AuthError(503, 'This admin hostname is not configured. Set AUTH0_BASE_URL to its HTTPS origin.');
     return `https://${host}`;
   }
-  return 'http://localhost:5173';
+  return 'http://localhost:3000';
 }
 
 export function requireSameOrigin(req, origin) {
