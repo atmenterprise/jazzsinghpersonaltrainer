@@ -1,9 +1,11 @@
+import { adminAuthDisabled, testAdmin } from '../../../server/admin-test-access';
 import { Auth0Provider } from '@auth0/nextjs-auth0/client';
 import { auth0 } from '@/lib/auth0';
 import { sessionSettings } from '../../../server/session-auth';
 import '../../admin/admin.css';
 export const dynamic = 'force-dynamic';
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  if (adminAuthDisabled()) return <Auth0Provider user={testAdmin}>{children}</Auth0Provider>;
   let user;
   try {
     sessionSettings();

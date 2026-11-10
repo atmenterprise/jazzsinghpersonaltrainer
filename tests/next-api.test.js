@@ -4,7 +4,7 @@ import { createNextAdminApi } from '../server/next-api.js';
 import { permissionClaim } from '../server/session-auth.js';
 import { Auth0Client } from '@auth0/nextjs-auth0/server';
 import { NextRequest } from 'next/server.js';
-const env = { AUTH0_CLIENT_ID: 'regular-client', AUTH0_CLIENT_SECRET: 'server-only-client-secret', AUTH0_SECRET: 'server-only-session-secret-at-least-32-characters', AUTH0_DOMAIN: 'tenant.uk.auth0.com' };
+const env = { ADMIN_AUTH_DISABLED: 'false', AUTH0_CLIENT_ID: 'regular-client', AUTH0_CLIENT_SECRET: 'server-only-client-secret', AUTH0_SECRET: 'server-only-session-secret-at-least-32-characters', AUTH0_DOMAIN: 'tenant.uk.auth0.com' };
 function request(path, options = {}) { return new Request(`http://localhost:3000/api/admin/${path}`, options); }
 test('Next session endpoint returns JSON with no credentials or database access', async () => {
   const route = createNextAdminApi({ env, getSession: async () => null, getDatabase: () => { throw new Error('Database should not be called'); } });
@@ -57,4 +57,20 @@ test('real Next.js Auth0 SDK rejects forged encrypted session cookies', async ()
   const client = new Auth0Client({ domain: env.AUTH0_DOMAIN, clientId: env.AUTH0_CLIENT_ID, clientSecret: env.AUTH0_CLIENT_SECRET, secret: env.AUTH0_SECRET, appBaseUrl: 'http://localhost:3000', session: { cookie: { name: 'atm_next_session' } } });
   const session = await client.getSession(new NextRequest('http://localhost:3000/admin', { headers: { cookie: 'atm_next_session=forged-cookie' } }));
   assert.equal(session, null);
+});
+
+test('temporary access skips Auth0 and memberships while preserving origin checks', async () => {
+  const queries = [];
+  const route = createNextAdminApi({
+    env: {},
+    getSession: async () => { throw new Error('Auth0 must not run'); },
+    getDatabase: () => (strings) => { queries.push(strings.join('?')); return []; },
+  });
+  const status = await (await route(request('auth/status'))).json();
+  assert.equal(status.approved, true);
+  assert.equal((await route(request('projects'))).status, 200);
+  assert.equal((await route(request('images?project=jazboom'))).status, 200);
+  assert.equal(queries.some(query => query.includes('admin_project_members')), false);
+  const denied = await route(request('projects', { method: 'POST', headers: { origin: 'https://evil.example' } }));
+  assert.equal(denied.status, 403);
 });

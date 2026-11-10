@@ -1,7 +1,9 @@
+import { adminAuthDisabled } from '../server/admin-test-access';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth0 } from './lib/auth0';
 import { sessionSettings } from '../server/session-auth';
 export async function proxy(request: NextRequest) {
+  if (adminAuthDisabled() && !request.nextUrl.pathname.startsWith('/auth/')) return NextResponse.next();
   try { sessionSettings(); }
   catch (error) {
     // Let /admin render actionable setup instructions instead of a proxy error.

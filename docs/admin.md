@@ -1,3 +1,9 @@
+## Temporary testing access
+
+Admin authentication is temporarily disabled by default in `server/admin-test-access.js`.
+The admin page and API allow unauthenticated editing of all projects. Same-origin write checks and content validation remain active.
+Set `ADMIN_AUTH_DISABLED=false` in Vercel and redeploy to restore Auth0 login, permission checks and project membership checks. Existing database configuration is still required.
+
 # ATM Content Studio
 
 The admin at `/admin` is branded for ATM Enterprise, the development studio. Its wordmark, yellow (`#FFDE59`), charcoal (`#1A1A1A`), off-white background and Plus Jakarta Sans typography follow [ATM Enterprise](https://atmenterprise.github.io/atm/). The logo is reproduced from the reference site's inline SVG; a standalone copy is at `public/admin/atm-logo.svg`. Fonts load from Google Fonts with system fallbacks.
