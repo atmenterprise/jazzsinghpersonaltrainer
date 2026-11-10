@@ -4,7 +4,7 @@ import { storyText } from '../utils/testimonialBrowser';
 
 export default function TestimonialCard({ entry, onRead }) {
   const { title, author, description } = entry.testimonial;
-  const highlight = highlights[entry.id];
+  const highlight = { ...highlights[entry.id], ...entry.testimonial };
   const words = storyText(description).split(/\s+/);
   const excerpt = highlight?.excerpt || `${words.slice(0, 42).join(' ')}${words.length > 42 ? '…' : ''}`;
   const initials = author.split(/\s+/).slice(0, 2).map((name) => name[0]).join('');

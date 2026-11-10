@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import siteConfig from '../data/siteConfig.json';
-import programs from '../data/programs.json';
+import { useProgrammes } from '../hooks/useProgrammes';
 
 const sections = [
   ['Home', 'page-top'],
@@ -15,6 +15,7 @@ const sections = [
 ];
 
 export default function Nav() {
+  const programs = useProgrammes();
   const [navCollapsed, setNavCollapsed] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isAffixed, setIsAffixed] = useState(false);

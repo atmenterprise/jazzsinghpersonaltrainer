@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import testimonials from '../data/testimonials.json';
+import { useTestimonials } from '../hooks/useTestimonials';
 import ProgramLayout from '../components/ProgramLayout';
 import TestimonialCard from '../components/TestimonialCard';
 import StoryModal from '../components/StoryModal';
 import { browseStories } from '../utils/testimonialBrowser';
 
 export default function Testimonials() {
+  const testimonials = useTestimonials();
   const [params, setParams] = useSearchParams();
   const location = useLocation();
   const [selectedId, setSelectedId] = useState(null);
@@ -15,13 +16,13 @@ export default function Testimonials() {
   const featured = params.get('view') === 'featured';
   const sort = params.get('sort') === 'original' ? 'original' : 'latest';
   const requestedPage = params.get('page') || 1;
-  const result = useMemo(() => browseStories(testimonials, { query, featured, sort, page: requestedPage }), [query, featured, sort, requestedPage]);
-  const selected = testimonials.find((entry) => entry.id === selectedId);
+  const result = useMemo(() => browseStories(testimonials, { query, featured, sort, page: requestedPage }), [testimonials, query, featured, sort, requestedPage]);
+  const selected = testimonials.find((entry) => String(entry.id) === String(selectedId));
   const featuredCount = testimonials.filter((entry) => entry.featured).length;
 
   useEffect(() => {
-    const match = location.hash.match(/^#story-(\d+)$/);
-    setSelectedId(match ? Number(match[1]) : null);
+    const match = location.hash.match(/^#story-([a-zA-Z0-9-]+)$/);
+    setSelectedId(match ? match[1] : null);
   }, [location.hash]);
 
   const update = (changes) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import highlights from '../data/storyHighlights.json';
+import { featuredStoryCopy } from '../utils/featuredTestimonials';
 
 export default function HomeSuccessStories({ entries }) {
   return (
     <div className="home-story-grid">
       {entries.map((entry, index) => {
-        const highlight = highlights[entry.id];
-        if (!highlight) return null;
+        const highlight = featuredStoryCopy(entry.testimonial, highlights[entry.id]);
         const { author } = entry.testimonial;
         return (
           <article key={entry.id} className={index === 0 ? 'home-story home-story-featured' : 'home-story'} aria-labelledby={`home-story-title-${entry.id}`}>

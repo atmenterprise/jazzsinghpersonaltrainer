@@ -1,14 +1,19 @@
 import React from 'react';
+import { featuredTestimonials as getFeaturedTestimonials } from '../utils/featuredTestimonials';
+import { useSections } from '../hooks/useSections';
 import siteConfig from '../data/siteConfig.json';
-import programs from '../data/programs.json';
-import testimonials from '../data/testimonials.json';
+import { useProgrammes } from '../hooks/useProgrammes';
+import { useTestimonials } from '../hooks/useTestimonials';
 import Nav from '../components/Nav';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HomeSuccessStories from '../components/HomeSuccessStories';
 
 export default function Home() {
-  const featuredTestimonials = testimonials.filter((t) => t.featured === true);
+  const { about, specialistAreas } = useSections();
+  const programs = useProgrammes();
+  const testimonials = useTestimonials();
+  const featuredTestimonials = getFeaturedTestimonials(testimonials);
 
   const truncateWords = (str, numWords) => {
     if (!str) return '';
@@ -30,54 +35,15 @@ export default function Home() {
         <div className="container">
           <div className="about-layout">
             <div className="about-portrait">
-              <img src="/img/profile/profile.jpg" loading="lazy" className="aboutmeprofile" alt="Jaz, personal trainer and nutritionist" />
+              <img src={about.image_url.startsWith("/") || about.image_url.startsWith("https:") ? about.image_url : `/${about.image_url}`} loading="lazy" className="aboutmeprofile" alt={about.alt} />
             </div>
             <div className="about-copy fontblack">
-              <h2 id="about-title" className="section-heading highlight">About Me</h2>
+              <h2 id="about-title" className="section-heading highlight">{about.title}</h2>
               <hr className="light" />
-              <p className="lead">
-                Hi, I’m <span className="highlight">Jaz</span>, a Nutritionist and Personal Trainer (PT) who has been helping people
-                transform their health and fitness since 2012.
-              </p>
-              <p className="lead">
-                In 2004, I was diagnosed with a rare autoimmune condition that left me wheelchair-
-                bound, requiring multiple surgeries and facing the possibility of never having
-                children. I took my health into my own hands and refused to accept that outcome.
-                Today, I am a father of three, walking, training, and living proof that the body is
-                capable of more than a diagnosis suggests.
-              </p>
-              <p className="lead">
-                I continue to manage this condition and epilepsy through exercise, nutrition, and
-                deliberate daily lifestyle choices. That experience is not merely my backstory; it is the
-                foundation of my work and the reason I understand the challenges of maintaining
-                fitness and nutrition when facing health obstacles.
-              </p>
-              <p className="lead">
-                Over that time, I have specialised in sustainable fat loss and helping individuals
-                manage chronic conditions such as high blood pressure, cholesterol, and blood
-                sugar, so they can regain control of their health through targeted training and
-                nutrition.
-              </p>
-              <p className="lead">
-                Many clients come to me after their GP has warned that their health markers are
-                trending in the wrong direction. If you have previously struggled to maintain a gym
-                routine or experienced weight regain, I will create a bespoke plan tailored to your
-                lifestyle, health history, and goals.
-              </p>
-              <p className="lead">
-                As a former Expert Patient Programme Tutor, I have extensive experience teaching
-                individuals with long-term conditions to manage symptoms through lifestyle changes,
-                bridging the gap between medical needs and fitness.
-              </p>
-              <p className="lead">
-                Every client I have worked with has successfully lost weight, improved health
-                markers, built strength, or achieved all three. Yours could be the next success story.
-              </p>
-              <p className="lead">
-                Your results begin with a complimentary consultation.
-              </p>
+              <p className="lead">{about.introduction}</p>
+              {about.description.split(/\n\s*\n/).map((paragraph, index) => <p className="lead" key={index}>{paragraph}</p>)}
               <a href="/booking#book" className="btn btn-default btn-lg page-scroll" rel="noopener noreferrer">
-                Book yours today and let’s get started.
+                {about.cta_text}
               </a>
             </div>
           </div>
@@ -99,42 +65,13 @@ export default function Home() {
         </div>
         <div className="container">
           <div className="specialist-grid">
-            <div className="specialist-item">
+            {specialistAreas.map(area => <div className="specialist-item" key={area.id}>
               <div className="service-box">
-                <img src="/img/icons/treadmill.gif" className="iconstyle" alt="" />
-                <h3 className="lead">Sustainable Weight Loss</h3>
-                <p className="specialist-description">Build realistic eating and activity habits that fit your lifestyle, with a focus on steady progress and lasting change.</p>
+                <img src={area.image_url.startsWith("/") || area.image_url.startsWith("https:") ? area.image_url : `/${area.image_url}`} className="iconstyle" alt="" />
+                <h3 className="lead">{area.name}</h3>
+                <p className="specialist-description">{area.description}</p>
               </div>
-            </div>
-            <div className="specialist-item">
-              <div className="service-box">
-                <img src="/img/icons/deadlift.gif" className="iconstyle" alt="" />
-                <h3 className="lead">Strength Training & Body Toning</h3>
-                <p className="specialist-description">Develop strength, improve your technique and grow in confidence with resistance training tailored to your starting point.</p>
-              </div>
-            </div>
-            <div className="specialist-item">
-              <div className="service-box">
-                <img src="/img/icons/balance.gif" className="iconstyle" alt="" />
-                <h3 className="lead">Lowering Blood Sugar, Cholesterol & Blood Pressure</h3>
-                <p className="specialist-description">Build consistent exercise and nutrition habits to support your long-term health and wellbeing.</p>
-              </div>
-            </div>
-
-            <div className="specialist-item">
-              <div className="service-box">
-                <img src="/img/icons/muscle.gif" className="iconstyle" alt="" />
-                <h3 className="lead">Advanced Nutrition & Sports Nutrition</h3>
-                <p className="specialist-description">Understand how to fuel your training, support recovery and make informed food choices around your activity and goals.</p>
-              </div>
-            </div>
-            <div className="specialist-item">
-              <div className="service-box">
-                <img src="/img/icons/exercise-routine.gif" className="iconstyle" alt="" />
-                <h3 className="lead">Personalised Nutrition Plans & Training Programmes</h3>
-                <p className="specialist-description">Bring your exercise and nutrition together in a structured plan shaped around your routine, preferences and goals.</p>
-              </div>
-            </div>
+            </div>)}
           </div>
           <div className="specialist-cta">
             <a href="/booking#book" className="btn btn-primary btn-lg page-scroll">

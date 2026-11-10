@@ -163,3 +163,71 @@ On Vercel the Next.js App Router exposes the admin API directly, and `next.confi
 A single studio deployment can manage projects on different domains; each website's eventual content integration is separate. Deploying the admin itself on several domains additionally requires Auth0 callback/origin configuration for each admin host.
 
 Run `npm run test:admin`, `node --test tests/*.test.js`, `npm run typecheck`, and `npm run build`. With `npm start` running, `npm run test:smoke` checks all public page URLs, key assets, JSON session status, unauthorized API access and Auth0 login/logout initiation (when configured). Tests cover standard server configuration, native Next.js JSON session endpoints and real SDK encrypted-cookie validation, callback-origin validation, cross-site write rejection, Management API credential isolation and approval, signed-token validation, project membership, scoped CRUD queries, atomic project creation, image URL resolution, content validation and concurrent-edit protection. A live Neon migration and Auth0/browser flows require configured services and have not been verified here.
+
+
+## Public testimonials
+
+The admin navigation contains Programmes & Services and Testimonials. Settings and
+the image library are hidden. Programme editing is limited to name and short
+description.
+
+The homepage stories, testimonials browser and website guide refresh from
+`GET /api/testimonials`. This read-only endpoint uses the same server
+`DATABASE_URL` and `admin_content` records as the admin. It only exposes
+testimonials for `PUBLIC_PROJECT_ID`, falling back to `SEED_PROJECT_SLUG` and
+then `jazboom`; it never accepts a project from the visitor. Responses are not
+cached. Reloading or returning focus to the page fetches current records.
+Static-only hosting or a failed request retains the bundled original stories.
+
+Run `npm run db:setup` to import missing records. Original testimonial text is
+preserved exactly, including whitespace. Rerunning setup restores whitespace
+removed by the old importer only when the entire record still matches the
+unedited old seed; edited records are preserved.
+Run `node --env-file-if-exists=.env scripts/check-testimonials.js` to compare
+every original testimonial against Neon without printing client content.
+A nonzero difference count may reflect intentional admin edits.
+
+## Public programmes
+
+The homepage programme cards, programme navigation, detail-page names and website
+guide refresh from `GET /api/programmes`, using the same database and fixed public
+project configuration as testimonials. Name and Short Description remain editable
+in the admin; other programme fields have grey disabled controls and a Read only
+label. Programme detail sections retain their existing page copy. The public
+programme list refreshes on page load and when the window regains focus, retaining
+bundled content if the database cannot be reached.
+
+## About Me and Specialist Areas
+
+The admin includes About Me and Specialist Areas. About Me supports editing its
+heading, introduction, biography (blank lines separate paragraphs), portrait URL,
+portrait alternative text and booking button text. Specialist Areas supports
+adding, editing and deleting cards with a name, description and image URL.
+The homepage reads both from `GET /api/sections`, using the same server database
+and fixed public project as programmes and testimonials. Reloading or returning
+focus refreshes the content; failed requests retain the last available content.
+Run `npm run db:setup` to extend the resource constraint and import the existing
+About Me record and five specialist cards without overwriting edits.
+
+## Programme detail pages
+
+Programme Pages in the admin edits the four existing routes: onetoonept,
+couplept, onlinept and nutritionpt. Each record includes a page title,
+introduction, and headings and content for Who it's for, What's included,
+Results and Investment. Empty section content hides that section and its
+in-page navigation link. Page URLs remain read-only; adding arbitrary routes
+is not supported.
+
+Separate paragraphs with blank lines; use lines beginning with "- " for lists
+and [booking](/booking#book) for the existing booking link. The renderer uses
+React text and a fixed booking link; it never renders stored HTML.
+The public pages fetch from /api/programme-pages using the same fixed public
+project and DATABASE_URL as the admin. Bundled original copy supports static
+hosting and unavailable database requests. Reloading or focusing the page
+refreshes saved content. Programme card names and short descriptions remain
+separate from detail-page titles and introductions.
+
+Run npm run db:setup to upgrade the resource constraint and seed the four pages.
+Existing records are preserved. Run
+node --env-file-if-exists=.env scripts/check-programme-pages.js to compare Neon
+records with the original copy; intentional edits will report differences.

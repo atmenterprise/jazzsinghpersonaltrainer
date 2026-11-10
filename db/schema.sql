@@ -26,3 +26,7 @@ ALTER TABLE admin_content DROP CONSTRAINT IF EXISTS admin_content_resource_sourc
 CREATE UNIQUE INDEX IF NOT EXISTS admin_content_project_source_idx ON admin_content(project_id, resource, source_key);
 CREATE INDEX IF NOT EXISTS admin_content_project_resource_idx ON admin_content(project_id, resource, created_at, id);
 COMMENT ON TABLE admin_content IS 'Content isolated by project. source_key makes initial imports idempotent.';
+
+ALTER TABLE admin_content DROP CONSTRAINT IF EXISTS admin_content_resource_check;
+ALTER TABLE admin_content ADD CONSTRAINT admin_content_resource_check
+  CHECK (resource IN ('programmes', 'testimonials', 'images', 'settings', 'about', 'specialistareas', 'programme_pages'));

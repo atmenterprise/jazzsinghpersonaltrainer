@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import siteConfig from '../data/siteConfig.json';
-import programs from '../data/programs.json';
-import testimonials from '../data/testimonials.json';
+import { useProgrammes } from '../hooks/useProgrammes';
+import { useTestimonials } from '../hooks/useTestimonials';
 import highlights from '../data/storyHighlights.json';
 import { createWebsiteGuide, GUIDE_SUGGESTIONS } from '../utils/websiteGuide';
 
@@ -101,10 +101,12 @@ function GuideDialog({ messages, onSend, onReset, onClose }) {
 }
 
 export default function WebsiteGuide() {
+  const programs = useProgrammes();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([greeting]);
   const nextId = useRef(0);
-  const answer = useMemo(() => createWebsiteGuide({ siteConfig, programs, testimonials, highlights }), []);
+  const testimonials = useTestimonials();
+  const answer = useMemo(() => createWebsiteGuide({ siteConfig, programs, testimonials, highlights }), [programs, testimonials]);
 
   const send = (question) => {
     const id = ++nextId.current;

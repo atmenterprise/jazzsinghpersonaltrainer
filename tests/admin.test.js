@@ -59,3 +59,30 @@ test('database errors do not leak credentials or internals', async () => {
   assert.equal(JSON.stringify(response.body).includes('password'), false);
   assert.equal(response.headers['Cache-Control'], 'no-store');
 });
+
+test('About Me and Specialist Areas validate required copy and safe images', () => {
+  const about = { title: 'About Me', introduction: 'Hello', description: 'My story', image_url: 'img/profile/profile.jpg', alt: 'Trainer', cta_text: 'Book now' };
+  assert.deepEqual(validate('about', about), about);
+  assert.throws(() => validate('about', { ...about, introduction: '' }), /introduction/);
+  const area = { name: 'Strength', description: 'Training support', image_url: 'https://example.com/icon.png' };
+  assert.deepEqual(validate('specialistareas', area), area);
+  assert.throws(() => validate('specialistareas', { ...area, image_url: 'javascript:alert(1)' }), /HTTPS/);
+});
+
+test('new website sections support project-scoped reads and versioned updates', async () => {
+  const id = 'ce1dccaf-029d-49f8-b439-bc47e80c045b';
+  for (const [resource, data] of [
+    ['about', { title: 'About Me', introduction: 'Hello', description: 'My story', image_url: 'img/profile/profile.jpg' }],
+    ['specialistareas', { name: 'Strength', description: 'Build strength', image_url: 'img/icons/deadlift.gif' }],
+  ]) {
+    const queries = [];
+    const handler = createHandler(() => (strings, ...values) => {
+      queries.push({ text: strings.join('?'), values });
+      return [{ id, data, version: 2 }];
+    });
+    assert.equal((await request(handler, 'GET', resource)).statusCode, 200);
+    assert.equal((await request(handler, 'PUT', `${resource}/${id}`, { data, version: 1 })).body.version, 2);
+    assert.ok(queries.every(query => query.values.includes('test-project') && query.values.includes(resource)));
+    assert.ok(queries[1].text.includes('version = ?'));
+  }
+});
