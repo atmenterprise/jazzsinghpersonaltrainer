@@ -192,7 +192,8 @@ header {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url("../img/header.jpg");
+  background-color: #000;
+  background-image: linear-gradient(90deg, #000d, #0009), url("../img/header-jaz-training.jpg");
   text-align: center;
   color: white;
 }

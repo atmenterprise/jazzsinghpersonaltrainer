@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Sustainable Weight Loss",
+    "description": "Build realistic eating and activity habits that fit your lifestyle, with a focus on steady progress and lasting change.",
+    "image_url": "img/icons/treadmill.gif"
+  },
+  {
+    "id": 2,
+    "name": "Strength Training & Body Toning",
+    "description": "Develop strength, improve your technique and grow in confidence with resistance training tailored to your starting point.",
+    "image_url": "img/icons/deadlift.gif"
+  },
+  {
+    "id": 3,
+    "name": "Lowering Blood Sugar, Cholesterol & Blood Pressure",
+    "description": "Build consistent exercise and nutrition habits to support your long-term health and wellbeing.",
+    "image_url": "img/icons/balance.gif"
+  },
+  {
+    "id": 4,
+    "name": "Advanced Nutrition & Sports Nutrition",
+    "description": "Understand how to fuel your training, support recovery and make informed food choices around your activity and goals.",
+    "image_url": "img/icons/muscle.gif"
+  },
+  {
+    "id": 5,
+    "name": "Personalised Nutrition Plans & Training Programmes",
+    "description": "Bring your exercise and nutrition together in a structured plan shaped around your routine, preferences and goals.",
+    "image_url": "img/icons/exercise-routine.gif"
+  }
+]

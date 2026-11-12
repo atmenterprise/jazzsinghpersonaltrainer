@@ -1,20 +1,9 @@
 import React from 'react';
 import siteConfig from '../data/siteConfig.json';
 
-export default function FAQ() {
-  return (
-    <section className="bg-primary" id="faq">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-12 text-center">
-            <h2 className="section-heading highlight">Frequently Asked Questions</h2>
-            <hr className="light" />
-          </div>
-        </div>
-        <div className="row flex-lg-row-reverse">
-          <div className="col-md-6">
-            <h4 className="highlight text-justify fontblack lead">Do I need a gym membership for personal training?</h4>
-            <p className="text-justify fontblack">
+const questions = [
+  { question: 'Do I need a gym membership for personal training?', answer: (<>
+<p className="text-justify fontblack">
               You must get a gym membership with{' '}
               <a
                 href={siteConfig.gym_group_url}
@@ -28,21 +17,17 @@ export default function FAQ() {
               which is a no contract £23.99 per month giving you 24 hours access to using top gym equipment. You can
               cancel with a month's notice or freeze your membership.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">
-              What’s the difference between personal training and online training?
-            </h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'What’s the difference between personal training and online training?', answer: (<>
+<p className="text-justify fontblack">
               You will have everything a personal training client has available to them, however I will not
               physically or via video link be by your side when you are working out in the gym. We will regularly be
               checking in with each other on a weekly basis so that I can help you to continue making progress in
               reaching your goal.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">What does a typical personal training with involve?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'What does a typical personal training with involve?', answer: (<>
+<p className="text-justify fontblack">
               The first session includes discussing protocols from the health questionnaire you would have returned
               before we meet, I will talk you through your nutrition plan, taking your starting out photos, carry out an
               assessment of your movement through the warm-up and exercises.
@@ -56,10 +41,9 @@ export default function FAQ() {
               You will be expected to learn the warmup routine so that you can take time a short while before the session
               to be prepared to begin allowing us to the use every minute focusing on the workout routine.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">Why is personal training important?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'Why is personal training important?', answer: (<>
+<p className="text-justify fontblack">
               Personal training helps you learn new exercises safely through close guidance from an expert. Although
               you could learn by trying yourself without the guidance, however it’s far safer and time effective to learn
               each movement properly from the beginning.
@@ -78,10 +62,9 @@ export default function FAQ() {
               goals which a personal trainer can provide alongside the tools you need to do this which cannot be matched
               when training alone.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">How long will I need a personal trainer?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'How long will I need a personal trainer?', answer: (<>
+<p className="text-justify fontblack">
               The minimum term is <strong>12 weeks</strong> where clients have reached their goals, but it is not
               unusual for clients to continue beyond 12 weeks to commit to their health and fitness.
             </p>
@@ -90,11 +73,9 @@ export default function FAQ() {
               so because the see value in the continued progression, accountability, and ongoing support to maintain
               their results.
             </p>
-          </div>
-
-          <div className="col-md-6">
-            <h4 className="highlight text-justify fontblack lead">Do I really need a personal trainer?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'Do I really need a personal trainer?', answer: (<>
+<p className="text-justify fontblack">
               The answer is yes if you are serious about making a long-term investment in your health and fitness. As a
               personal trainer I am not there to just trade time on the gym floor for money, I will make it my personal
               goal to help you achieve yours.
@@ -107,18 +88,16 @@ export default function FAQ() {
               Training with me will not be a quick fix, it will be a long-term commitment to your health, fitness and
               wellbeing which will provide you knowledge for life.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">How many times a week should I train with you?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'How many times a week should I train with you?', answer: (<>
+<p className="text-justify fontblack">
               The frequency will depend on your lifestyle, budget, and preferences, but most of my clients train up to{' '}
               <strong>three times</strong> but have the option to go do four sessions a week which all allow to
               maximise progression with effective recovery.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">What does a Nutritionist do?</h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'What does a Nutritionist do?', answer: (<>
+<p className="text-justify fontblack">
               A nutritionist is a broad title for a professional advising client on nutrition and it's effects on
               them. They help clients alter their diet to promote a healthier lifestyle and eating habits.
               Nutritionists teach people new, realistic, and sustainable ways to eat and understand food.
@@ -127,12 +106,9 @@ export default function FAQ() {
               So, if you regularly don’t feel well or have certain medical condition like Diabetes, High Cholesterol and
               High Blood Pressure, you may find it helpful to speak with a Nutritionist.
             </p>
-
-            <br />
-            <h4 className="highlight text-justify fontblack lead">
-              Will I receive advise on my nutrition including supplements while training?
-            </h4>
-            <p className="text-justify fontblack">
+  </>) },
+  { question: 'Will I receive advise on my nutrition including supplements while training?', answer: (<>
+<p className="text-justify fontblack">
               You will receive a nutrition and supplement plan which takes into consideration your lifestyle, goal, and
               preferences. The time you spend training is only a small part compared to the <strong>165 hours</strong>{' '}
               in the week but just as important and the foundation of your results.
@@ -149,17 +125,16 @@ export default function FAQ() {
               will also keep a weekly activity and food diary so that I can make amendments when required to for your
               continued progress.
             </p>
-          </div>
-        </div>
-        <div className="row text-center lead highlight light ">
-          <hr className="light" />
-          Find out more by{' '}
-          <a href="/booking#book" className="lead fontblack highlight">
-            booking
-          </a>{' '}
-          your complimentary consultation today.
-        </div>
-      </div>
-    </section>
+  </>) },
+];
+
+export default function FAQ() {
+  return (
+    <div className="faq-accordion" id="faq">
+      {questions.map((item, index) => <details className="faq-item" key={item.question} open={index === 0}>
+        <summary><h2>{item.question}</h2><span className="faq-indicator" aria-hidden="true"></span></summary>
+        <div className="faq-answer">{item.answer}</div>
+      </details>)}
+    </div>
   );
 }
