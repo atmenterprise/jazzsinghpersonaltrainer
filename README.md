@@ -3,7 +3,7 @@ Personal Trainer Website of Jaz Singh, Ilford, UK. The website code is maintaine
 
 ## Tech Stack
 - **Public website:** React 19 + React Router (preserved Vite SPA)
-- **Admin/auth/API:** Next.js App Router + Auth0 Next.js SDK
+- **Admin/auth/API:** Next.js App Router + Neon Auth (managed Better Auth)
 - **Build:** Vite public bundle + Next.js server
 - **Language:** JavaScript/JSX, TypeScript for Next.js, CSS3
 - **Styling:** Bootstrap + Custom Theme CSS
@@ -38,6 +38,6 @@ Based on the Creative Bootstrap Theme originally created by [Start Bootstrap](ht
 
 ## ATM Content Studio
 
-Visit `/admin` to sign up or sign in to ATM Content Studio, developed by ATM Enterprise. Manage content for multiple project domains with a project switcher and isolated records. Approved users need Auth0 `manage:content` plus membership in each project.
+Visit `/admin` to access ATM Content Studio, developed by ATM Enterprise. Manage content for multiple project domains with a project switcher and isolated records. Sign in with Neon Auth; editing requires project membership or approval from the website owner.
 
-See the [studio setup and migration guide](docs/admin.md) for Auth0, Neon, assigning the initial project owner and upgrading an existing database. Public pages remain independent of studio records in this phase.
+See the [studio setup and migration guide](docs/admin.md) for Neon Auth, Vercel configuration and assigning project access. Public pages remain independent of studio records in this phase.

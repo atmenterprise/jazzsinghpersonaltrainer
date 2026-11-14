@@ -1,16 +1,17 @@
 'use client';
 import { createContext, useContext } from 'react';
+import { authClient } from '../lib/neon';
 export const AdminSessionContext = createContext(null);
 export function useAdminAuth() {
   const value = useContext(AdminSessionContext);
   if (!value) throw new Error('Admin session provider is required.');
   return value;
 }
-// Authentication tokens remain in the server's encrypted HttpOnly session cookie.
-export function loginWithRedirect(options = {}) {
-  const screen = options.authorizationParams?.screen_hint === 'signup' ? 'signup' : 'login';
-  window.location.assign(`/auth/login?screen_hint=${screen}&returnTo=%2Fadmin`);
+export function loginWithRedirect() {
+  window.location.assign('/auth/sign-in');
 }
-export function logout() {
-  window.location.assign(`/auth/logout?returnTo=${encodeURIComponent(`${window.location.origin}/admin`)}`);
+export async function logout() {
+  const { error } = await authClient.signOut();
+  if (error) throw new Error(error.message || 'Unable to sign out.');
+  window.location.assign('/auth/sign-in');
 }

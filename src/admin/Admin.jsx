@@ -146,6 +146,7 @@ export default function Admin({ project, projects, onProjectChange, onCreateProj
                 <a href={project.domain} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.name} website (opens in a new tab)`}>{new URL(project.domain).host} <span aria-hidden="true">↗</span></a>
               </div>
               <button type="button" className="admin-profile-new-project" disabled={busy} onClick={() => { if (canLeave()) { setProfileOpen(false); onCreateProject(); } }}><span aria-hidden="true">＋</span>New Project</button>
+              <button type="button" disabled={busy} onClick={() => { if (canLeave()) window.location.assign('/admin/account'); }}>Account settings</button>
               <button type="button" disabled={busy} onClick={signOut}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M9 4H4v16h5M14 7l5 5-5 5M8 12h11" /></svg>Sign out</button>
             </div>}
           </div>

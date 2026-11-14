@@ -1,76 +1,55 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNextAdminApi } from '../server/next-api.js';
-import { permissionClaim } from '../server/session-auth.js';
-import { Auth0Client } from '@auth0/nextjs-auth0/server';
-import { NextRequest } from 'next/server.js';
-const env = { ADMIN_AUTH_DISABLED: 'false', AUTH0_CLIENT_ID: 'regular-client', AUTH0_CLIENT_SECRET: 'server-only-client-secret', AUTH0_SECRET: 'server-only-session-secret-at-least-32-characters', AUTH0_DOMAIN: 'tenant.uk.auth0.com' };
 function request(path, options = {}) { return new Request(`http://localhost:3000/api/admin/${path}`, options); }
-test('Next session endpoint returns JSON with no credentials or database access', async () => {
-  const route = createNextAdminApi({ env, getSession: async () => null, getDatabase: () => { throw new Error('Database should not be called'); } });
-  const response = await route(request('auth/status'));
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get('content-type'), /application\/json/);
-  assert.deepEqual(await response.json(), { configured: true, authenticated: false });
-  assert.equal(response.headers.get('cache-control'), 'no-store');
+const session = (id = 'neon-user') => ({ data: { user: { id, email: 'admin@example.com', name: 'Admin' }, session: { userId: id, expiresAt: new Date(Date.now() + 60000).toISOString(), token: 'private-session-token' } } });
+const env = { ADMIN_USER_IDS: 'neon-user' };
+test('anonymous status returns JSON without database access or secrets', async () => {
+  const route = createNextAdminApi({ env: {}, getSession: async () => ({ data: null }), getDatabase: () => { throw new Error('Database must not run'); } });
+  const status = await route(request('auth/status'));
+  assert.equal(status.headers.get('cache-control'), 'no-store');
+  assert.deepEqual(await status.json(), { configured: true, authenticated: false });
+  assert.equal((await route(request('projects'))).status, 401);
 });
-test('Next API reports missing configuration as JSON without leaking secrets', async () => {
-  const route = createNextAdminApi({ env: { ...env, AUTH0_CLIENT_ID: '' }, getSession: async () => null });
-  const response = await route(request('auth/status'));
-  assert.equal(response.status, 503);
-  const body = await response.json();
-  assert.match(body.error, /AUTH0_CLIENT_ID/);
-  assert.equal(JSON.stringify(body).includes(env.AUTH0_CLIENT_SECRET), false);
+test('obsolete access flags, bearer tokens and identity headers cannot bypass Neon', async () => {
+  const route = createNextAdminApi({ env: { ADMIN_AUTH_DISABLED: 'true' }, getSession: async () => ({ data: null }), getDatabase: () => { throw new Error('Database must not run'); } });
+  const response = await route(request('projects', { headers: { authorization: 'Bearer obsolete-token', cookie: 'atm_next_session=old', 'x-user-id': 'neon-user', 'x-user-role': 'admin' } }));
+  assert.equal(response.status, 401);
 });
-test('Next session endpoint distinguishes signed-in pending and approved accounts', async () => {
-  let user = { sub: 'auth0|user', email: 'admin@example.com' };
-  const route = createNextAdminApi({ env, getSession: async () => ({ user, tokenSet: { accessToken: 'private-access-token' } }) });
-  const pending = await (await route(request('auth/status'))).json();
+test('Neon outages and missing configuration fail closed with JSON', async () => {
+  for (const options of [{}, { getSession: async () => ({ data: null, error: { message: 'upstream-secret' } }) }, { getSession: async () => { throw new Error('private-connection-string'); } }]) {
+    const route = createNextAdminApi({ env, ...options });
+    const response = await route(request('auth/status'));
+    assert.equal(response.status, 503);
+    assert.doesNotMatch(JSON.stringify(await response.json()), /upstream-secret|private-connection-string/);
+  }
+});
+test('status distinguishes pending and approved users without session tokens', async () => {
+  const getSession = async () => session();
+  const pendingRoute = createNextAdminApi({ env: {}, getSession, getDatabase: () => async () => [] });
+  const pending = await (await pendingRoute(request('auth/status'))).json();
   assert.equal(pending.authenticated, true);
   assert.equal(pending.approved, false);
-  user = { ...user, [permissionClaim]: ['manage:content'] };
+  assert.equal((await pendingRoute(request('projects'))).status, 403);
+  const route = createNextAdminApi({ env, getSession });
   const approved = await (await route(request('auth/status'))).json();
   assert.equal(approved.approved, true);
-  assert.equal(JSON.stringify(approved).includes('private-access-token'), false);
+  assert.equal(approved.user.sub, 'neon-user');
+  assert.doesNotMatch(JSON.stringify(approved), /private-session-token/);
 });
-test('Next content adapter enforces same-origin writes and membership', async () => {
-  const user = { sub: 'auth0|user', [permissionClaim]: ['manage:content'] };
+test('approved accounts still require membership and same-origin writes', async () => {
   const queries = [];
-  const sql = (strings, ...values) => { queries.push({ text: strings.join('?'), values }); return []; };
-  const route = createNextAdminApi({ env, getSession: async () => ({ user }), getDatabase: () => sql });
-  const denied = await route(request('images?project=other', { method: 'POST', headers: { origin: 'https://evil.example', 'content-type': 'application/json' }, body: '{}' }));
-  assert.equal(denied.status, 403);
-  assert.equal(queries.length, 0);
-  const forbidden = await route(request('images?project=other'));
-  assert.equal(forbidden.status, 403);
-  assert.equal(queries.length, 1);
+  const route = createNextAdminApi({ env, getSession: async () => session(), getDatabase: () => async (strings, ...values) => { queries.push({ text: strings.join('?'), values }); return []; } });
+  assert.equal((await route(request('images?project=other'))).status, 403);
   assert.match(queries[0].text, /admin_project_members/);
+  assert.deepEqual(queries[0].values, ['other', 'neon-user']);
+  const count = queries.length;
+  assert.equal((await route(request('projects', { method: 'POST', headers: { origin: 'https://evil.example' } }))).status, 403);
+  assert.equal(queries.length, count);
 });
-test('Next API rejects oversized bodies and invalid JSON', async () => {
-  const user = { sub: 'auth0|user', [permissionClaim]: ['manage:content'] };
-  const route = createNextAdminApi({ env, getSession: async () => ({ user }) });
+test('body limits and malformed JSON remain enforced after authentication', async () => {
+  const route = createNextAdminApi({ env, getSession: async () => session(), getDatabase: () => { throw new Error('No database expected'); } });
   const headers = { origin: 'http://localhost:3000', 'content-type': 'application/json' };
-  assert.equal((await route(request('images?project=test', { method: 'POST', headers, body: 'x'.repeat(100001) }))).status, 413);
-  assert.equal((await route(request('images?project=test', { method: 'POST', headers, body: '{broken' }))).status, 400);
-});
-test('real Next.js Auth0 SDK rejects forged encrypted session cookies', async () => {
-  const client = new Auth0Client({ domain: env.AUTH0_DOMAIN, clientId: env.AUTH0_CLIENT_ID, clientSecret: env.AUTH0_CLIENT_SECRET, secret: env.AUTH0_SECRET, appBaseUrl: 'http://localhost:3000', session: { cookie: { name: 'atm_next_session' } } });
-  const session = await client.getSession(new NextRequest('http://localhost:3000/admin', { headers: { cookie: 'atm_next_session=forged-cookie' } }));
-  assert.equal(session, null);
-});
-
-test('temporary access skips Auth0 and memberships while preserving origin checks', async () => {
-  const queries = [];
-  const route = createNextAdminApi({
-    env: {},
-    getSession: async () => { throw new Error('Auth0 must not run'); },
-    getDatabase: () => (strings) => { queries.push(strings.join('?')); return []; },
-  });
-  const status = await (await route(request('auth/status'))).json();
-  assert.equal(status.approved, true);
-  assert.equal((await route(request('projects'))).status, 200);
-  assert.equal((await route(request('images?project=jazboom'))).status, 200);
-  assert.equal(queries.some(query => query.includes('admin_project_members')), false);
-  const denied = await route(request('projects', { method: 'POST', headers: { origin: 'https://evil.example' } }));
-  assert.equal(denied.status, 403);
+  assert.equal((await route(request('projects', { method: 'POST', headers, body: 'x'.repeat(100001) }))).status, 413);
+  assert.equal((await route(request('projects', { method: 'POST', headers, body: '{broken' }))).status, 400);
 });

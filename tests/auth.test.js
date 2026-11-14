@@ -1,76 +1,35 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Readable } from 'node:stream';
-import { generateKeyPair, exportJWK, createLocalJWKSet, SignJWT } from 'jose';
-import { createAdminAuthenticator } from '../server/auth.js';
-import { createHandler } from '../server/handler.js';
-
-const issuer = 'https://test.uk.auth0.com/';
-const audience = 'https://jazboom-admin-api';
-const { publicKey, privateKey } = await generateKeyPair('RS256');
-const jwk = { ...await exportJWK(publicKey), kid: 'test-key' };
-const authenticate = createAdminAuthenticator({ env: { AUTH0_DOMAIN: 'test.uk.auth0.com', AUTH0_AUDIENCE: audience }, resolveKey: createLocalJWKSet({ keys: [jwk] }) });
-async function token({ claims = {}, aud = audience, iss = issuer, exp = '5m', key = privateKey, algorithm = 'RS256' } = {}) {
-  return new SignJWT({ permissions: ['manage:content'], ...claims })
-    .setProtectedHeader({ alg: algorithm, kid: 'test-key' }).setIssuer(iss).setAudience(aud)
-    .setSubject(claims.sub || 'auth0|approved-admin').setIssuedAt().setExpirationTime(exp).sign(key);
-}
-async function request(bearer, path = 'session', method = 'GET', body) {
-  let dbCalls = 0;
-  const handler = createHandler(() => { dbCalls++; return strings => strings.join('').includes('admin_project_members') ? [{ project_id: 'test-project' }] : []; }, authenticate);
-  const req = Readable.from(body ? [JSON.stringify(body)] : []);
-  Object.assign(req, { url: `/api/admin/${path}?project=test-project`, method, headers: { 'content-type': 'application/json', ...(bearer ? { authorization: `Bearer ${bearer}` } : {}) } });
-  const res = { headers: {}, setHeader(k,v) { this.headers[k] = v; }, end(value) { this.body = JSON.parse(value); } };
-  await handler(req, res);
-  return { ...res, dbCalls };
-}
-test('signed Auth0 admin can access session and content', async () => {
-  const jwt = await token();
-  const session = await request(jwt);
-  assert.equal(session.statusCode, 200);
-  assert.equal(session.body.sub, 'auth0|approved-admin');
-  assert.equal(session.dbCalls, 0);
-  const content = await request(jwt, 'images');
-  assert.equal(content.statusCode, 200);
-  assert.equal(content.dbCalls, 1);
+import { authenticateAdmin, createSessionAuthenticator, neonAuthSettings, sessionIdentity } from '../server/auth.js';
+const env = { NEON_AUTH_BASE_URL: 'https://example.neonauth.neon.tech/neondb/auth', NEON_AUTH_COOKIE_SECRET: 'test-only-cookie-secret-at-least-32-characters' };
+const session = (user = {}) => ({ user: { id: 'neon-user', name: 'Admin', email: 'admin@example.com', ...user }, session: { userId: 'neon-user', expiresAt: new Date(Date.now() + 60000).toISOString(), token: 'private-session-token' } });
+test('Neon requires HTTPS and a strong cookie secret', () => {
+  assert.equal(neonAuthSettings(env).baseUrl, env.NEON_AUTH_BASE_URL);
+  for (const override of [{ NEON_AUTH_BASE_URL: '' }, { NEON_AUTH_BASE_URL: 'http://evil.example/auth' }, { NEON_AUTH_BASE_URL: 'https://user:pass@example.com/auth' }, { NEON_AUTH_COOKIE_SECRET: 'short' }]) {
+    assert.throws(() => neonAuthSettings({ ...env, ...override }), error => error.status === 503);
+  }
+  assert.equal(neonAuthSettings({ VITE_NEON_AUTH_URL: env.NEON_AUTH_BASE_URL, NEON_AUTH_COOKIE_SECRET: env.NEON_AUTH_COOKIE_SECRET }).baseUrl, env.NEON_AUTH_BASE_URL);
 });
-test('missing, malformed and legacy shared tokens are rejected before database access', async () => {
-  for (const bearer of [undefined, 'legacy-shared-token-with-32-characters', 'invalid.jwt.value']) {
-    const result = await request(bearer, 'images');
-    assert.equal(result.statusCode, 401);
-    assert.equal(result.dbCalls, 0);
-    assert.equal(result.headers['WWW-Authenticate'], 'Bearer');
+test('identities require matching, unexpired verified sessions', () => {
+  assert.deepEqual(sessionIdentity(session()), { sub: 'neon-user', user: { sub: 'neon-user', name: 'Admin', email: 'admin@example.com' } });
+  for (const value of [null, { user: { id: 'neon-user' } }, { ...session(), session: { userId: 'someone-else', expiresAt: new Date(Date.now() + 60000) } }, { ...session(), session: { userId: 'neon-user', expiresAt: '2000-01-01' } }]) {
+    assert.throws(() => sessionIdentity(value), error => error.status === 401);
   }
 });
-test('new signups and self-assigned metadata cannot edit content', async () => {
-  for (const claims of [
-    { permissions: [] },
-    { permissions: undefined, scope: 'manage:content' },
-    { permissions: ['read:content'], user_metadata: { role: 'admin', permissions: ['manage:content'] } },
-    { permissions: 'manage:content' },
-    { sub: 'machine@clients' },
-  ]) {
-    const jwt = await token({ claims });
-    for (const [method, path, body] of [['GET', 'session'], ['GET', 'images'], ['POST', 'images', { data: {} }], ['PUT', 'images/ce1dccaf-029d-49f8-b439-bc47e80c045b', { data: {}, version: 1 }], ['DELETE', 'images/ce1dccaf-029d-49f8-b439-bc47e80c045b', { version: 1 }]]) {
-      const response = await request(jwt, path, method, body);
-      assert.equal(response.statusCode, 403);
-      assert.equal(response.dbCalls, 0);
-    }
-  }
+test('signup and editable metadata never grant content approval', async () => {
+  const authorize = createSessionAuthenticator({ env: {}, getDatabase: () => async () => [] });
+  await assert.rejects(authorize({ authSession: session({ user_metadata: { role: 'admin' }, role: 'user' }) }), error => error.status === 403);
 });
-test('expired tokens, wrong issuer/audience and forged signatures are rejected', async () => {
-  const other = await generateKeyPair('RS256');
-  for (const options of [{ exp: '-1m' }, { iss: 'https://attacker.example/' }, { aud: 'spa-client-id' }, { key: other.privateKey }]) {
-    const response = await request(await token(options), 'images');
-    assert.equal(response.statusCode, 401);
-    assert.equal(response.dbCalls, 0);
+test('trusted admin role, explicit owner and memberships grant approval', async () => {
+  for (const setup of [{ env: { ADMIN_PROJECT_OWNER_SUB: 'neon-user' } }, { env: { ADMIN_USER_IDS: 'other, neon-user' } }, { role: 'user,admin' }]) {
+    const authorize = createSessionAuthenticator({ env: setup.env || {}, getDatabase: () => { throw new Error('No database needed'); } });
+    assert.equal((await authorize({ authSession: session({ role: setup.role }) })).sub, 'neon-user');
   }
-  const hsToken = await token({ algorithm: 'HS256', key: new TextEncoder().encode('untrusted-key') });
-  assert.equal((await request(hsToken)).statusCode, 401);
+  const queries = [];
+  const authorize = createSessionAuthenticator({ env: {}, getDatabase: () => async (strings, ...values) => { queries.push(values); return [{ project_id: 'mine' }]; } });
+  assert.equal((await authorize({ authSession: session() })).sub, 'neon-user');
+  assert.deepEqual(queries, [['neon-user']]);
 });
-test('unconfigured authentication fails closed', async () => {
-  for (const env of [{}, { AUTH0_DOMAIN: 'https://tenant.auth0.com/invalid-path', AUTH0_AUDIENCE: audience }]) {
-    const check = createAdminAuthenticator({ env });
-    await assert.rejects(check({ headers: {} }), error => error.status === 503);
-  }
+test('unconfigured adapters deny obsolete bearer credentials', async () => {
+  await assert.rejects(authenticateAdmin({ headers: { authorization: 'Bearer obsolete-token' } }), error => error.status === 503);
 });

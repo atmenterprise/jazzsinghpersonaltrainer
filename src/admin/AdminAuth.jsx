@@ -3,9 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ProjectWorkspace from './ProjectWorkspace';
 import Brand from './Brand';
 import { AdminSessionContext, loginWithRedirect, logout } from './session';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
-import Profile from './Profile';
 function AuthScreen({ title, children }) {
   return <main className="admin-root admin-login"><div className="admin-auth-card">
     <Brand /><p className="admin-eyebrow">PRIVATE WORKSPACE</p><h1>{title}</h1>{children}
@@ -38,16 +35,21 @@ export default function AdminAuth({ initialSignedIn = true, setupError = '' }) {
   }, [attempt, initialSignedIn, setupError]);
   const retry = useCallback(() => { if (setupError) window.location.reload(); else setAttempt(v => v + 1); }, [setupError]);
   if (loading) return <AuthScreen title="Opening your workspace…"><p role="status">Checking your session.</p></AuthScreen>;
-  if (error) return <AuthScreen title="Admin setup needed"><p role="alert">{error}</p><button onClick={retry}>Try again</button><small>Server settings are configured in Vercel or your local .env file. No VITE_AUTH0 variables are required.</small></AuthScreen>;
+  if (error) return <AuthScreen title="Admin setup needed"><p role="alert">{error}</p><button onClick={retry}>Try again</button><small>Server settings are configured in Vercel or your local .env file.</small></AuthScreen>;
   if (!session?.authenticated) return <AuthScreen title={<>Every project.<br />One content studio.</>}>
-    <p>Manage your websites with ATM Content Studio, built by ATM Enterprise.</p>
-    <LoginButton signup />
-    <LoginButton />
-    <small>Create your account, then ask your team for content access.</small>
+    <p>Sign in to manage your websites with ATM Content Studio.</p>
+    <a className="admin-auth-button admin-primary" href="/auth/sign-in">Sign in</a>
+    <a className="admin-auth-button" href="/auth/sign-up">Create an account</a>
+    <small>Accounts need project access before they can edit content.</small>
   </AuthScreen>;
-  if (!session.approved) return <AuthScreen title="Your admin account"><Profile />
-    <p role="alert">{session.error || 'Your account is awaiting admin approval.'}</p>
-    <button className="admin-primary" onClick={retry}>Check access again</button><LoginButton /><LogoutButton />
+  if (!session.approved) return <AuthScreen title="Your account is ready">
+    <p>{session.user?.name || session.user?.email}</p>
+    <p role="status">{session.error}</p>
+    <small>Share your user ID with the website owner to request project access.</small>
+    <code className="admin-user-id">{session.user?.sub}</code>
+    <button className="admin-primary" onClick={retry}>Check access again</button>
+    <a className="admin-auth-button" href="/admin/account">Account settings</a>
+    <button onClick={async () => { try { await logout(); } catch (e) { setError(e.message); } }}>Sign out</button>
   </AuthScreen>;
   return <AdminSessionContext.Provider value={{ user: session.user, loginWithRedirect, logout }}><ProjectWorkspace /></AdminSessionContext.Provider>;
 }

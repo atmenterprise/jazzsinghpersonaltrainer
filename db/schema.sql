@@ -1,4 +1,5 @@
--- ATM Content Studio. Auth0 subjects map to projects, never to passwords.
+-- ATM Content Studio. Identity subjects map to projects, never to passwords.
+-- auth0_sub is a legacy column name retained to preserve existing memberships.
 CREATE TABLE IF NOT EXISTS admin_projects (
   id text PRIMARY KEY CHECK (id ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
   name text NOT NULL,

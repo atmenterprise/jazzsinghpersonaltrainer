@@ -47,4 +47,4 @@ await sql.transaction([
       AND admin_content.data IS DISTINCT FROM EXCLUDED.data`),
 ]);
 console.log(`Database ready. Imported ${records.length} initial records into ${project.id}; existing records were preserved.`);
-if (!process.env.ADMIN_PROJECT_OWNER_SUB) console.log('Set ADMIN_PROJECT_OWNER_SUB to the initial owner Auth0 user ID and rerun setup to grant access to the imported project.');
+if (!process.env.ADMIN_PROJECT_OWNER_SUB) console.log('Set ADMIN_PROJECT_OWNER_SUB to the initial owner authentication subject and rerun setup to grant access to the imported project.');

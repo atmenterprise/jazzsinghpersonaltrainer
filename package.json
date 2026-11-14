@@ -17,9 +17,8 @@
     "test:smoke": "node scripts/smoke-next.mjs"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4.33.0",
+    "@neon/auth": "^0.8.2",
     "@neondatabase/serverless": "^1.2.0",
-    "jose": "^6.2.16",
     "next": "^16.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

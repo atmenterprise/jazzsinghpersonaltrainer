@@ -153,3 +153,15 @@
 .admin-root .admin-breadcrumb button:hover{background:#fff4bf;color:#1a1a1a}
 .admin-breadcrumb strong{font-size:11px;overflow-wrap:anywhere}
 .admin-root .admin-breadcrumb-home{width:28px;height:28px}
+
+.admin-auth-card form{margin:24px 0;text-align:left}
+.admin-root .admin-auth-submit{width:100%}
+.admin-auth-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 18px;margin:22px 0}
+.admin-auth-links a,.admin-account-card a{color:#655000;text-underline-offset:3px}
+.admin-root .admin-auth-error{background:#fff1f2;color:#9f1239;border:1px solid #fecdd3;padding:12px;border-radius:8px}
+.admin-root .admin-auth-notice{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:12px;border-radius:8px}
+.admin-user-id{display:block;overflow-wrap:anywhere;font-size:12px;background:#f4f4f5;padding:12px;border-radius:6px;margin:12px 0 24px}
+.admin-root .admin-account-card{max-width:580px}
+.admin-account-card section{border-top:1px solid #e4e4e7;padding-top:24px;margin:24px 0}
+.admin-account-card h2{margin-bottom:18px}
+.admin-account-card section button+button{margin:10px}

@@ -1,7 +1,6 @@
-import type { NextRequest } from 'next/server';
-import { auth0 } from '@/lib/auth0';
 import { createNextAdminApi } from '../../../../../server/next-api';
+import { getAdminSession } from '@/lib/neon-server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-const handler = createNextAdminApi({ getSession: (request: NextRequest) => auth0.getSession(request), getAccessToken: () => auth0.getAccessToken() });
+const handler = createNextAdminApi({ getSession: getAdminSession });
 export { handler as GET, handler as POST, handler as PUT, handler as DELETE };

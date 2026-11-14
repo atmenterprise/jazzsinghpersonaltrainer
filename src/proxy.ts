@@ -1,19 +1,15 @@
-import { adminAuthDisabled } from '../server/admin-test-access';
 import { NextRequest, NextResponse } from 'next/server';
-import { auth0 } from './lib/auth0';
-import { sessionSettings } from '../server/session-auth';
+import { getNeonAuth } from './lib/neon-server';
+
 export async function proxy(request: NextRequest) {
-  if (adminAuthDisabled() && !request.nextUrl.pathname.startsWith('/auth/')) return NextResponse.next();
-  try { sessionSettings(); }
-  catch (error) {
-    // Let /admin render actionable setup instructions instead of a proxy error.
-    if (!request.nextUrl.pathname.startsWith('/auth/')) return NextResponse.next();
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Auth0 configuration is missing.' }, { status: 503 });
-  }
-  try { return await auth0.middleware(request); }
-  catch {
-    if (request.nextUrl.pathname.startsWith('/admin')) return NextResponse.next();
-    return NextResponse.json({ error: 'Auth0 session middleware failed. Check APP_BASE_URL and the deployment configuration.' }, { status: 503 });
+  if (request.nextUrl.pathname === '/admin/atm-logo.svg') return NextResponse.next();
+  try {
+    return await getNeonAuth().middleware({ loginUrl: '/auth/sign-in' })(request);
+  } catch {
+    // Admin status and the auth proxy report configuration failures as JSON.
+    return NextResponse.next();
   }
 }
-export const config = { matcher: ['/admin/:path*', '/api/admin/:path*', '/auth/:path*'] };
+// Public website/assets and JSON APIs stay outside redirecting middleware.
+// Every content API independently verifies the session and project membership.
+export const config = { matcher: ['/admin/:path*', '/auth/:path*'] };

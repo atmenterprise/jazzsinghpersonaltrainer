@@ -3,7 +3,7 @@ const base = process.env.SMOKE_BASE_URL || 'http://127.0.0.1:3000';
 for (const path of ['/', '/booking', '/onetoonept', '/couplept', '/onlinept', '/nutritionpt', '/testimonials', '/faq', '/privacy', '/disclaimer']) {
   const response = await fetch(`${base}${path}`);
   assert.equal(response.status, 200, path);
-  assert.equal(response.headers.get('set-cookie'), null, `${path}: public pages must not start an Auth0 session`);
+  assert.equal(response.headers.get('set-cookie'), null, `${path}: public pages must not start an admin session`);
   const html = await response.text();
   assert.ok(html.includes('Jaz BooM Personal Training'), path);
   assert.ok(html.includes('/assets/'), `${path}: public bundle`);
@@ -25,25 +25,25 @@ const status = await fetch(`${base}/api/admin/auth/status`);
 assert.ok([200, 503].includes(status.status));
 assert.ok(status.headers.get('content-type').includes('application/json'));
 const data = await status.json();
-assert.ok(data.authenticated === false || typeof data.error === 'string');
+if (status.status === 200) assert.deepEqual(data, { configured: true, authenticated: false });
+else assert.equal(typeof data.error, 'string');
 console.log(`PASS session JSON (${status.status})`);
 const protectedApi = await fetch(`${base}/api/admin/projects`);
 assert.ok([401, 503].includes(protectedApi.status));
 assert.ok(protectedApi.headers.get('content-type').includes('application/json'));
 console.log(`PASS protected API (${protectedApi.status})`);
 
-if (status.status === 200) {
-  const login = await fetch(`${base}/auth/login?returnTo=%2Fadmin`, { redirect: 'manual' });
-  assert.ok([302, 307].includes(login.status), `Auth0 login initiation: ${login.status}`);
-  const authorize = new URL(login.headers.get('location'));
-  assert.equal(authorize.protocol, 'https:');
-  assert.equal(authorize.searchParams.get('response_type'), 'code');
-  assert.equal(new URL(authorize.searchParams.get('redirect_uri')).pathname, '/auth/callback');
-  console.log('PASS Auth0 authorization-code redirect and /auth/callback');
-  const returnTo = new URL(authorize.searchParams.get('redirect_uri')).origin + '/admin';
-  const logout = await fetch(`${base}/auth/logout?returnTo=${encodeURIComponent(returnTo)}`, { redirect: 'manual' });
-  assert.ok([302, 307].includes(logout.status), `Logout initiation: ${logout.status}`);
-  const endSession = new URL(logout.headers.get('location'));
-  assert.equal(endSession.searchParams.get('post_logout_redirect_uri') || endSession.searchParams.get('returnTo'), returnTo);
-  console.log('PASS Auth0 logout redirect back to /admin');
+for (const path of ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password', '/auth/reset-password', '/auth/verify-email']) {
+  const response = await fetch(`${base}${path}`);
+  assert.equal(response.status, 200, path);
+  const html = await response.text();
+  assert.ok(html.includes('ATM CONTENT STUDIO'), path);
+  assert.ok(!html.includes('Sign in with Auth0'), path);
+  console.log(`PASS auth page ${path}`);
 }
+const crossSite = await fetch(`${base}/api/admin/projects`, { method: 'POST', headers: { origin: 'https://evil.example', 'content-type': 'application/json' }, body: '{}' });
+assert.equal(crossSite.status, 403);
+console.log('PASS cross-site write rejection');
+const forged = await fetch(`${base}/api/admin/projects`, { headers: { cookie: '__Secure-neon-auth.session_token=forged; neon-auth.session_token=forged' } });
+assert.ok([401, 503].includes(forged.status));
+console.log(`PASS invalid session denial (${forged.status})`);
