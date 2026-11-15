@@ -4,7 +4,7 @@ import { resources, safeUrl } from '../../server/content';
 import './admin.css';
 import Brand from './Brand';
 import ProjectSelect from './ProjectSelect';
-import { projectAssetUrl } from './projectAssets';
+import AdminImage from './AdminImage';
 const names = { programmes: 'Programmes & Services', testimonials: 'Testimonials', about: 'About Me', specialistareas: 'Specialist Areas', programme_pages: 'Programme Pages' };
 const labels = {
   audience_title: 'Who it’s for — heading', audience_content: 'Who it’s for — content',
@@ -93,7 +93,7 @@ export default function Admin({ project, projects, onProjectChange, onCreateProj
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
   const image = draft?.image_url || draft?.image || (resource === 'images' ? draft?.url : '');
-  const imageSrc = image && safeUrl(image, true) ? projectAssetUrl(image, project.domain) : '';
+  const showImage = image && safeUrl(image, true);
   async function signOut() {
     if (!canLeave()) return;
     try { await logout({ logoutParams: { returnTo: `${window.location.origin}/admin` } }); }
@@ -162,13 +162,13 @@ export default function Admin({ project, projects, onProjectChange, onCreateProj
         {loading ? <p role="status" className="admin-empty">Loading database records…</p> : visibleRows.map(row => {
           const d = row.data; const thumb = d.image_url || d.image || (resource === 'images' ? d.url : '');
           return <button disabled={busy} className={`admin-record ${selected?.id === row.id ? 'is-selected' : ''}`} key={row.id} onClick={() => select(row)}>
-            {thumb && safeUrl(thumb, true) ? <img src={projectAssetUrl(thumb, project.domain)} alt="" loading="lazy" referrerPolicy="no-referrer" /> : <span className="admin-record-icon" aria-hidden="true">{resource === 'testimonials' ? '♡' : '✎'}</span>}
+            {thumb && safeUrl(thumb, true) ? <AdminImage value={thumb} domain={project.domain} alt="" loading="lazy" /> : <span className="admin-record-icon" aria-hidden="true">{resource === 'testimonials' ? '♡' : '✎'}</span>}
             <span><strong>{d.label || d.name || d.title}</strong><small>{d.location || d.author || d.short_description || d.value}</small>{d.featured && <em>Featured</em>}</span><span aria-hidden="true">›</span></button>;
         })}
         {!loading && !rows.length && !error && <p className="admin-empty">No records yet. Add your first record to get started.</p>}
         {!loading && rows.length > 0 && !visibleRows.length && <p className="admin-empty">No records match your search.</p>}
       </section><section className="admin-editor" aria-label="Record editor">{draft ? <form onSubmit={save}><div className="admin-editor-heading"><p className="admin-eyebrow">{selected ? 'EDIT RECORD' : 'NEW RECORD'}</p><h2>{draft.label || draft.name || draft.title || 'Make something great'}</h2></div>
-        {imageSrc && <div className="admin-preview"><img src={imageSrc} alt={draft.alt || 'Selected image preview'} referrerPolicy="no-referrer" /><span>IMAGE PREVIEW</span></div>}
+        {showImage && <div className="admin-preview"><AdminImage value={image} domain={project.domain} alt={draft.alt || 'Selected image preview'} /><span>IMAGE PREVIEW</span></div>}
         <fieldset disabled={busy}>
         {resource === 'testimonials' && <div className="admin-featured-control"><div><strong>Featured testimonials</strong><p>{draft.featured ? 'Included in the homepage featured section.' : 'Available in all stories. Add it to feature it on the homepage.'}</p></div><button type="button" aria-pressed={!!draft.featured} onClick={() => setDraft({ ...draft, featured: !draft.featured })}>{draft.featured ? 'Remove from featured' : 'Add to featured'}</button><small>Save changes to update the homepage. Removing from featured keeps the testimonial in all stories.</small></div>}
         {Object.entries(resources[resource]).filter(([key]) => key !== 'featured').map(([key, [type, max]]) => <label key={key} className={readOnlyField(resource, key) ? 'admin-field-disabled' : type === 'boolean' ? 'admin-check' : ''}>

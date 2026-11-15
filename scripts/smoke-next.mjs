@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { bundledAdminImages } from '../src/admin/projectAssets.js';
 const base = process.env.SMOKE_BASE_URL || 'http://127.0.0.1:3000';
 for (const path of ['/', '/booking', '/onetoonept', '/couplept', '/onlinept', '/nutritionpt', '/testimonials', '/faq', '/privacy', '/disclaimer']) {
   const response = await fetch(`${base}${path}`);
@@ -16,6 +17,12 @@ for (const path of ['/', '/booking', '/onetoonept', '/couplept', '/onlinept', '/
 for (const path of ['/css/main.css', '/css/modern.css', '/img/header-jaz-training.jpg', '/admin/atm-logo.svg']) {
   assert.equal((await fetch(`${base}${path}`)).status, 200, path);
   console.log(`PASS asset ${path}`);
+}
+for (const path of bundledAdminImages) {
+  const response = await fetch(`${base}/${path}`);
+  assert.equal(response.status, 200, path);
+  assert.match(response.headers.get('content-type'), /^image\//, `${path}: must return an image, not the SPA fallback`);
+  console.log(`PASS admin sample ${path}`);
 }
 const admin = await fetch(`${base}/admin`);
 assert.equal(admin.status, 200);

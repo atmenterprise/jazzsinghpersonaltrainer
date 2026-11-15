@@ -175,3 +175,11 @@
 .admin-access-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
 .admin-access-actions button { padding: 10px 16px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; }
 .admin-access-actions button:disabled { opacity: .5; cursor: default; }
+
+.admin-image-unavailable{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;background:#f4f4f5;color:#71717a;text-align:center;flex-shrink:0}
+.admin-image-unavailable>span{font-size:25px}
+.admin-image-unavailable>small{font-size:10px;white-space:normal}
+.admin-record .admin-image-unavailable{width:60px;height:60px;border-radius:7px}
+.admin-preview .admin-image-unavailable{width:100%;height:220px}
+.admin-preview .admin-image-unavailable>span{position:static;background:transparent;color:inherit;padding:0;letter-spacing:0}
+.admin-record img[src*="/img/icons/"]{object-fit:contain;padding:5px;background:#fff}

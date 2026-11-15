@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
 import { createHandler } from '../server/handler.js';
 import { validateProject } from '../server/projects.js';
-import { projectAssetUrl } from '../src/admin/projectAssets.js';
+import { readFile } from 'node:fs/promises';
+import { bundledAdminImages, projectAssetFallback, projectAssetUrl } from '../src/admin/projectAssets.js';
 const subject = 'auth0|project-owner';
 async function request(sql, method, path, body) {
   const req = Readable.from(body ? [JSON.stringify(body)] : []);
@@ -73,4 +74,17 @@ test('relative images resolve against their project domain', () => {
   assert.equal(projectAssetUrl('img/profile.jpg', 'https://acme.example'), 'https://acme.example/img/profile.jpg');
   assert.equal(projectAssetUrl('/assets/photo.png', 'https://other.example'), 'https://other.example/assets/photo.png');
   assert.equal(projectAssetUrl('https://cdn.example/photo.png', 'https://acme.example'), 'https://cdn.example/photo.png');
+});
+
+test('deployed admin samples have local fallbacks without replacing custom project images', async () => {
+  for (const path of bundledAdminImages) {
+    assert.equal(projectAssetFallback(path), `/${path}`);
+    assert.equal(projectAssetFallback(`/${path}`), `/${path}`);
+    const contents = await readFile(new URL(`../public/${path}`, import.meta.url));
+    assert.ok(contents.length > 0, path);
+  }
+  assert.equal(projectAssetFallback('https://cdn.example/photo.png'), '');
+  assert.equal(projectAssetFallback('img/custom-project-image.jpg'), '');
+  assert.equal(projectAssetFallback('//other.example/img/profile/profile.jpg'), '');
+  assert.equal(projectAssetFallback('../img/profile/profile.jpg'), '');
 });
