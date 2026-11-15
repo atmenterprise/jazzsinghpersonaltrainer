@@ -50,9 +50,9 @@ async function notifyKinds(sql, row, kinds, env, sendMail) {
 }
 
 export async function listAccessRequests(sql) {
-  return sql`SELECT r.*, (SELECT count(*)::int FROM admin_access_notifications n WHERE n.user_id = r.user_id AND n.recipient_kind IN ('owner', 'applicant') AND n.sent_at IS NOT NULL) AS notifications_sent,
-    EXISTS (SELECT 1 FROM admin_access_notifications n WHERE n.user_id = r.user_id AND n.recipient_kind = CASE WHEN r.approved_at IS NOT NULL THEN 'approved' ELSE 'denied' END AND n.sent_at IS NOT NULL) AS decision_notification_sent
-    FROM admin_access_requests r ORDER BY COALESCE(r.approved_at, r.denied_at) NULLS FIRST, r.created_at DESC LIMIT 500`;
+  return sql`SELECT r.*, (SELECT count(*)::int FROM admin_access_notifications n WHERE n.user_id = r.user_id AND n.recipient_kind IN ('owner', 'applicant') AND n.sent_at IS NOT NULL) AS notifications_sent
+    FROM admin_access_requests r WHERE r.approved_at IS NULL AND r.denied_at IS NULL
+    ORDER BY r.created_at DESC LIMIT 500`;
 }
 
 export async function approveAccessRequest(sql, userId, projectId, approver) {

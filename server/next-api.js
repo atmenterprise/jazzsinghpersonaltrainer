@@ -62,7 +62,7 @@ export function createNextAdminApi({ env = process.env, getSession, getDatabase 
             ? await approveAccessRequest(sql, body.userId, body.projectId, identity.sub)
             : await denyAccessRequest(sql, body.userId, identity.sub);
           const failed = await notifyAccessDecision(sql, row, env, sendDecision);
-          return json(200, { ...row, message: `${approval ? 'Access approved. The user can now open the selected project.' : 'Access request denied.'} ${failed.length ? 'The notification email could not be sent. Retry it from this panel after five minutes.' : 'Notification delivery processed; check the email status below.'}` });
+          return json(200, { ...row, message: `${approval ? 'Access approved. The user can now open the selected project.' : 'Access request denied.'} ${failed.length ? 'The notification email could not be sent. An administrator can retry delivery after five minutes.' : 'Notification delivery processed; check the email status below.'}` });
         }
         if (path === '/api/admin/access-requests/retry-decision') {
           const [row] = await sql`SELECT * FROM admin_access_requests WHERE user_id = ${body.userId}`;
