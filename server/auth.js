@@ -41,3 +41,12 @@ export function createSessionAuthenticator({ env = process.env, getDatabase }) {
     return identity;
   };
 }
+
+// Global administrators are explicitly trusted server-side. Membership alone
+// grants content access, never authority to approve other accounts.
+export function isAccessAdmin(session, env = process.env) {
+  const identity = sessionIdentity(session);
+  const roles = typeof session.user.role === 'string' ? session.user.role.split(',').map(role => role.trim()) : [];
+  const ids = (env.ADMIN_USER_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  return identity.sub === env.ADMIN_PROJECT_OWNER_SUB || ids.includes(identity.sub) || roles.includes('admin');
+}

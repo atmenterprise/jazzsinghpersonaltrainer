@@ -8,18 +8,20 @@
     "build": "npm run build:site && next build --webpack",
     "preview": "next start",
     "db:setup": "node --env-file-if-exists=.env scripts/setup-db.js",
-    "test:admin": "node --test tests/admin.test.js tests/auth.test.js tests/projects.test.js tests/session-auth.test.js tests/next-api.test.js",
+    "test:admin": "node --test tests/admin.test.js tests/auth.test.js tests/projects.test.js tests/session-auth.test.js tests/next-api.test.js tests/access-requests.test.js",
     "dev:site": "vite",
     "build:site": "vite build --mode next-public --outDir public/site --emptyOutDir",
     "build:static": "vite build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test:smoke": "node scripts/smoke-next.mjs"
+    "test:smoke": "node scripts/smoke-next.mjs",
+    "db:migrate:access": "node --env-file-if-exists=.env scripts/migrate-access-requests.js"
   },
   "dependencies": {
     "@neon/auth": "^0.8.2",
     "@neondatabase/serverless": "^1.2.0",
     "next": "^16.4.5",
+    "nodemailer": "^10.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5"

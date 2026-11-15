@@ -3,7 +3,7 @@ import { database } from '../server/db.js';
 import { validate } from '../server/content.js';
 import { validateProject } from '../server/projects.js';
 const read = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const schema = await readFile(new URL('../db/schema.sql', import.meta.url), 'utf8');
+const schema = await readFile(new URL('../db/schema.sql', import.meta.url), 'utf8') + await readFile(new URL('../db/access-requests.sql', import.meta.url), 'utf8');
 const programmes = await read('../src/data/programs.json');
 const testimonials = await read('../src/data/testimonials.json');
 const settings = await read('../src/data/siteConfig.json');

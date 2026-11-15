@@ -67,3 +67,21 @@ Auth pages use the studio's existing styles and the SDK directly. Neon's older `
 Run `npm run test:admin`, `npm run typecheck`, and `npm run build`. Start production with `npm start`, then run `npm run test:smoke`. Tests cover session expiry and identity matching, signup without approval, owner/role/member approval, project isolation, cross-site writes, retired bypass flags, token privacy, upstream errors and content validation. Live email delivery and authenticated browser flows require a user account and configured Neon trusted domains.
 
 References: [Neon Next.js quickstart](https://neon.com/docs/auth/quick-start/nextjs-api-only), [server SDK](https://neon.com/docs/auth/reference/nextjs-server), [trusted domains](https://neon.com/docs/auth/guides/configure-domains).
+
+## Signup notifications and administrator approvals
+
+Successful email signups through `/api/auth/sign-up/email` create an access request from Neon's server response, including accounts that still require email verification. Gmail SMTP sends separate messages to `atmenterprise23@gmail.com` and the applicant. These messages are access notifications; Neon continues to handle verification and password-reset emails. Direct signups outside this application's auth proxy are not captured until the user opens the pending-access screen.
+
+For an existing database, apply only the new tables using `db/access-requests.sql` in the Neon SQL Editor, or run `npm run db:migrate:access` with the production content `DATABASE_URL` in `.env` or exported in your shell. This migration preserves existing content and memberships. Fresh `npm run db:setup` runs also include these tables. The migration command reads `.env`, not `.env.local`.
+
+In Vercel, add these **server-only** environment variables for the intended environments and redeploy:
+
+- `GMAIL_SMTP_USER=atmenterprise23@gmail.com` (or the Gmail account sending the notifications).
+- `GMAIL_SMTP_APP_PASSWORD`: that account's Google App Password, not its ordinary account password. Enable 2-Step Verification and create one at https://myaccount.google.com/apppasswords. Never commit the password or expose it through a public environment variable prefix.
+- `ADMIN_PROJECT_OWNER_SUB`: the main administrator's Neon user ID. Additional global administrators can be designated using `ADMIN_USER_IDS`, or Neon's managed `admin` role. These trusted administrators can approve requests for any existing project; ordinary project members cannot list requests or approve users.
+
+Administrators open **Access requests** in the workspace sidebar (also available before they have project membership), select a project, and choose **Approve access**. Approval atomically inserts `(project_id, auth0_sub)` with `ON CONFLICT DO NOTHING` and records the approver and time. It does not grant an administrator role. The applicant clicks **Check access again** to enter their assigned project. Previously registered pending users submit their request automatically on opening the pending-access screen.
+
+The panel displays email delivery counts and offers **Retry signup emails**. Each recipient has an independent delivery record; concurrent attempts are claimed for five minutes, and recorded successful emails are skipped. Failures remain retryable after five minutes. There is no scheduled retry worker: use the panel or reopen the pending-access screen. A crash after SMTP accepts an email but before the database records it may cause a duplicate on retry. SMTP failures never undo a successful signup or an approved membership. Database failures during signup are logged without secrets; the pending-access screen retries request registration after sign-in.
+
+Deployment check: sign up with a new test account, confirm both inboxes receive their notification, confirm an ordinary editor cannot access `/api/admin/access-requests`, approve as an administrator, and check the applicant can open only the assigned project. Live delivery requires valid Gmail credentials and the migration; automated tests use a fake transport and send no real emails.

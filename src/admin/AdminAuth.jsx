@@ -8,6 +8,21 @@ function AuthScreen({ title, children }) {
     <Brand /><p className="admin-eyebrow">PRIVATE WORKSPACE</p><h1>{title}</h1>{children}
   </div></main>;
 }
+function RequestAccess() {
+  const [message, setMessage] = useState('');
+  const [busy, setBusy] = useState(false);
+  async function request() {
+    setBusy(true);
+    try {
+      const response = await fetch('/api/admin/access-requests/register', { method: 'POST', credentials: 'same-origin' });
+      if (!response.ok) throw new Error('Unable to submit your access request. Please try again.');
+      setMessage('Your access request is recorded for administrator review.');
+    } catch (error) { setMessage(error.message); }
+    finally { setBusy(false); }
+  }
+  useEffect(() => { request(); }, []);
+  return <div><p role="status">{message}</p><button disabled={busy} onClick={request}>{busy ? 'Submitting request…' : 'Submit access request again'}</button></div>;
+}
 export default function AdminAuth({ initialSignedIn = true, setupError = '' }) {
   const [session, setSession] = useState(initialSignedIn ? null : { authenticated: false });
   const [error, setError] = useState(setupError);
@@ -45,11 +60,12 @@ export default function AdminAuth({ initialSignedIn = true, setupError = '' }) {
   if (!session.approved) return <AuthScreen title="Your account is ready">
     <p>{session.user?.name || session.user?.email}</p>
     <p role="status">{session.error}</p>
-    <small>Share your user ID with the website owner to request project access.</small>
+    <small>Your administrator can approve your account in Access requests.</small>
+    <RequestAccess />
     <code className="admin-user-id">{session.user?.sub}</code>
     <button className="admin-primary" onClick={retry}>Check access again</button>
     <a className="admin-auth-button" href="/admin/account">Account settings</a>
     <button onClick={async () => { try { await logout(); } catch (e) { setError(e.message); } }}>Sign out</button>
   </AuthScreen>;
-  return <AdminSessionContext.Provider value={{ user: session.user, loginWithRedirect, logout }}><ProjectWorkspace /></AdminSessionContext.Provider>;
+  return <AdminSessionContext.Provider value={{ user: session.user, accessAdmin: session.accessAdmin, loginWithRedirect, logout }}><ProjectWorkspace /></AdminSessionContext.Provider>;
 }

@@ -1,4 +1,5 @@
 import { getNeonAuth } from '@/lib/neon-server';
+import { captureSignupNotifications } from '../../../../../server/signup-notifications';
 import { AuthError } from '../../../../../server/auth';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -7,7 +8,10 @@ type Context = { params: Promise<{ path: string[] }> };
 async function handler(request: Request, context: Context) {
   try {
     const methods = getNeonAuth().handler();
-    return await methods[request.method as keyof typeof methods](request, context);
+    const response = await methods[request.method as keyof typeof methods](request, context);
+    const { path } = await context.params;
+    await captureSignupNotifications(request, path.join('/'), response);
+    return response;
   } catch (error) {
     return Response.json({ message: error instanceof AuthError ? error.message : 'Neon Auth is unavailable. Please try again.' }, {
       status: 503, headers: { 'Cache-Control': 'no-store' },

@@ -18,7 +18,7 @@ const blank = resource => ({
 const readOnlyField = (resource, key) => resource === 'programmes'
   ? !['name', 'short_description'].includes(key)
   : resource === 'programme_pages' ? key === 'page_url' : ['about', 'specialistareas'].includes(resource) && ['image_url', 'alt'].includes(key);
-export default function Admin({ project, projects, onProjectChange, onCreateProject }) {
+export default function Admin({ project, projects, onProjectChange, onCreateProject, onAccessRequests }) {
   const { logout, loginWithRedirect, user } = useAdminAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [programmesOpen, setProgrammesOpen] = useState(true);
@@ -117,6 +117,7 @@ export default function Admin({ project, projects, onProjectChange, onCreateProj
           </div>
         </div>
         {['testimonials', 'about', 'specialistareas'].map((key, index) => <button type="button" key={key} aria-label={names[key]} title={sidebarCollapsed ? names[key] : undefined} aria-current={key === resource ? 'page' : undefined} disabled={busy} onClick={() => { if (!canLeave()) return; setResource(key); setFeaturedOnly(false); setSearch(''); setNotice(''); }}><span aria-hidden="true">{['♡', '◉', '✦'][index]}</span><span className="admin-sidebar-label">{names[key]}</span></button>)}
+        {onAccessRequests && <button type="button" disabled={busy} onClick={() => { if (canLeave()) onAccessRequests(); }} aria-label="Access requests" title="Access requests"><span aria-hidden="true">✓</span><span className="admin-sidebar-label">Access requests</span></button>}
       </nav>
       <div className="admin-sidebar-footer"><div className="admin-sidebar-bottom"><p>Copyright 2026 ATM Enterprise</p></div><button type="button" className="admin-sidebar-toggle" aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!sidebarCollapsed} aria-controls="admin-sidebar-navigation" title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} onClick={() => setSidebarCollapsed(collapsed => !collapsed)}><span aria-hidden="true">{sidebarCollapsed ? '»' : '«'}</span></button></div>
     </aside>

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useAdminAuth } from './session';
 import Admin from './Admin';
 import Brand from './Brand';
+import AccessRequests from './AccessRequests';
 export default function ProjectWorkspace() {
-  const { logout } = useAdminAuth();
+  const { logout, accessAdmin } = useAdminAuth();
+  const [accessOpen, setAccessOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +41,7 @@ export default function ProjectWorkspace() {
     try { await logout({ logoutParams: { returnTo: `${window.location.origin}/admin` } }); }
     catch { setError('Unable to sign out. Please try again.'); }
   }
+  if (accessAdmin && accessOpen) return <AccessRequests onClose={() => { setAccessOpen(false); setRetry(value => value + 1); }} />;
   if (loading || !project || creating) return <main className="admin-root admin-login"><div className="admin-auth-card admin-project-card"><Brand />
     <p className="admin-eyebrow">YOUR PROJECTS. ONE WORKSPACE.</p><h1>{loading ? 'Opening the studio…' : creating ? 'Create a project.' : 'Welcome to your studio.'}</h1>
     {error && <p role="alert">{error}</p>}
@@ -49,8 +52,9 @@ export default function ProjectWorkspace() {
         <label>Website domain<input type="url" required value={draft.domain} onChange={e => setDraft({ ...draft, domain: e.target.value })} placeholder="https://example.com" /></label>
         <button className="admin-primary" type="submit">{saving ? 'Creating…' : 'Create project →'}</button><button type="button" onClick={() => { setCreating(false); setError(''); }}>Cancel</button>
       </fieldset></form> : <><p>{error ? 'Check your connection and try again.' : 'Manage content for every website you build. Create a project to get started, or ask your team to grant access to an existing one.'}</p>{error ? <button onClick={() => setRetry(v => v + 1)}>Try again</button> : <button className="admin-primary" onClick={() => setCreating(true)}>+ Create project</button>}</>}
+    {accessAdmin && <button onClick={() => setAccessOpen(true)}>Access requests</button>}
     {!saving && <button onClick={signOut}>Sign out</button>}
     <small>Developed by ATM Enterprise · Apps That Matter</small>
   </div></main>;
-  return <Admin key={project.id} project={project} projects={projects} onProjectChange={setProject} onCreateProject={() => { setCreating(true); setError(''); }} />;
+  return <Admin key={project.id} project={project} projects={projects} onProjectChange={setProject} onAccessRequests={accessAdmin ? () => setAccessOpen(true) : undefined} onCreateProject={() => { setCreating(true); setError(''); }} />;
 }
