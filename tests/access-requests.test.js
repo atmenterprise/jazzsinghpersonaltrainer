@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNextAdminApi } from '../server/next-api.js';
 import { captureSignupNotifications } from '../server/signup-notifications.js';
-import { sendSignupMail } from '../server/signup-mail.js';
+import { sendSignupMail, sendDecisionMail } from '../server/signup-mail.js';
 import { isAccessAdmin } from '../server/auth.js';
-import { recordAccessRequest, notifyAccessRequest, approveAccessRequest } from '../server/access-requests.js';
+import { recordAccessRequest, notifyAccessRequest, approveAccessRequest, denyAccessRequest, notifyAccessDecision } from '../server/access-requests.js';
 const user = { id: 'new-user', email: 'new@example.com', name: 'New User' };
 const session = (role) => ({ user: { ...user, role }, session: { userId: user.id, expiresAt: new Date(Date.now() + 60000).toISOString() } });
 const request = (path = '', body, origin = 'http://localhost:3000') => new Request(`http://localhost:3000/api/admin/access-requests${path}`, body === undefined ? {} : { method: 'POST', headers: { origin, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -96,7 +96,7 @@ test('Gmail sends separate messages to the owner and applicant using TLS and app
   assert.match(messages[1].text, /administrator/);
   assert.doesNotMatch(JSON.stringify(messages), /abcdefghijklmnop/);
   for (const message of messages) {
-    assert.equal(message.from.name, 'ATM Content Studion');
+    assert.equal(message.from.name, 'ATM Content Studio');
     assert.match(message.html, /<html lang="en">/);
     assert.match(message.html, /https:\/\/studio\.example\.com\/admin/);
     assert.doesNotMatch(message.text + message.html + message.subject, /neon|vercel/i);
@@ -120,4 +120,76 @@ test('successful verification-required signup records and emails the upstream us
   for (const [path, status] of [['sign-in/email', 200], ['sign-up/email', 400]]) {
     await captureSignupNotifications(req, path, Response.json({ user }, { status }), () => { throw new Error('Must not access database'); });
   }
+});
+
+test('approval and denial emails preserve the HTML design, accurate status, and corrected branding', async () => {
+  const messages = [];
+  const env = { GMAIL_SMTP_USER: 'sender@gmail.com', GMAIL_SMTP_APP_PASSWORD: 'test', APP_BASE_URL: 'https://studio.example.com' };
+  const transport = () => ({ sendMail: async message => { messages.push(message); return { accepted: [message.to.address] }; } });
+  const row = { user_id: user.id, email: user.email, name: '<Admin & User>', project_id: 'jazboom' };
+  await sendDecisionMail(row, 'approved', env, transport);
+  await sendDecisionMail(row, 'denied', env, transport);
+  for (const message of messages) {
+    assert.equal(message.to.address, user.email);
+    assert.equal(message.from.name, 'ATM Content Studio');
+    assert.match(message.html, /background-color:#14213d/);
+    assert.match(message.html, /&lt;Admin &amp; User&gt;/);
+    assert.doesNotMatch(message.text + message.html + message.subject, /Studion|neon|vercel/i);
+  }
+  assert.match(messages[0].text, /account is approved/);
+  assert.match(messages[0].html, /jazboom/);
+  assert.match(messages[0].html, /https:\/\/studio\.example\.com\/admin/);
+  assert.match(messages[1].text, /request was denied/);
+  assert.match(messages[1].html, /mailto:atmenterprise23@gmail.com/);
+  assert.doesNotMatch(messages[1].html, /jazboom|ACCESS PENDING/);
+});
+
+test('only admins can deny requests, and denial never writes project memberships', async () => {
+  let query;
+  const sql = async (strings, ...values) => { query = { text: strings.join('?'), values }; return [{ user_id: user.id, denied_at: new Date().toISOString() }]; };
+  await denyAccessRequest(sql, user.id, 'owner');
+  assert.match(query.text, /approved_at IS NULL AND denied_at IS NULL/);
+  assert.match(query.text, /denied_by/);
+  assert.doesNotMatch(query.text, /admin_project_members/);
+  assert.deepEqual(query.values, ['owner', user.id]);
+  await assert.rejects(denyAccessRequest(async () => [], user.id, 'owner'), { status: 409 });
+  const route = createNextAdminApi({ env: {}, getSession: async () => ({ data: session() }), getDatabase: () => { throw new Error('No database expected'); } });
+  assert.equal((await route(request('/deny', { userId: user.id }))).status, 403);
+  assert.equal((await route(request('/retry-decision', { userId: user.id }))).status, 403);
+});
+
+test('admin decisions send the matching user email and preserve the decision when SMTP fails', async () => {
+  for (const action of ['approve', 'deny']) {
+    const sent = []; const queries = [];
+    const row = { user_id: user.id, email: user.email, name: user.name, project_id: action === 'approve' ? 'jazboom' : null, [action === 'approve' ? 'approved_at' : 'denied_at']: new Date().toISOString() };
+    const sql = async (strings, ...values) => {
+      const text = strings.join('?'); queries.push({ text, values });
+      if (text.includes('WITH eligible') || text.includes('SET denied_at')) return [row];
+      if (text.includes('INSERT INTO admin_access_notifications')) return [{ user_id: user.id }];
+      return [];
+    };
+    const route = createNextAdminApi({ env: { ADMIN_USER_IDS: user.id }, getSession: async () => ({ data: session() }), getDatabase: () => sql, sendDecision: async (account, kind) => { sent.push({ account, kind }); throw new Error('secret-smtp-password'); } });
+    const response = await route(request(`/${action}`, { userId: user.id, projectId: 'jazboom' }));
+    assert.equal(response.status, 200);
+    const result = await response.json();
+    assert.match(result.message, /notification email could not be sent/);
+    assert.doesNotMatch(result.message, /secret-smtp-password/);
+    assert.equal(sent[0].kind, action === 'approve' ? 'approved' : 'denied');
+    assert.equal(sent[0].account.email, user.email);
+    if (action === 'approve') assert.match(queries[0].text, /denied_at IS NULL/);
+  }
+});
+
+test('decision email retries use the stored decision, skip claimed/sent mail, and cannot reopen denied requests', async () => {
+  const row = { user_id: user.id, email: user.email, denied_at: new Date().toISOString() };
+  let sends = 0;
+  const sent = async () => { sends++; };
+  assert.deepEqual(await notifyAccessDecision(async () => [], row, {}, sent), []);
+  assert.equal(sends, 0);
+  assert.deepEqual(await notifyAccessRequest(() => { throw new Error('No signup email expected'); }, row, {}, sent), []);
+  await assert.rejects(notifyAccessDecision(async () => [], { user_id: user.id }), { status: 400 });
+  let called = 0;
+  const route = createNextAdminApi({ env: { ADMIN_USER_IDS: user.id }, getSession: async () => ({ data: session() }), getDatabase: () => async (strings) => strings.join('').includes('SELECT *') ? [row] : [{ user_id: user.id }], sendDecision: async (_row, kind) => { assert.equal(kind, 'denied'); called++; } });
+  assert.equal((await route(request('/retry-decision', { userId: user.id, kind: 'approved' }))).status, 200);
+  assert.equal(called, 1);
 });

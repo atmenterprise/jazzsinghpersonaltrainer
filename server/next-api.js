@@ -2,10 +2,10 @@ import { createHandler } from './handler.js';
 import { database } from './db.js';
 import { adminOrigin, requireSameOrigin } from './session-auth.js';
 import { AuthError, createSessionAuthenticator, sessionIdentity, isAccessAdmin } from './auth.js';
-import { recordAccessRequest, notifyAccessRequest, listAccessRequests, approveAccessRequest } from './access-requests.js';
-import { sendSignupMail } from './signup-mail.js';
+import { recordAccessRequest, notifyAccessRequest, listAccessRequests, approveAccessRequest, denyAccessRequest, notifyAccessDecision } from './access-requests.js';
+import { sendSignupMail, sendDecisionMail } from './signup-mail.js';
 const json = (status, body) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
-export function createNextAdminApi({ env = process.env, getSession, getDatabase = database, sendMail = sendSignupMail }) {
+export function createNextAdminApi({ env = process.env, getSession, getDatabase = database, sendMail = sendSignupMail, sendDecision = sendDecisionMail }) {
   const authorize = createSessionAuthenticator({ env, getDatabase });
   return async function route(request) {
     try {
@@ -25,7 +25,8 @@ export function createNextAdminApi({ env = process.env, getSession, getDatabase 
           return json(200, { configured: true, authenticated: true, approved: true, accessAdmin: isAccessAdmin(req.authSession, env), user: identity.user });
         } catch (error) {
           if (error.status !== 403) throw error;
-          return json(200, { configured: true, authenticated: true, approved: false, user: identity.user, error: error.message });
+          const [accessRequest] = await getDatabase()`SELECT denied_at FROM admin_access_requests WHERE user_id = ${identity.sub}`;
+          return json(200, { configured: true, authenticated: true, approved: false, user: identity.user, error: accessRequest?.denied_at ? 'Your access request was denied. Contact atmenterprise23@gmail.com if you need assistance.' : error.message });
         }
       }
       const path = new URL(request.url).pathname;
@@ -37,7 +38,7 @@ export function createNextAdminApi({ env = process.env, getSession, getDatabase 
           const sql = getDatabase();
           const row = await recordAccessRequest(sql, req.authSession.user);
           await notifyAccessRequest(sql, row, env, sendMail);
-          return json(200, { requested: true });
+          return json(200, { requested: true, requestStatus: row.denied_at ? 'denied' : row.approved_at ? 'approved' : 'pending' });
         }
         if (path === '/api/admin/access-requests' && request.method === 'GET') {
           const sql = getDatabase();
@@ -55,7 +56,20 @@ export function createNextAdminApi({ env = process.env, getSession, getDatabase 
         try { body = JSON.parse(raw); } catch { return json(400, { error: 'Invalid JSON body.' }); }
         if (!body || typeof body.userId !== 'string' || !body.userId || body.userId.length > 200) return json(400, { error: 'Select a valid request.' });
         const sql = getDatabase();
-        if (path === '/api/admin/access-requests/approve') return json(200, await approveAccessRequest(sql, body.userId, body.projectId, identity.sub));
+        if (['/api/admin/access-requests/approve', '/api/admin/access-requests/deny'].includes(path)) {
+          const approval = path.endsWith('/approve');
+          const row = approval
+            ? await approveAccessRequest(sql, body.userId, body.projectId, identity.sub)
+            : await denyAccessRequest(sql, body.userId, identity.sub);
+          const failed = await notifyAccessDecision(sql, row, env, sendDecision);
+          return json(200, { ...row, message: `${approval ? 'Access approved. The user can now open the selected project.' : 'Access request denied.'} ${failed.length ? 'The notification email could not be sent. Retry it from this panel after five minutes.' : 'Notification delivery processed; check the email status below.'}` });
+        }
+        if (path === '/api/admin/access-requests/retry-decision') {
+          const [row] = await sql`SELECT * FROM admin_access_requests WHERE user_id = ${body.userId}`;
+          if (!row) return json(404, { error: 'Request not found.' });
+          const failed = await notifyAccessDecision(sql, row, env, sendDecision);
+          return json(200, { message: failed.length ? 'Email delivery failed. Check Gmail settings and retry after five minutes.' : 'Delivery checked. Sent emails are skipped; active attempts can be retried after five minutes.' });
+        }
         if (path === '/api/admin/access-requests/retry') {
           const [row] = await sql`SELECT * FROM admin_access_requests WHERE user_id = ${body.userId}`;
           if (!row) return json(404, { error: 'Request not found.' });

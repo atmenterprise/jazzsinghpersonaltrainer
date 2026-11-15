@@ -15,3 +15,10 @@ CREATE TABLE IF NOT EXISTS admin_access_notifications (
   attempts integer NOT NULL DEFAULT 0,
   PRIMARY KEY (user_id, recipient_kind)
 );
+
+ALTER TABLE admin_access_requests ADD COLUMN IF NOT EXISTS denied_at timestamptz;
+ALTER TABLE admin_access_requests ADD COLUMN IF NOT EXISTS denied_by text;
+ALTER TABLE admin_access_requests DROP CONSTRAINT IF EXISTS admin_access_requests_decision_check;
+ALTER TABLE admin_access_requests ADD CONSTRAINT admin_access_requests_decision_check CHECK (approved_at IS NULL OR denied_at IS NULL);
+ALTER TABLE admin_access_notifications DROP CONSTRAINT IF EXISTS admin_access_notifications_recipient_kind_check;
+ALTER TABLE admin_access_notifications ADD CONSTRAINT admin_access_notifications_recipient_kind_check CHECK (recipient_kind IN ('owner', 'applicant', 'approved', 'denied'));

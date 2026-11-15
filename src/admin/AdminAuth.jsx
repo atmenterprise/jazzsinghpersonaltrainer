@@ -16,7 +16,8 @@ function RequestAccess() {
     try {
       const response = await fetch('/api/admin/access-requests/register', { method: 'POST', credentials: 'same-origin' });
       if (!response.ok) throw new Error('Unable to submit your access request. Please try again.');
-      setMessage('Your access request is recorded for administrator review.');
+      const result = await response.json();
+      setMessage(result.requestStatus === 'denied' ? 'Your access request was denied. Contact atmenterprise23@gmail.com if you need assistance.' : result.requestStatus === 'approved' ? 'Your access request is approved. Check access again to open your workspace.' : 'Your access request is recorded for administrator review.');
     } catch (error) { setMessage(error.message); }
     finally { setBusy(false); }
   }
