@@ -82,7 +82,7 @@ test('invalid upstream identities cannot produce access requests', async () => {
 
 test('Gmail sends separate messages to the owner and applicant using TLS and app credentials', async () => {
   const messages = []; const options = [];
-  const env = { GMAIL_SMTP_USER: 'sender@gmail.com', GMAIL_SMTP_APP_PASSWORD: 'abcd efgh ijkl mnop' };
+  const env = { GMAIL_SMTP_USER: 'sender@gmail.com', GMAIL_SMTP_APP_PASSWORD: 'abcd efgh ijkl mnop', APP_BASE_URL: 'https://studio.example.com' };
   const createTransport = config => { options.push(config); return { sendMail: async message => { messages.push(message); return { accepted: [message.to.address] }; } }; };
   const row = { user_id: user.id, name: user.name, email: user.email };
   for (const kind of ['owner', 'applicant']) await sendSignupMail(row, kind, env, createTransport);
@@ -95,6 +95,15 @@ test('Gmail sends separate messages to the owner and applicant using TLS and app
   assert.match(messages[0].text, /new-user/);
   assert.match(messages[1].text, /administrator/);
   assert.doesNotMatch(JSON.stringify(messages), /abcdefghijklmnop/);
+  for (const message of messages) {
+    assert.equal(message.from.name, 'ATM Content Studion');
+    assert.match(message.html, /<html lang="en">/);
+    assert.match(message.html, /https:\/\/studio\.example\.com\/admin/);
+    assert.doesNotMatch(message.text + message.html + message.subject, /neon|vercel/i);
+  }
+  await sendSignupMail({ ...row, name: '<img src=x onerror=alert(1)>' }, 'applicant', env, createTransport);
+  assert.match(messages[2].html, /&lt;img src=x onerror=alert\(1\)&gt;/);
+  assert.doesNotMatch(messages[2].html, /<img src=x/);
   await assert.rejects(sendSignupMail(row, 'owner', {}, createTransport), /Configure Gmail/);
 });
 
