@@ -4,6 +4,14 @@ Current web asset: `public/img/header-jaz-training.jpg`, an optimised JPEG gener
 
 The previous `public/img/header-jaz-coaching.jpg` remains available. The website retains its existing header layout, dark overlays, typography and logo treatment.
 
+## Physique correction
+
+The current asset was revised with the built-in image generation tool to match Jaz's slimmer build in the real About Me and programme photographs. The gym scene, client, composition and space for header copy are preserved. This replaces the earlier stocky-build interpretation in the original generation brief below.
+
+### Final edit prompt
+
+Use case: identity-preserve image edit. Asset type: wide 16:9 website hero background. Image 1 is the EDIT TARGET. Image 2 is Jaz's real About Me portrait and image 3 is his real programme photograph; these are identity and physique references. Change ONLY the male trainer in image 1 to faithfully match the slimmer, lean, ordinary build shown in image 3 and his real facial identity in images 2 and 3. Reduce his bulky shoulders, upper arms, chest and overall torso thickness to natural slim proportions; no bodybuilder musculature or exaggerated athletic definition. Preserve his natural age, South Asian facial features, beard, black tied head covering, black gold-PT T-shirt, trousers, watch, attentive expression and coaching pose. Keep the female client, kettlebell, squat pose, gym equipment, background, lighting, camera framing, dark grading and broad left-hand negative space unchanged. Keep both subjects in the right half and preserve the wide aspect ratio. Photorealistic illustrative coaching scene, anatomically natural. No added text, watermark or UI. Save the output image for integration into the website.
+
 ## References
 
 - Existing scene, style and client identity: `public/img/header-jaz-coaching.jpg`
