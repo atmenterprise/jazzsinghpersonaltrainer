@@ -1,0 +1,166 @@
+/* Shared device refinements, loaded after the main presentation styles. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+button, input, select, textarea { max-width: 100%; }
+.btn { min-height: 44px; }
+.btn, .story-read, .home-story-link, .detail-back,
+.stories-pagination button, .stories-filters button { touch-action: manipulation; }
+.detail-back, .home-story-link, .footer-contact-link { min-height: 44px; }
+.footer-links a, .footer-legal a, .footer-legal button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.footer-main { grid-template-columns: minmax(0, 1.5fr) minmax(0, .75fr) minmax(0, 1fr); }
+.footer-brand-link > span { min-width: 0; }
+.contact-method a { display: inline-block; min-height: 44px; padding: 8px 0; }
+.stories-pagination button, .stories-filters button { min-height: 44px; }
+.stories-pagination > span { flex-shrink: 0; }
+.story-featured-label { white-space: nowrap; }
+.policy-modal-header > div, .policy-modal-header h2 { min-width: 0; overflow-wrap: anywhere; }
+.policy-modal { max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); }
+.policy-modal-body { -webkit-overflow-scrolling: touch; }
+.policy-modal-footer .btn { flex-shrink: 1; }
+.logowatermark { right: 32px; bottom: 32px; margin: 0; width: clamp(90px, 12vw, 145px); }
+
+/* Wider touch layouts need room for text rather than desktop-sized columns. */
+@media (min-width: 768px) and (max-width: 991px) {
+  .contact-intro { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact-card:first-child { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .contact-card:first-child > .contact-icon,
+  .contact-card:first-child > h3,
+  .contact-card:first-child > .contact-action { grid-column: 1 / -1; }
+  .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand-link { flex-direction: row; align-items: center; }
+  .footer-brand > p { max-width: none; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
+}
+
+/* Existing booking/legal headers use the legacy Bootstrap grid. */
+header:not([class]) .header-content-inner > .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+header:not([class]) .header-content-inner > .row::before,
+header:not([class]) .header-content-inner > .row::after { content: none; }
+header:not([class]) .header-content-inner > .row > [class*="col-"] { float: none; min-width: 0; }
+
+@media (max-width: 767px) {
+  .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-booking .btn { gap: 16px; }
+  .footer-brand-link { font-size: 16px; }
+  .footer-brand-link img { width: 60px; height: 60px; }
+  .footer-legal { column-gap: 20px; row-gap: 4px; }
+  .footer-legal a, .footer-legal button { font-size: 13px; }
+  .contact-intro > .btn, .shop-offer > .btn { width: 100%; }
+  .stories-pagination button { font-size: 14px; }
+  .story-modal-footer .btn { width: 100%; }
+  header:not([class]) .header-content-inner > .row { flex-direction: column; gap: 20px; }
+  header:not([class]) .header-content-inner > .row > [class*="col-"] { width: 100%; }
+  header:not([class]) .header-content { padding: 108px 24px 40px; }
+  header:not([class]) .logo { width: 150px; height: 150px; margin: 0; }
+  header:not([class]) h1 { font-size: clamp(28px, 7vw, 38px); }
+  .policy-content h2 { font-size: 24px; line-height: 1.4; }
+  .policy-content h3 { font-size: 20px; }
+}
+
+@media (max-width: 380px) {
+  .container { padding-left: 20px; padding-right: 20px; }
+  .footer-main { grid-template-columns: minmax(0, 1fr); }
+  .about-layout, .detail-section, .home-story, .home-story.home-story-featured { padding: 20px; }
+  .home-story-featured .home-story-excerpt { padding: 20px; }
+  .browse-story-card { padding: 20px; }
+  .browse-story-author { flex-wrap: wrap; }
+  .story-featured-label { margin-left: 48px; }
+  .stories-toolbar { padding: 18px; }
+  .stories-pagination { gap: 8px; }
+  .stories-pagination button { padding: 10px; font-size: 13px; }
+  .policy-modal { width: calc(100% - 20px); max-width: calc(100% - 20px); }
+}
+
+/* A phone rotated to landscape still needs a useful, scrollable reader. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .policy-modal { max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
+  .policy-modal-header { padding: 12px 20px; }
+  .policy-modal-header h2, .story-modal .policy-modal-header h2 { font-size: 18px; }
+  .full-story-eyebrow { margin-bottom: 6px; }
+  .policy-modal-footer { padding: 10px 20px; }
+  .policy-modal-body { padding: 20px; }
+  .about-portrait { position: static; }
+}
+@media (hover: none) {
+  .hero-logo-link:hover .hero-logo, .social .btn:hover { transform: none; }
+}
+/* Leave room for the floating action below legal links and footer credits. */
+.site-footer:has(.floating-booking) { padding-bottom: calc(176px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 767px) {
+  .site-footer:has(.floating-booking) .footer-bottom { padding-bottom: 0; }
+}
+
+/* Calendly requires 320px: let the calendar use the full phone viewport. */
+@media (max-width: 575px) {
+  .booking-layout { --calendar-gutter: 24px; }
+  .booking-calendar-card { margin-left: calc(-1 * var(--calendar-gutter)); margin-right: calc(-1 * var(--calendar-gutter)); border-left: 0; border-right: 0; border-radius: 0; }
+}
+@media (max-width: 380px) {
+  .booking-layout { --calendar-gutter: 20px; }
+}
+
+/* Reserve footer space for the guide and the separate scheduling action. */
+.site-footer { padding-bottom: calc(176px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 767px) {
+  .site-footer:has(.floating-booking) { padding-bottom: calc(176px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* Matching icon-only actions, stacked at every screen size. */
+:root { --floating-action-size: 56px; --floating-action-gap: 12px; --floating-action-edge: 24px; }
+.floating-booking, .website-guide-launcher {
+  position: fixed;
+  right: var(--floating-action-edge);
+  z-index: 1001;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--floating-action-size);
+  height: var(--floating-action-size);
+  min-height: var(--floating-action-size);
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 0;
+  border: 1px solid #00000018;
+  border-radius: 16px;
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 4px 16px #00000024;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s;
+  animation: floating-action-reveal .55s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+.floating-booking { bottom: calc(var(--floating-action-edge) + var(--floating-action-size) + var(--floating-action-gap) + env(safe-area-inset-bottom, 0px)); animation-delay: .08s; }
+.website-guide-launcher { bottom: calc(var(--floating-action-edge) + env(safe-area-inset-bottom, 0px)); }
+.floating-booking:hover, .floating-booking:focus,
+.site-footer a.floating-booking:hover, .site-footer a.floating-booking:focus,
+.website-guide-launcher:hover, .website-guide-launcher:focus { background: #e6be76; color: var(--ink); }
+.floating-booking:focus-visible, .website-guide-launcher:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.floating-action-label { position: absolute; right: calc(var(--floating-action-size) + 12px); top: 50%; transform: translateY(-50%); padding: 10px 14px; border: 1px solid #e9e6de; border-radius: 8px; background: #fff; color: #000; font-size: 13px; line-height: 1.5; font-weight: 500; white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; }
+.floating-booking:hover .floating-action-label, .floating-booking:focus-visible .floating-action-label,
+.website-guide-launcher:hover .floating-action-label, .website-guide-launcher:focus-visible .floating-action-label { opacity: 1; visibility: visible; }
+@keyframes floating-action-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .floating-booking:hover, .website-guide-launcher:hover { transform: translateY(-2px); box-shadow: 0 6px 20px #0000002b; }
+}
+@media (max-width: 767px) { :root { --floating-action-edge: 16px; } }
+@media (hover: none) { .floating-action-label { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .floating-booking, .website-guide-launcher { animation: none; transition: none; }
+  .floating-booking:hover, .website-guide-launcher:hover { transform: none; }
+}

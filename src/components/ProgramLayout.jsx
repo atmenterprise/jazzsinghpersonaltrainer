@@ -1,15 +1,13 @@
 import React from 'react';
 import Nav from './Nav';
-import FAQ from './FAQ';
 import Footer from './Footer';
 
-export default function ProgramLayout({ children, showFaq = true }) {
+export default function ProgramLayout({ children, hideBookingBadge = false }) {
   return (
     <div id="page-top">
       <Nav />
       {children}
-      {showFaq && <FAQ />}
-      <Footer />
+      <Footer hideBookingBadge={hideBookingBadge} />
     </div>
   );
 }
